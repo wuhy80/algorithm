@@ -1,6 +1,6 @@
 # 算法可视化实验室
 
-这个仓库以实时动画拆解算法和数据结构。每个项目都保存在独立目录中，包含可直接运行的网页演示、核心实现和中文 README，彼此之间没有运行依赖。
+这个仓库以实时动画拆解算法和数据结构，目前包含 65 个独立演示。每个项目都保存在独立目录中，包含可直接运行的网页演示、核心实现和中文 README，彼此之间没有运行依赖。
 
 算法名称链接到 GitHub 源码目录；“打开演示”链接到可以直接体验的 GitHub Pages 页面。
 
@@ -16,27 +16,51 @@
 | [快速排序 Quick Sort](https://github.com/wuhy80/algorithm/tree/main/quick-sort/) | 基准选择、双指针扫描、分区交换与递归区间展开 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/quick-sort/) |
 | [归并排序 Merge Sort](https://github.com/wuhy80/algorithm/tree/main/merge-sort/) | 数组递归拆分，左右有序段逐项比较并重新合并 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/merge-sort/) |
 | [堆排序 Heap Sort](https://github.com/wuhy80/algorithm/tree/main/heap-sort/) | 最大堆构建、堆顶提取、向下调整及有序后缀增长 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/heap-sort/) |
+| [计数排序 Counting Sort](https://github.com/wuhy80/algorithm/tree/main/counting-sort/) | 频次统计、前缀累计和稳定回写输出数组 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/counting-sort/) |
+| [基数排序 Radix Sort](https://github.com/wuhy80/algorithm/tree/main/radix-sort/) | 按当前数位稳定分桶并逐轮收集形成有序序列 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/radix-sort/) |
+| [希尔排序 Shell Sort](https://github.com/wuhy80/algorithm/tree/main/shell-sort/) | Gap 分组插入、远距离移动以及间隔逐步收缩 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/shell-sort/) |
 
-## 图算法与回溯
+## 图算法、网络流与回溯
 
 | 算法 | 动画表现 | 状态 | 演示 |
 | --- | --- | --- | --- |
 | [广度优先搜索 BFS](https://github.com/wuhy80/algorithm/tree/main/bfs/) | 队列驱动搜索前沿逐层扩张，并重建起点到目标的最短步数路径 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/bfs/) |
 | [深度优先搜索 DFS](https://github.com/wuhy80/algorithm/tree/main/dfs/) | 栈与递归路径持续深入，遇到末路后回退探索其他分支 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/dfs/) |
 | [Dijkstra 最短路径](https://github.com/wuhy80/algorithm/tree/main/dijkstra/) | 固定当前最短节点、逐边松弛距离并回溯最终路径 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/dijkstra/) |
+| [Bellman-Ford 最短路径](https://github.com/wuhy80/algorithm/tree/main/bellman-ford/) | 全边多轮松弛、负权边传播以及负权环检测 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/bellman-ford/) |
+| [Floyd-Warshall 全源最短路径](https://github.com/wuhy80/algorithm/tree/main/floyd-warshall/) | 逐个允许中转点并动态更新节点对距离矩阵 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/floyd-warshall/) |
 | [Prim 最小生成树](https://github.com/wuhy80/algorithm/tree/main/prim-mst/) | 从树内节点向外扩张，每轮选择最轻割边 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/prim-mst/) |
 | [Kruskal 最小生成树](https://github.com/wuhy80/algorithm/tree/main/kruskal-mst/) | 按权重检查边，并用并查集接受或拒绝形成环的边 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/kruskal-mst/) |
 | [拓扑排序 Topological Sort](https://github.com/wuhy80/algorithm/tree/main/topological-sort/) | 入度归零、队列变化、依赖边删除和有向环检测 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/topological-sort/) |
+| [Tarjan 强连通分量](https://github.com/wuhy80/algorithm/tree/main/tarjan-scc/) | DFS 时间戳、Lowlink、栈变化与分量弹出着色 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/tarjan-scc/) |
+| [割点与桥](https://github.com/wuhy80/algorithm/tree/main/bridges-articulation/) | DFS 树回溯、Lowlink 更新及关键节点与边判定 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/bridges-articulation/) |
+| [Edmonds-Karp 最大流](https://github.com/wuhy80/algorithm/tree/main/edmonds-karp/) | BFS 增广路径、瓶颈流量与残量网络更新 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/edmonds-karp/) |
+| [二分图最大匹配](https://github.com/wuhy80/algorithm/tree/main/bipartite-matching/) | 交替增广路径搜索与已有匹配重新安排 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/bipartite-matching/) |
 | [N 皇后 N-Queens](https://github.com/wuhy80/algorithm/tree/main/n-queens/) | 皇后逐行尝试摆放，冲突位置高亮并动态展示撤销回溯 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/n-queens/) |
 | [数独回溯 Sudoku Backtracking](https://github.com/wuhy80/algorithm/tree/main/sudoku-backtracking/) | 候选数字尝试、约束冲突、错误分支撤销与完整解生成 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/sudoku-backtracking/) |
 
-## 字符串与动态规划
+## 字符串算法
 
 | 算法 | 动画表现 | 状态 | 演示 |
 | --- | --- | --- | --- |
 | [KMP 字符串匹配](https://github.com/wuhy80/algorithm/tree/main/kmp-search/) | 构建 LPS 前缀表，失配时移动模式串而不回退文本指针 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/kmp-search/) |
+| [Aho-Corasick 多模式匹配](https://github.com/wuhy80/algorithm/tree/main/aho-corasick/) | Trie 插入、失败指针建立以及一次文本扫描中的多模式命中 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/aho-corasick/) |
+| [Rabin-Karp 字符串匹配](https://github.com/wuhy80/algorithm/tree/main/rabin-karp/) | 文本窗口滑动、滚动哈希更新和哈希碰撞校验 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/rabin-karp/) |
+
+## 动态规划与序列
+
+| 算法 | 动画表现 | 状态 | 演示 |
+| --- | --- | --- | --- |
 | [0/1 背包 Knapsack](https://github.com/wuhy80/algorithm/tree/main/knapsack-dp/) | 状态表逐格比较选与不选，并回溯最优物品组合 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/knapsack-dp/) |
 | [最长公共子序列 LCS](https://github.com/wuhy80/algorithm/tree/main/longest-common-subsequence/) | 二维状态表填充并沿最优路径回溯公共子序列 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/longest-common-subsequence/) |
+| [编辑距离 Edit Distance](https://github.com/wuhy80/algorithm/tree/main/edit-distance/) | 插入、删除、替换状态转移与最优编辑路径回溯 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/edit-distance/) |
+| [最长递增子序列 LIS](https://github.com/wuhy80/algorithm/tree/main/longest-increasing-subsequence/) | 最小尾值数组、二分替换和递增子序列重建 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/longest-increasing-subsequence/) |
+
+## 贪心与编码
+
+| 算法 | 动画表现 | 状态 | 演示 |
+| --- | --- | --- | --- |
+| [Huffman 编码](https://github.com/wuhy80/algorithm/tree/main/huffman-coding/) | 字符频率队列、最低频节点合并和前缀编码树生成 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/huffman-coding/) |
 
 ## 数据结构
 
@@ -48,12 +72,22 @@
 | [二叉搜索树 Binary Search Tree](https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/) | 插入与查找路径逐层下降，删除后树结构重新连接 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/binary-search-tree/) |
 | [AVL 平衡树](https://github.com/wuhy80/algorithm/tree/main/avl-tree/) | 插入后计算平衡因子，通过 LL、RR、LR、RL 旋转恢复平衡 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/avl-tree/) |
 | [红黑树 Red-Black Tree](https://github.com/wuhy80/algorithm/tree/main/red-black-tree/) | 插入后的颜色修复、叔节点判断及左右旋转 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/red-black-tree/) |
+| [B 树 B-Tree](https://github.com/wuhy80/algorithm/tree/main/b-tree/) | 多键节点插入、满节点分裂和中间键向上提升 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/b-tree/) |
 | [堆与优先队列 Heap](https://github.com/wuhy80/algorithm/tree/main/heap-priority-queue/) | 插入上浮、提取堆顶和替换后的向下调整 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/heap-priority-queue/) |
 | [哈希表 Hash Table](https://github.com/wuhy80/algorithm/tree/main/hash-table/) | 哈希定位、碰撞链扫描以及键值插入、查找和删除 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/hash-table/) |
+| [跳表 Skip List](https://github.com/wuhy80/algorithm/tree/main/skip-list/) | 多层稀疏索引插入、向右跳跃与逐层下降查找 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/skip-list/) |
+| [Bloom Filter](https://github.com/wuhy80/algorithm/tree/main/bloom-filter/) | 多哈希映射、位数组置位和概率成员查询 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/bloom-filter/) |
 | [Trie 前缀树](https://github.com/wuhy80/algorithm/tree/main/trie/) | 字符路径共享、单词终点、插入、查找、删除及前缀判断 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/trie/) |
 | [线段树 Segment Tree](https://github.com/wuhy80/algorithm/tree/main/segment-tree/) | 区间递归分解、完整覆盖节点选择和单点更新传播 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/segment-tree/) |
 | [树状数组 Fenwick Tree](https://github.com/wuhy80/algorithm/tree/main/fenwick-tree/) | lowbit 覆盖范围以及查询、更新索引的跳转路径 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/fenwick-tree/) |
+| [稀疏表 Sparse Table](https://github.com/wuhy80/algorithm/tree/main/sparse-table/) | 2 的幂次区间预处理以及双区间块常数时间查询 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/sparse-table/) |
 | [并查集 Union-Find](https://github.com/wuhy80/algorithm/tree/main/union-find/) | 父指针查找、按秩合并、路径压缩和连通性判断 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/union-find/) |
+
+## 空间数据结构
+
+| 数据结构 | 动画表现 | 状态 | 演示 |
+| --- | --- | --- | --- |
+| [四叉树 Quadtree](https://github.com/wuhy80/algorithm/tree/main/quadtree/) | 二维区域递归四分、点插入和矩形范围查询 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/quadtree/) |
 
 ## 计算几何
 
@@ -61,6 +95,12 @@
 | --- | --- | --- | --- |
 | [凸包 Convex Hull](https://github.com/wuhy80/algorithm/tree/main/convex-hull/) | 按坐标排序、叉积判断、栈弹出及上下凸包合并 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/convex-hull/) |
 | [Voronoi 与 Lloyd 松弛](https://github.com/wuhy80/algorithm/tree/main/voronoi-relaxation/) | 泰森多边形随控制点移动，并逐步趋向均匀分布 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/voronoi-relaxation/) |
+
+## 数论与基础计算
+
+| 算法 | 动画表现 | 状态 | 演示 |
+| --- | --- | --- | --- |
+| [埃拉托斯特尼筛法](https://github.com/wuhy80/algorithm/tree/main/sieve-of-eratosthenes/) | 当前质数选取、倍数标记与质数集合逐步收敛 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/sieve-of-eratosthenes/) |
 
 ## 生成、优化与模拟
 
@@ -81,12 +121,13 @@
 
 ## 推荐学习路径
 
-1. 从线性查找、二分查找和基础排序理解比较、交换、分治与递归。
+1. 从线性查找、二分查找、比较排序和非比较排序理解扫描、交换、分治、计数与分桶。
 2. 通过栈、队列、链表掌握线性数据结构的状态变化。
-3. 使用 BFS、DFS、最短路、生成树和回溯理解图搜索与约束。
-4. 进入 BST、AVL、红黑树、Trie、线段树和树状数组，学习索引、平衡和区间维护。
-5. 通过 KMP、背包和 LCS 掌握字符串预处理与动态规划状态转移。
-6. 最后探索计算几何、图优化、群体智能、生成系统与物理模拟。
+3. 使用 BFS、DFS、最短路、生成树、强连通分量和回溯理解图搜索与连通性。
+4. 通过最大流、二分图匹配和网络优化理解容量、残量与增广路径。
+5. 进入 BST、AVL、红黑树、B 树、Trie、跳表和区间结构，学习索引、平衡与查询加速。
+6. 通过 KMP、Aho-Corasick、编辑距离、背包、LCS 和 LIS 掌握字符串预处理与动态规划。
+7. 最后探索编码、数论、空间索引、计算几何、群体智能、生成系统与物理模拟。
 
 ## 演示原则
 
