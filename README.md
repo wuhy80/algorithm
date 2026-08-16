@@ -7,7 +7,7 @@
 | 算法 | 动画表现 | 状态 | 演示 |
 | --- | --- | --- | --- |
 | [Boids 群鸟算法](./boids/) | 鸟群实时聚合、分离、同步、避障和鼠标交互 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/boids/) |
-| 蚁群优化 Ant Colony Optimization | 蚂蚁探索路径、信息素沉积与挥发、最短路线逐渐显现 | 待实现 | - |
+| [蚁群优化 Ant Colony Optimization](./ant-colony/) | 蚂蚁探索路径、信息素沉积与挥发、最短路线逐渐显现 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/ant-colony/) |
 | A* 寻路 A* Pathfinding | 搜索前沿扩张、代价变化、障碍编辑与最终路径回溯 | 待实现 | - |
 | 粒子群优化 Particle Swarm Optimization | 粒子在目标函数地形中移动并逐步汇聚到最优区域 | 待实现 | - |
 | 遗传火箭 Genetic Rockets | 多代火箭飞向目标，展示选择、交叉、变异和适应度进化 | 待实现 | - |

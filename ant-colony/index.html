@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171713">
+  <title>Ant Lab · 蚁群优化实验场</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div><span>ANT LAB / ACO</span><h1>蚁群优化实验场</h1></div>
+      </header>
+
+      <section>
+        <div class="section-title"><h2>群体规模</h2><small>01</small></div>
+        <label class="range" for="ant-count"><span><b>蚂蚁数量</b><output id="ant-count-value">120</output></span><input id="ant-count" type="range" min="20" max="320" step="10" value="120"></label>
+        <label class="range" for="speed"><span><b>移动速度</b><output id="speed-value">1.4×</output></span><input id="speed" type="range" min="0.4" max="3" step="0.1" value="1.4"></label>
+      </section>
+
+      <section>
+        <div class="section-title"><h2>决策模型</h2><small>02</small></div>
+        <label class="range" for="alpha"><span><b>信息素权重 α</b><output id="alpha-value">1.2</output></span><input id="alpha" type="range" min="0.2" max="4" step="0.1" value="1.2"></label>
+        <label class="range" for="beta"><span><b>启发式权重 β</b><output id="beta-value">2.8</output></span><input id="beta" type="range" min="0.2" max="6" step="0.1" value="2.8"></label>
+        <label class="range" for="evaporation"><span><b>挥发率</b><output id="evaporation-value">4%</output></span><input id="evaporation" type="range" min="1" max="18" step="1" value="4"></label>
+        <label class="range" for="deposit"><span><b>沉积强度</b><output id="deposit-value">1.8</output></span><input id="deposit" type="range" min="0.2" max="4" step="0.1" value="1.8"></label>
+      </section>
+
+      <section>
+        <div class="section-title"><h2>网络</h2><small>03</small></div>
+        <label class="range" for="node-count"><span><b>节点数量</b><output id="node-count-value">34</output></span><input id="node-count" type="range" min="18" max="55" step="1" value="34"></label>
+        <div class="legend"><span><i class="nest"></i>巢穴</span><span><i class="food"></i>食物</span><span><i class="trail"></i>信息素</span></div>
+      </section>
+
+      <footer><span>STIGMERGY</span><span>SHORTEST PATH</span></footer>
+    </aside>
+
+    <main class="stage">
+      <canvas id="canvas" aria-label="蚁群优化动态模拟"></canvas>
+      <header class="stage-header">
+        <div class="live"><i></i><div><span>实时优化</span><strong>信息素路径网络</strong></div></div>
+        <div class="metrics" aria-live="polite">
+          <div><span>最优路径</span><strong id="best">--</strong></div>
+          <div><span>成功往返</span><strong id="trips">0</strong></div>
+          <div><span>帧率</span><strong><em id="fps">60</em><small> FPS</small></strong></div>
+        </div>
+        <div class="actions">
+          <button id="rebuild" type="button"><span aria-hidden="true">✦</span><b>重建网络</b></button>
+          <button id="pause" class="primary" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button>
+        </div>
+      </header>
+      <div class="stage-note"><span>路径越亮，信息素浓度越高</span><i></i><span id="generation">第 1 轮</span></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
