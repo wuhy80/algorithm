@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111719">
+  <meta name="description" content="神经网络交互式可视化演示">
+  <link rel="icon" href="data:,">
+  <title>Neural Network Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="panel" aria-label="神经网络参数面板">
+      <header class="brand">
+        <b id="monogram">NN</b>
+        <div><small id="eyebrow">NEURAL NETWORK / LAB</small><h1 id="title">神经网络可视化</h1></div>
+      </header>
+      <section>
+        <h2><span>模型与输入</span><i>01</i></h2>
+        <label class="field" id="text-wrap" for="input-text"><span id="text-label">输入</span><input id="input-text" type="text"></label>
+        <label class="field" id="select-wrap" for="option"><span id="select-label">模式</span><select id="option"></select></label>
+        <button id="apply" class="wide" type="button">应用并重新初始化</button>
+        <p id="error" class="error" aria-live="polite"></p>
+      </section>
+      <section>
+        <h2><span>动态参数</span><i>02</i></h2>
+        <label class="range" id="param-a-wrap" for="param-a"><span><b id="param-a-label">参数 A</b><output id="param-a-value"></output></span><input id="param-a" type="range"></label>
+        <label class="range" id="param-b-wrap" for="param-b"><span><b id="param-b-label">参数 B</b><output id="param-b-value"></output></span><input id="param-b" type="range"></label>
+        <label class="range" for="speed"><span><b>播放速度</b><output id="speed-value">1.0x</output></span><input id="speed" type="range" min="0.25" max="3" step="0.25" value="1"></label>
+      </section>
+      <section class="concept">
+        <h2><span>关键思想</span><i>03</i></h2>
+        <p id="principle"></p>
+      </section>
+      <footer id="complexity">FORWARD · BACKWARD · UPDATE</footer>
+    </aside>
+    <main class="stage">
+      <canvas id="canvas" role="img" aria-label="神经网络计算过程动画"></canvas>
+      <header class="top">
+        <div class="live"><i></i><span><small>当前状态</small><strong id="status">准备就绪</strong></span></div>
+        <div class="stats" aria-live="polite">
+          <span><small id="metric-label-1">步骤</small><b id="metric-1">0</b></span>
+          <span><small id="metric-label-2">状态</small><b id="metric-2">--</b></span>
+          <span><small id="metric-label-3">指标</small><b id="metric-3">--</b></span>
+          <span><small id="metric-label-4">结果</small><b id="metric-4">--</b></span>
+        </div>
+        <div class="actions"><button id="reset" type="button">重置</button><button id="step" type="button">单步</button><button id="play" class="primary" type="button">播放</button></div>
+      </header>
+      <div class="note" id="note">调整参数，然后单步观察状态变化</div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

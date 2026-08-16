@@ -9,7 +9,7 @@ const checkOnly = process.argv.includes('--check');
 
 const categoryOrder = [
   '查找、排序与算法技巧','图算法、网络流与回溯','回溯、博弈与约束求解','字符串算法','动态规划与序列','贪心、调度与编码','数据结构',
-  '高级查询与树分解','空间数据结构','计算几何','数论、变换与线性代数','压缩算法','生成、优化与模拟'
+  '高级查询与树分解','空间数据结构','计算几何','数论、变换与线性代数','压缩算法','生成、优化与模拟','机器学习与神经网络'
 ];
 const stageNames = {
   1:'基础操作与核心思想',
@@ -52,7 +52,7 @@ let readme = `# Algorithm Visualization Lab
 
 | 阶段 | 目标 | 数量 |
 | --- | --- | ---: |
-${Object.entries(stageNames).map(([stage,name]) => `| ${stage}. ${name} | ${stage === '1' ? '建立查找、排序、线性结构、树与图遍历基础' : stage === '2' ? '掌握贪心、动态规划、字符串、区间与常用图算法' : stage === '3' ? '进入网络流、高级数据结构、几何、数论与离线算法' : '研究复杂匹配、树分解、自动机、变换与动态模拟'} | ${stageCounts[stage]} |`).join('\n')}
+${Object.entries(stageNames).map(([stage,name]) => `| ${stage}. ${name} | ${stage === '1' ? '建立查找、排序、线性结构、树、图遍历与神经元基础' : stage === '2' ? '掌握贪心、动态规划、字符串、图算法与梯度训练' : stage === '3' ? '进入高级数据结构、几何、数论及 CNN、RNN、注意力等专用架构' : '研究复杂匹配、树分解、自动机、生成模型与动态模拟'} | ${stageCounts[stage]} |`).join('\n')}
 
 ## 目录统计
 

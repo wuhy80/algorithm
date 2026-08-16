@@ -11,7 +11,8 @@ const categoryProblem = {
   '计算几何':'把连续空间关系转化为方向、叉积、顺序和局部邻接等可精确判断的离散事件。',
   '数论、变换与线性代数':'利用整数结构、代数恒等式或基变换，把直接计算改写成更小或更容易组合的问题。',
   '压缩算法':'利用符号频率、重复片段或上下文结构，用更短表示保存信息并保证能够恢复或近似恢复。',
-  '生成、优化与模拟':'让简单局部规则反复作用于系统状态，观察涌现结果或迭代逼近较优解。'
+  '生成、优化与模拟':'让简单局部规则反复作用于系统状态，观察涌现结果或迭代逼近较优解。',
+  '机器学习与神经网络':'把输入经过可学习参数和非线性变换映射为预测或表示，再利用数据反馈调整参数。'
 };
 
 const familyProblem = {
@@ -45,7 +46,11 @@ const familyProblem = {
   compression:'发现频率偏斜或重复结构，生成可唯一解码且通常更短的数据表示。',
   geometry:'用精确的方向和顺序判断点、线与多边形之间的包含、相交、距离和边界关系。',
   spatial:'按空间边界组织对象，在查询时一次排除整片不可能相关的区域。',
-  simulation:'按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。'
+  simulation:'按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。',
+  neuralBasics:'把输入沿计算图逐层变换为激活或预测，并准确区分权重、偏置、加权和与激活值。',
+  neuralTraining:'通过损失函数衡量预测误差，沿计算图反向求梯度并用优化器更新全部可学习参数。',
+  neuralArchitecture:'利用卷积、循环、注意力或信息瓶颈等结构先验，高效处理图像、序列和高维表示。',
+  neuralGenerative:'学习训练数据的概率分布，并从噪声或潜在表示生成具有相似统计结构的新样本。'
 };
 
 const complexityBySlug = {
@@ -440,6 +445,46 @@ const profiles = {
     pitfalls:['对象跨分区时被遗漏或重复存储失控','树退化但没有重建策略','包围盒更新后父节点边界未同步'],
     use:'范围查询、最近邻、碰撞检测、视锥裁剪和地理对象索引。', avoid:'维度很高或数据极小，线性扫描可能更稳定。'
   },
+  neuralBasics: {
+    title:'加权和、激活与逐层数据流',
+    mental:'把神经网络看成一张有方向的计算图：连接保存权重，节点先收集加权输入 z，再通过激活函数得到 a。先把每个数字的来源算清楚，再谈“智能”。',
+    baseline:'单个线性变换只能得到直线或超平面。叠加非线性激活后，网络才有能力组合出弯曲边界和分层特征；前向传播则是所有训练与推理的共同基础。',
+    invariant:'某一层开始计算时，前一层激活已经全部确定；每个神经元使用同一组固定参数完成本次前向计算；输出只能依赖计算图中位于它之前的节点。',
+    steps:['确定输入张量形状以及每层权重、偏置的维度','计算当前神经元的加权和 z=W·a+b','将 z 送入选定激活函数得到下一层状态','按拓扑顺序完成输出并解释预测含义'],
+    pseudo:'activation = input\nfor layer in network:\n    z = layer.weights @ activation + layer.bias\n    activation = layer.function(z)\nreturn activation',
+    pitfalls:['只核对数值，没有先核对矩阵维度是否能够相乘','把加权和 z 与激活值 a 混为同一个状态','所有层都使用线性激活，导致多层仍等价于一次线性变换'],
+    use:'理解神经元、激活函数、线性分类器以及任意网络的推理过程。', avoid:'需要解释参数如何被训练时，只做前向传播还不够，必须继续追踪损失与梯度。'
+  },
+  neuralTraining: {
+    title:'损失、链式法则与参数更新',
+    mental:'训练是一条闭环：前向得到预测，损失量化偏差，反向传播把责任分摊给每个参数，优化器再迈出一小步。每一帧都应能回答“这个梯度从哪里来”。',
+    baseline:'用有限差分逐个扰动参数可以估计梯度，但有 p 个参数就需要约 p 次额外前向计算。反向模式自动微分复用中间结果，一次反传即可得到全部参数梯度。',
+    invariant:'反向处理某个节点时，所有下游对它的梯度贡献已经汇总；参数更新发生在本轮全部梯度求完之后；训练数据、当前参数和优化器状态对应同一个步骤。',
+    steps:['用当前参数完成前向传播并计算标量损失','从损失梯度 1 开始，按反拓扑序应用链式法则','累积共享参数从不同路径收到的全部梯度','让优化器使用梯度和历史状态更新参数，再开始下一轮'],
+    pseudo:'prediction, cache = forward(input, parameters)\nloss = objective(prediction, target)\ngradients = backward(loss, cache)\noptimizer.update(parameters, gradients)\nreturn loss',
+    pitfalls:['边反传边修改权重，使前面节点读到新旧混合参数','激活函数导数使用了错误的 z 或 a','学习率过大导致损失震荡，过小则把缓慢误判为算法错误'],
+    use:'监督学习、表示学习和几乎所有基于梯度的神经网络训练。', avoid:'目标不可微、梯度长期为零或数据规模极小且精确模型更合适时，应考虑其他优化方法。'
+  },
+  neuralArchitecture: {
+    title:'结构先验、共享参数与信息路由',
+    mental:'CNN、RNN、注意力和自动编码器并不是新的“魔法训练法”，而是在同一前向/反向框架中改变连接方式。结构决定哪些信息能直接相互作用、哪些参数会被共享。',
+    baseline:'全连接层让每个输入连接每个输出，既忽略空间或时间结构，又产生大量参数。专用架构把局部性、顺序、全局依赖或压缩目标直接写进计算图。',
+    invariant:'张量形状在每个结构操作前后可推导；共享参数在所有位置使用同一份值；注意力权重或归一化量满足定义约束；隐藏状态只从允许的信息路径接收数据。',
+    steps:['明确输入轴分别代表批量、时间、通道或空间位置','根据架构规则建立局部窗口、循环状态、注意力连接或瓶颈','用共享参数计算结构化输出并记录必要中间状态','检查输出形状、感受野或信息来源，再接入后续层'],
+    pseudo:'state = initialize_for_architecture(input_shape)\nfor structural_unit in model:\n    sources = select_allowed_information(state)\n    state = shared_transform(sources, parameters)\n    assert shape_and_normalization_invariants(state)\nreturn state',
+    pitfalls:['卷积输出尺寸、序列时间轴或注意力矩阵轴顺序算错','误以为共享权重会在每个位置复制成独立参数','只看最终输出，没有检查感受野、隐藏状态或注意力权重是否合理'],
+    use:'图像与网格、变长序列、长距离依赖、降维去噪和结构化表示学习。', avoid:'数据没有相应结构先验或样本很少时，更复杂架构不一定优于简单模型。'
+  },
+  neuralGenerative: {
+    title:'分布匹配与双模型博弈',
+    mental:'生成模型不是记住一个答案，而是调整一整个采样分布。GAN 中判别器提供会变化的学习信号，生成器根据这条信号把噪声样本推向真实数据区域。',
+    baseline:'直接规定一个高维真实分布通常不可行。生成器把容易采样的噪声映射成复杂样本，判别器通过真假分类间接衡量两个分布的差异。',
+    invariant:'判别器更新时生成器参数固定，生成器更新时判别器参数固定；真假批次来自正确分布；损失的标签、符号和优化方向始终一致。',
+    steps:['分别从真实数据和噪声源采样一个批次','固定生成器，训练判别器提高真假区分能力','固定判别器，让生成器沿更可能被判真的方向更新','比较两类分布和损失，监控崩溃、振荡与失衡'],
+    pseudo:'repeat:\n    real = sample_data()\n    fake = generator(sample_noise())\n    update(discriminator, classify_loss(real, fake))\n    fake = generator(sample_noise())\n    update(generator, fooling_loss(discriminator, fake))',
+    pitfalls:['两个模型同时更新，破坏交替优化的目标','判别器过强导致生成器梯度几乎消失','只看损失数字，没有检查生成分布是否发生模式坍塌'],
+    use:'图像、音频和其他复杂数据的无显式似然生成，以及分布迁移实验。', avoid:'必须稳定计算精确概率或训练数据很少时，GAN 往往难以可靠收敛。'
+  },
   simulation: {
     title:'局部规则、同步更新与涌现', mental:'模拟要区分“读取上一帧”和“写入下一帧”。局部规则很简单，但大量个体同步迭代后会形成整体行为。',
     baseline:'只看最终图像难以判断实现是否正确。应逐帧检查状态更新、边界条件、随机性和数值稳定性。',
@@ -452,6 +497,10 @@ const profiles = {
 };
 
 const slugSets = {
+  neuralBasics:new Set(['activation-functions','perceptron-classifier','neural-network-forward-pass']),
+  neuralTraining:new Set(['backpropagation','optimizer-comparison']),
+  neuralArchitecture:new Set(['convolutional-neural-network','recurrent-neural-network','transformer-self-attention','autoencoder']),
+  neuralGenerative:new Set(['generative-adversarial-network']),
   binarySearch:new Set(['binary-search','binary-search-boundaries','coordinate-compression']),
   sorting:new Set(['insertion-sort','heap-sort','merge-sort','quick-sort','bubble-sort','shell-sort','selection-sort','counting-sort','radix-sort','bucket-sort','introsort','timsort','external-merge-sort','inversion-count']),
   pointer:new Set(['sliding-window','two-pointers','floyd-cycle-detection','merge-intervals','matrix-traversal']),
@@ -492,6 +541,7 @@ export function classifyEntry(entry) {
   if (entry.category === '数论、变换与线性代数') return 'numberTheory';
   if (entry.category === '压缩算法') return 'compression';
   if (entry.category === '生成、优化与模拟') return 'simulation';
+  if (entry.category === '机器学习与神经网络') return 'neuralBasics';
   return 'array';
 }
 

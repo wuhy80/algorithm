@@ -30,7 +30,7 @@ class CatalogIntegrityTests(unittest.TestCase):
         cls.by_slug = {entry["slug"]: entry for entry in cls.catalog}
 
     def test_catalog_is_complete_and_unique(self):
-        self.assertEqual(244, len(self.catalog))
+        self.assertEqual(254, len(self.catalog))
         self.assertEqual(len(self.catalog), len(self.by_slug))
         self.assertEqual(len(self.catalog), len({entry["source"] for entry in self.catalog}))
         self.assertEqual(len(self.catalog), len({entry["demo"] for entry in self.catalog}))

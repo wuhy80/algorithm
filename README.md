@@ -1,6 +1,6 @@
 # Algorithm Visualization Lab
 
-一个面向算法与数据结构学习的交互式可视化集合。当前包含 **244** 个独立演示，每个算法单独存放在自己的目录中，可直接在 GitHub Pages 运行。
+一个面向算法与数据结构学习的交互式可视化集合。当前包含 **254** 个独立演示，每个算法单独存放在自己的目录中，可直接在 GitHub Pages 运行。
 
 - [打开可视化目录](https://wuhy80.github.io/algorithm/)
 - 算法名称链接到对应 GitHub 源码目录
@@ -11,10 +11,10 @@
 
 | 阶段 | 目标 | 数量 |
 | --- | --- | ---: |
-| 1. 基础操作与核心思想 | 建立查找、排序、线性结构、树与图遍历基础 | 79 |
-| 2. 常用范式与组合技巧 | 掌握贪心、动态规划、字符串、区间与常用图算法 | 88 |
-| 3. 进阶算法与工程结构 | 进入网络流、高级数据结构、几何、数论与离线算法 | 42 |
-| 4. 专项高级算法 | 研究复杂匹配、树分解、自动机、变换与动态模拟 | 35 |
+| 1. 基础操作与核心思想 | 建立查找、排序、线性结构、树、图遍历与神经元基础 | 81 |
+| 2. 常用范式与组合技巧 | 掌握贪心、动态规划、字符串、图算法与梯度训练 | 91 |
+| 3. 进阶算法与工程结构 | 进入高级数据结构、几何、数论及 CNN、RNN、注意力等专用架构 | 46 |
+| 4. 专项高级算法 | 研究复杂匹配、树分解、自动机、生成模型与动态模拟 | 36 |
 
 ## 目录统计
 
@@ -31,6 +31,7 @@
 - 数论、变换与线性代数：17 项
 - 压缩算法：6 项
 - 生成、优化与模拟：10 项
+- 机器学习与神经网络：10 项
 
 ## 查找、排序与算法技巧
 
@@ -340,6 +341,21 @@
 | [Boids 群鸟算法](https://github.com/wuhy80/algorithm/tree/main/boids/) | 鸟群实时聚合、分离、同步、避障和鼠标交互 | 进阶 | 无 | [打开演示](https://wuhy80.github.io/algorithm/boids/) |
 | [N 体引力 N-body Simulation](https://github.com/wuhy80/algorithm/tree/main/n-body/) | 星体受引力运动、形成轨道与拖尾，并展示引力积分过程 | 高级 | 无 | [打开演示](https://wuhy80.github.io/algorithm/n-body/) |
 | [Perlin 噪声流场 Flow Field](https://github.com/wuhy80/algorithm/tree/main/flow-field/) | 大量粒子沿连续噪声向量场流动并留下动态轨迹 | 进阶 | 无 | [打开演示](https://wuhy80.github.io/algorithm/flow-field/) |
+
+## 机器学习与神经网络
+
+| 算法 / 数据结构 | 动画表现 | 难度 | 先修内容 | 演示 |
+| --- | --- | --- | --- | --- |
+| [激活函数 Activation Functions](https://github.com/wuhy80/algorithm/tree/main/activation-functions/) | 同步绘制 Sigmoid、Tanh、ReLU 与 Leaky ReLU 的输出和局部导数 | 基础 | 无 | [打开演示](https://wuhy80.github.io/algorithm/activation-functions/) |
+| [感知机分类 Perceptron](https://github.com/wuhy80/algorithm/tree/main/perceptron-classifier/) | 逐样本检查误分类并更新权重，观察二维决策边界如何旋转和平移 | 基础 | [激活函数 Activation Functions](https://github.com/wuhy80/algorithm/tree/main/activation-functions/) | [打开演示](https://wuhy80.github.io/algorithm/perceptron-classifier/) |
+| [神经网络前向传播 Forward Pass](https://github.com/wuhy80/algorithm/tree/main/neural-network-forward-pass/) | 沿连接逐层计算加权和、偏置与激活值，展示输入如何变成预测 | 进阶 | [激活函数 Activation Functions](https://github.com/wuhy80/algorithm/tree/main/activation-functions/)、[二维数组与矩阵 2D Array](https://github.com/wuhy80/algorithm/tree/main/matrix-2d-array/) | [打开演示](https://wuhy80.github.io/algorithm/neural-network-forward-pass/) |
+| [反向传播 Backpropagation](https://github.com/wuhy80/algorithm/tree/main/backpropagation/) | 在小型网络上交替展示前向预测、损失、梯度回传与参数更新 | 进阶 | [神经网络前向传播 Forward Pass](https://github.com/wuhy80/algorithm/tree/main/neural-network-forward-pass/) | [打开演示](https://wuhy80.github.io/algorithm/backpropagation/) |
+| [神经网络优化器 Optimizers](https://github.com/wuhy80/algorithm/tree/main/optimizer-comparison/) | 在同一狭长损失面上比较 SGD、Momentum 与 Adam 的参数更新轨迹 | 进阶 | [反向传播 Backpropagation](https://github.com/wuhy80/algorithm/tree/main/backpropagation/) | [打开演示](https://wuhy80.github.io/algorithm/optimizer-comparison/) |
+| [卷积神经网络 CNN](https://github.com/wuhy80/algorithm/tree/main/convolutional-neural-network/) | 让卷积核滑过像素网格，逐格显示乘加过程、感受野和特征图 | 进阶 | [神经网络前向传播 Forward Pass](https://github.com/wuhy80/algorithm/tree/main/neural-network-forward-pass/)、[二维数组与矩阵 2D Array](https://github.com/wuhy80/algorithm/tree/main/matrix-2d-array/) | [打开演示](https://wuhy80.github.io/algorithm/convolutional-neural-network/) |
+| [循环神经网络 RNN](https://github.com/wuhy80/algorithm/tree/main/recurrent-neural-network/) | 按时间展开隐藏状态，观察新输入与历史记忆如何共同生成当前表示 | 进阶 | [神经网络前向传播 Forward Pass](https://github.com/wuhy80/algorithm/tree/main/neural-network-forward-pass/) | [打开演示](https://wuhy80.github.io/algorithm/recurrent-neural-network/) |
+| [Transformer 自注意力 Self-Attention](https://github.com/wuhy80/algorithm/tree/main/transformer-self-attention/) | 逐查询词生成注意力热力图，观察缩放点积与温度如何重新分配上下文权重 | 高级 | [神经网络前向传播 Forward Pass](https://github.com/wuhy80/algorithm/tree/main/neural-network-forward-pass/)、[二维数组与矩阵 2D Array](https://github.com/wuhy80/algorithm/tree/main/matrix-2d-array/) | [打开演示](https://wuhy80.github.io/algorithm/transformer-self-attention/) |
+| [自动编码器 Autoencoder](https://github.com/wuhy80/algorithm/tree/main/autoencoder/) | 把带噪像素压缩进低维瓶颈，再重建图像并实时观察重建误差 | 高级 | [反向传播 Backpropagation](https://github.com/wuhy80/algorithm/tree/main/backpropagation/)、[神经网络优化器 Optimizers](https://github.com/wuhy80/algorithm/tree/main/optimizer-comparison/) | [打开演示](https://wuhy80.github.io/algorithm/autoencoder/) |
+| [生成对抗网络 GAN](https://github.com/wuhy80/algorithm/tree/main/generative-adversarial-network/) | 让生成器分布与判别器交替博弈，动态观察真假密度和两类损失 | 高级 | [反向传播 Backpropagation](https://github.com/wuhy80/algorithm/tree/main/backpropagation/)、[神经网络优化器 Optimizers](https://github.com/wuhy80/algorithm/tree/main/optimizer-comparison/) | [打开演示](https://wuhy80.github.io/algorithm/generative-adversarial-network/) |
 
 ## 目录规范
 

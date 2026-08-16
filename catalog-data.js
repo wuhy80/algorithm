@@ -4548,5 +4548,208 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/parentheses-matching/",
     "demo": "https://wuhy80.github.io/algorithm/parentheses-matching/"
+  },
+  {
+    "slug": "activation-functions",
+    "name": "激活函数 Activation Functions",
+    "category": "机器学习与神经网络",
+    "summary": "同步绘制 Sigmoid、Tanh、ReLU 与 Leaky ReLU 的输出和局部导数",
+    "problem": "为神经元引入非线性，使多层网络能够表示线性变换无法拟合的复杂决策边界。",
+    "complexity": "对 n 个标量计算激活值的时间为 O(n)，原地计算时额外空间 O(1)",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "神经网络",
+      "非线性",
+      "导数"
+    ],
+    "prerequisites": [],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/activation-functions/",
+    "demo": "https://wuhy80.github.io/algorithm/activation-functions/"
+  },
+  {
+    "slug": "perceptron-classifier",
+    "name": "感知机分类 Perceptron",
+    "category": "机器学习与神经网络",
+    "summary": "逐样本检查误分类并更新权重，观察二维决策边界如何旋转和平移",
+    "problem": "从带标签样本学习一个线性决策边界，是理解权重、偏置和监督学习更新规则的最小模型。",
+    "complexity": "每轮训练时间 O(nd)，空间 O(d)；n 为样本数，d 为特征维度",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "神经网络",
+      "线性分类",
+      "监督学习"
+    ],
+    "prerequisites": [
+      "activation-functions"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/perceptron-classifier/",
+    "demo": "https://wuhy80.github.io/algorithm/perceptron-classifier/"
+  },
+  {
+    "slug": "neural-network-forward-pass",
+    "name": "神经网络前向传播 Forward Pass",
+    "category": "机器学习与神经网络",
+    "summary": "沿连接逐层计算加权和、偏置与激活值，展示输入如何变成预测",
+    "problem": "把输入依次经过多层线性变换和非线性激活，得到分类概率或回归预测。",
+    "complexity": "全连接网络前向传播时间 O(Σ nₗ₋₁nₗ)，激活存储空间 O(Σ nₗ)",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "神经网络",
+      "前向传播",
+      "矩阵乘法"
+    ],
+    "prerequisites": [
+      "activation-functions",
+      "matrix-2d-array"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/neural-network-forward-pass/",
+    "demo": "https://wuhy80.github.io/algorithm/neural-network-forward-pass/"
+  },
+  {
+    "slug": "backpropagation",
+    "name": "反向传播 Backpropagation",
+    "category": "机器学习与神经网络",
+    "summary": "在小型网络上交替展示前向预测、损失、梯度回传与参数更新",
+    "problem": "利用链式法则高效计算损失对每个权重和偏置的梯度，从而训练多层神经网络。",
+    "complexity": "一次反向传播与前向传播同阶，时间 O(Σ nₗ₋₁nₗ)，需保存各层激活",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "神经网络",
+      "链式法则",
+      "梯度"
+    ],
+    "prerequisites": [
+      "neural-network-forward-pass"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/backpropagation/",
+    "demo": "https://wuhy80.github.io/algorithm/backpropagation/"
+  },
+  {
+    "slug": "optimizer-comparison",
+    "name": "神经网络优化器 Optimizers",
+    "category": "机器学习与神经网络",
+    "summary": "在同一狭长损失面上比较 SGD、Momentum 与 Adam 的参数更新轨迹",
+    "problem": "根据梯度选择稳定而高效的参数更新方向，在震荡、尺度差异和噪声下尽快降低损失。",
+    "complexity": "每步均为 O(p)；SGD 额外空间 O(1)，Momentum 与 Adam 需要 O(p) 状态",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "神经网络",
+      "梯度下降",
+      "Adam"
+    ],
+    "prerequisites": [
+      "backpropagation"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/optimizer-comparison/",
+    "demo": "https://wuhy80.github.io/algorithm/optimizer-comparison/"
+  },
+  {
+    "slug": "convolutional-neural-network",
+    "name": "卷积神经网络 CNN",
+    "category": "机器学习与神经网络",
+    "summary": "让卷积核滑过像素网格，逐格显示乘加过程、感受野和特征图",
+    "problem": "利用局部连接和权重共享提取图像中的边缘、纹理与更高层空间特征。",
+    "complexity": "二维卷积时间 O(HWKCᵢCₒ)，输出与中间特征图空间 O(HWCₒ)",
+    "difficulty": "进阶",
+    "stage": 3,
+    "tags": [
+      "神经网络",
+      "卷积",
+      "计算机视觉"
+    ],
+    "prerequisites": [
+      "neural-network-forward-pass",
+      "matrix-2d-array"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/convolutional-neural-network/",
+    "demo": "https://wuhy80.github.io/algorithm/convolutional-neural-network/"
+  },
+  {
+    "slug": "recurrent-neural-network",
+    "name": "循环神经网络 RNN",
+    "category": "机器学习与神经网络",
+    "summary": "按时间展开隐藏状态，观察新输入与历史记忆如何共同生成当前表示",
+    "problem": "用循环隐藏状态处理变长序列，让当前输出能够依赖此前已经读过的信息。",
+    "complexity": "长度 T、隐藏维度 h 的基础 RNN 时间 O(T(h²+dh))，状态空间 O(h)",
+    "difficulty": "进阶",
+    "stage": 3,
+    "tags": [
+      "神经网络",
+      "序列模型",
+      "隐藏状态"
+    ],
+    "prerequisites": [
+      "neural-network-forward-pass"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/recurrent-neural-network/",
+    "demo": "https://wuhy80.github.io/algorithm/recurrent-neural-network/"
+  },
+  {
+    "slug": "transformer-self-attention",
+    "name": "Transformer 自注意力 Self-Attention",
+    "category": "机器学习与神经网络",
+    "summary": "逐查询词生成注意力热力图，观察缩放点积与温度如何重新分配上下文权重",
+    "problem": "让序列中的每个位置直接聚合所有位置的信息，并学习与当前任务相关的依赖关系。",
+    "complexity": "标准自注意力时间与注意力矩阵空间均为 O(T²)，投影另需 O(Td²)",
+    "difficulty": "高级",
+    "stage": 3,
+    "tags": [
+      "神经网络",
+      "Transformer",
+      "注意力"
+    ],
+    "prerequisites": [
+      "neural-network-forward-pass",
+      "matrix-2d-array"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/transformer-self-attention/",
+    "demo": "https://wuhy80.github.io/algorithm/transformer-self-attention/"
+  },
+  {
+    "slug": "autoencoder",
+    "name": "自动编码器 Autoencoder",
+    "category": "机器学习与神经网络",
+    "summary": "把带噪像素压缩进低维瓶颈，再重建图像并实时观察重建误差",
+    "problem": "在没有人工标签的情况下学习紧凑表示，并用于降维、去噪、异常检测或特征预训练。",
+    "complexity": "全连接自编码器每个样本的前后向时间 O(Σ nₗ₋₁nₗ)，参数空间同阶",
+    "difficulty": "高级",
+    "stage": 3,
+    "tags": [
+      "神经网络",
+      "表示学习",
+      "降维"
+    ],
+    "prerequisites": [
+      "backpropagation",
+      "optimizer-comparison"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/autoencoder/",
+    "demo": "https://wuhy80.github.io/algorithm/autoencoder/"
+  },
+  {
+    "slug": "generative-adversarial-network",
+    "name": "生成对抗网络 GAN",
+    "category": "机器学习与神经网络",
+    "summary": "让生成器分布与判别器交替博弈，动态观察真假密度和两类损失",
+    "problem": "通过生成器和判别器的对抗训练学习数据分布，从随机噪声产生新的相似样本。",
+    "complexity": "每轮成本为生成器与判别器前后向传播之和，取决于批量大小和网络参数量",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "神经网络",
+      "生成模型",
+      "对抗训练"
+    ],
+    "prerequisites": [
+      "backpropagation",
+      "optimizer-comparison"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/generative-adversarial-network/",
+    "demo": "https://wuhy80.github.io/algorithm/generative-adversarial-network/"
   }
 ];

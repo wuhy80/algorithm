@@ -164,6 +164,18 @@ EXPECTED_RESULTS = {
 }
 EXPECTED_RESULTS.update(CORE_EXPECTED_RESULTS)
 EXPECTED_RESULTS.update(FOUNDATION_EXPECTED_RESULTS)
+NEURAL_SLUGS = {
+    "activation-functions",
+    "perceptron-classifier",
+    "neural-network-forward-pass",
+    "backpropagation",
+    "optimizer-comparison",
+    "convolutional-neural-network",
+    "recurrent-neural-network",
+    "transformer-self-attention",
+    "autoencoder",
+    "generative-adversarial-network",
+}
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
@@ -294,6 +306,35 @@ class BrowserSmokeTests(unittest.TestCase):
                 self.assertGreater(metrics["bright"], 20, metrics)
                 self.assertFalse(errors, errors)
                 page.close()
+
+    def test_neural_network_demos_are_interactive_and_fit_both_viewports(self):
+        for slug in sorted(NEURAL_SLUGS):
+            for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+                with self.subTest(slug=slug, viewport=viewport["width"]):
+                    page, errors = self.open_page(f"{slug}/", viewport)
+                    self.assertEqual(slug, page.locator("body").get_attribute("data-demo"))
+                    self.assertFalse(page.locator("#error").inner_text().strip())
+                    before = page.locator(".stats").inner_text()
+                    page.locator("#step").click()
+                    page.locator("#step").click()
+                    self.assertNotEqual(before, page.locator(".stats").inner_text())
+                    metrics = self.layout_metrics(page)
+                    self.assertLessEqual(metrics["overflow"], 1, metrics)
+                    self.assertFalse(metrics["clipped"], metrics)
+                    colors = page.evaluate(
+                        """() => {
+                            const canvas = document.querySelector('canvas');
+                            const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+                            const values = new Set();
+                            for (let i = 0; i < data.length && values.size < 20; i += 128) {
+                                values.add(`${data[i]},${data[i+1]},${data[i+2]},${data[i+3]}`);
+                            }
+                            return values.size;
+                        }"""
+                    )
+                    self.assertGreaterEqual(colors, 4)
+                    self.assertFalse(errors, errors)
+                    page.close()
 
     def test_new_demos_reach_terminal_state_on_desktop_and_fit_mobile(self):
         for slug in sorted(NEW_SLUGS):

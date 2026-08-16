@@ -32,6 +32,8 @@ jobs:
           node --check scripts/scaffold-foundation-batch.mjs
           node --check scripts/learning-guide.mjs
           node --check scripts/enrich-learning-metadata.mjs
+          node --check scripts/scaffold-neural-network-batch.mjs
+          node --check scripts/neural-network-batch-app.js
 
   browser:
     runs-on: ubuntu-latest
