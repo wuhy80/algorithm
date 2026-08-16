@@ -10,7 +10,7 @@
 | [蚁群优化 Ant Colony Optimization](./ant-colony/) | 蚂蚁探索路径、信息素沉积与挥发、最短路线逐渐显现 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/ant-colony/) |
 | [A* 寻路 A* Pathfinding](./astar-pathfinding/) | 搜索前沿扩张、代价变化、障碍编辑与最终路径回溯 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/astar-pathfinding/) |
 | [粒子群优化 Particle Swarm Optimization](./particle-swarm/) | 粒子在目标函数地形中移动并逐步汇聚到最优区域 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/particle-swarm/) |
-| 遗传火箭 Genetic Rockets | 多代火箭飞向目标，展示选择、交叉、变异和适应度进化 | 待实现 | - |
+| [遗传火箭 Genetic Rockets](./genetic-rockets/) | 多代火箭飞向目标，展示选择、交叉、变异和适应度进化 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/genetic-rockets/) |
 | N 体引力 N-body Simulation | 星体受引力运动、形成轨道与拖尾，并展示空间分区加速 | 待实现 | - |
 | 反应扩散 Reaction-Diffusion | Gray-Scott 模型实时生长斑点、条纹和有机纹理 | 待实现 | - |
 | 波函数坍缩 Wave Function Collapse | 网格按最低熵逐格坍缩，约束向周围持续传播 | 待实现 | - |
