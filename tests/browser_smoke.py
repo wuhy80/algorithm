@@ -10,6 +10,48 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
+CORE_EXPECTED_RESULTS = {
+    "dynamic-array": "8",
+    "circular-buffer": "4",
+    "bitset-bitmap": "6",
+    "order-statistic-tree": "40",
+    "pairing-heap": "3",
+    "radix-tree": "4",
+    "rope": "15",
+    "disjoint-sparse-table": "27",
+    "merge-sort-tree": "3",
+    "li-chao-tree": "6",
+    "segment-tree-beats": "27",
+    "persistent-trie": "2",
+    "coordinate-compression": "5",
+    "inversion-count": "5",
+    "median-of-medians": "7",
+    "meet-in-the-middle": "可达",
+    "introsort": "9",
+    "timsort": "9",
+    "external-merge-sort": "19",
+    "branch-and-bound": "40",
+    "kosaraju-scc": "3",
+    "biconnected-components": "3",
+    "dag-shortest-path": "5",
+    "tree-diameter": "5",
+    "rerooting-dp": "A",
+    "dsu-on-tree": "3",
+    "offline-dynamic-connectivity": "2",
+    "lower-bound-flow": "可行",
+    "tree-isomorphism-ahu": "同构",
+    "profile-dp": "11",
+    "sos-dp": "36",
+    "probability-dp": "37.5%",
+    "divide-conquer-dp-optimization": "117",
+    "knuth-optimization": "28",
+    "convex-hull-trick": "49",
+    "rolling-hash": "2",
+    "duval-lyndon-factorization": "4",
+    "fm-index": "2",
+    "dpll-sat": "可满足",
+    "ac3-constraint-propagation": "8",
+}
 NEW_SLUGS = {
     "activity-selection", "fractional-knapsack", "job-sequencing", "interval-covering",
     "zero-one-bfs", "bidirectional-bfs", "two-sat", "boruvka-mst",
@@ -27,6 +69,7 @@ NEW_SLUGS = {
     "baby-step-giant-step", "half-plane-intersection", "octree",
     "bounding-volume-hierarchy",
 }
+NEW_SLUGS.update(CORE_EXPECTED_RESULTS)
 EXPECTED_RESULTS = {
     "activity-selection": "4",
     "fractional-knapsack": "270.0",
@@ -77,6 +120,7 @@ EXPECTED_RESULTS = {
     "octree": "1",
     "bounding-volume-hierarchy": "4",
 }
+EXPECTED_RESULTS.update(CORE_EXPECTED_RESULTS)
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):

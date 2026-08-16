@@ -26,6 +26,8 @@ jobs:
           node --check site.js
           node --check activity-selection/app.js
           node --check octree/app.js
+          node --check scripts/core-batch-app.js
+          node --check scripts/scaffold-core-batch.mjs
 
   browser:
     runs-on: ubuntu-latest

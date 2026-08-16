@@ -16,7 +16,7 @@ class CatalogIntegrityTests(unittest.TestCase):
         cls.by_slug = {entry["slug"]: entry for entry in cls.catalog}
 
     def test_catalog_is_complete_and_unique(self):
-        self.assertEqual(165, len(self.catalog))
+        self.assertEqual(205, len(self.catalog))
         self.assertEqual(len(self.catalog), len(self.by_slug))
         self.assertEqual(len(self.catalog), len({entry["source"] for entry in self.catalog}))
         self.assertEqual(len(self.catalog), len({entry["demo"] for entry in self.catalog}))
@@ -41,13 +41,30 @@ class CatalogIntegrityTests(unittest.TestCase):
                 for filename in REQUIRED_FILES:
                     self.assertTrue((ROOT / entry["slug"] / filename).is_file(), filename)
 
-    def test_prerequisites_resolve_without_cycles_to_self(self):
+    def test_prerequisites_resolve_in_stage_order_without_cycles(self):
         for entry in self.catalog:
             with self.subTest(slug=entry["slug"]):
                 self.assertNotIn(entry["slug"], entry["prerequisites"])
                 self.assertEqual(len(entry["prerequisites"]), len(set(entry["prerequisites"])))
                 for prerequisite in entry["prerequisites"]:
                     self.assertIn(prerequisite, self.by_slug)
+                    self.assertLessEqual(
+                        self.by_slug[prerequisite]["stage"], entry["stage"]
+                    )
+
+        state = {}
+
+        def visit(slug):
+            self.assertNotEqual(1, state.get(slug), f"prerequisite cycle at {slug}")
+            if state.get(slug) == 2:
+                return
+            state[slug] = 1
+            for prerequisite in self.by_slug[slug]["prerequisites"]:
+                visit(prerequisite)
+            state[slug] = 2
+
+        for slug in self.by_slug:
+            visit(slug)
 
     def test_catalog_matches_algorithm_directories(self):
         directories = {
