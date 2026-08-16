@@ -52,6 +52,47 @@ CORE_EXPECTED_RESULTS = {
     "dpll-sat": "可满足",
     "ac3-constraint-propagation": "8",
 }
+FOUNDATION_EXPECTED_RESULTS = {
+    "static-array": "13",
+    "matrix-2d-array": "81",
+    "doubly-linked-list": "3",
+    "circular-linked-list": "3",
+    "binary-tree-basics": "2",
+    "n-ary-tree": "1",
+    "set-map-adt": "1",
+    "open-addressing-hash-table": "6",
+    "graph-representations": "2",
+    "string-builder": "15",
+    "array-operations": "6",
+    "binary-search-boundaries": "3",
+    "merge-intervals": "3",
+    "frequency-counting": "3",
+    "matrix-traversal": "9",
+    "preorder-traversal": "8,4,2,6,12,10,14",
+    "inorder-traversal": "2,4,6,8,10,12,14",
+    "postorder-traversal": "2,6,4,10,14,12,8",
+    "level-order-traversal": "8,4,12,2,6,10,14",
+    "tree-properties": "4",
+    "connected-components": "3",
+    "undirected-cycle-detection": "有环",
+    "directed-cycle-detection": "有环",
+    "bipartite-check": "是",
+    "flood-fill": "6",
+    "grid-search": "6",
+    "naive-string-search": "2",
+    "palindrome-check": "是",
+    "anagram-check": "是",
+    "longest-common-prefix": "fl",
+    "recursion-call-stack": "120",
+    "fibonacci-memoization": "55",
+    "climbing-stairs": "34",
+    "grid-path-dp": "7",
+    "permutation-generation": "6",
+    "combination-generation": "10",
+    "subset-enumeration": "16",
+    "parentheses-generation": "5",
+    "parentheses-matching": "合法",
+}
 NEW_SLUGS = {
     "activity-selection", "fractional-knapsack", "job-sequencing", "interval-covering",
     "zero-one-bfs", "bidirectional-bfs", "two-sat", "boruvka-mst",
@@ -70,6 +111,7 @@ NEW_SLUGS = {
     "bounding-volume-hierarchy",
 }
 NEW_SLUGS.update(CORE_EXPECTED_RESULTS)
+NEW_SLUGS.update(FOUNDATION_EXPECTED_RESULTS)
 EXPECTED_RESULTS = {
     "activity-selection": "4",
     "fractional-knapsack": "270.0",
@@ -121,6 +163,7 @@ EXPECTED_RESULTS = {
     "bounding-volume-hierarchy": "4",
 }
 EXPECTED_RESULTS.update(CORE_EXPECTED_RESULTS)
+EXPECTED_RESULTS.update(FOUNDATION_EXPECTED_RESULTS)
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):

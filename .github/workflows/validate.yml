@@ -28,6 +28,8 @@ jobs:
           node --check octree/app.js
           node --check scripts/core-batch-app.js
           node --check scripts/scaffold-core-batch.mjs
+          node --check scripts/foundation-batch-app.js
+          node --check scripts/scaffold-foundation-batch.mjs
 
   browser:
     runs-on: ubuntu-latest
