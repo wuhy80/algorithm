@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17201e">
+  <title>Cell Lab · Voronoi 与 Lloyd 松弛</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="control-panel" aria-label="Voronoi 松弛参数">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
+        <div><p>CELL LAB / 13</p><h1>Voronoi 松弛</h1></div>
+      </header>
+
+      <section class="control-section scene-section" aria-labelledby="distribution-title">
+        <div class="section-heading">
+          <h2 id="distribution-title">初始分布</h2>
+          <button class="icon-button" id="reset-settings" type="button" title="恢复默认参数" aria-label="恢复默认参数">↻</button>
+        </div>
+        <label class="field-label" for="preset">站点排列</label>
+        <div class="select-wrap">
+          <select id="preset">
+            <option value="random">随机散布</option>
+            <option value="clusters">聚类分布</option>
+            <option value="ring">环形分布</option>
+            <option value="bands">带状分布</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="control-section" aria-labelledby="relax-title">
+        <div class="section-heading"><h2 id="relax-title">松弛参数</h2><span class="section-index">01</span></div>
+        <label class="range-control" for="site-count">
+          <span><b>站点数量</b><output id="site-count-value">90</output></span>
+          <input id="site-count" type="range" min="12" max="200" step="1" value="90">
+        </label>
+        <label class="range-control" for="strength">
+          <span><b>松弛强度</b><output id="strength-value">0.65</output></span>
+          <input id="strength" type="range" min="0.1" max="1" step="0.05" value="0.65">
+        </label>
+        <label class="range-control" for="speed">
+          <span><b>演化速度</b><output id="speed-value">1.0×</output></span>
+          <input id="speed" type="range" min="0.25" max="3" step="0.25" value="1">
+        </label>
+      </section>
+
+      <section class="control-section" aria-labelledby="view-title">
+        <div class="section-heading"><h2 id="view-title">画布与显示</h2><span class="section-index">02</span></div>
+        <span class="field-label">交互工具</span>
+        <div class="segmented" id="tool-control" role="group" aria-label="交互工具">
+          <button type="button" data-value="move" aria-pressed="true">移动站点</button>
+          <button type="button" data-value="add" aria-pressed="false">添加站点</button>
+        </div>
+        <div class="switch-list">
+          <label class="switch-control" for="auto-relax">
+            <input id="auto-relax" type="checkbox" checked>
+            <span aria-hidden="true"></span><b>自动松弛</b>
+          </label>
+          <label class="switch-control" for="show-sites">
+            <input id="show-sites" type="checkbox" checked>
+            <span aria-hidden="true"></span><b>显示站点</b>
+          </label>
+          <label class="switch-control" for="show-centroids">
+            <input id="show-centroids" type="checkbox">
+            <span aria-hidden="true"></span><b>显示质心</b>
+          </label>
+          <label class="switch-control" for="filled-cells">
+            <input id="filled-cells" type="checkbox" checked>
+            <span aria-hidden="true"></span><b>填充区域</b>
+          </label>
+        </div>
+        <p class="interaction-hint" id="interaction-hint">拖动任意站点，实时重建它周围的区域</p>
+      </section>
+
+      <footer class="panel-footer"><span>VORONOI / 1908</span><span>CENTROIDAL TESSELLATION</span></footer>
+    </aside>
+
+    <main class="simulation-stage">
+      <canvas id="voronoi-canvas" aria-label="Voronoi 图与 Lloyd 松弛实时画布"></canvas>
+      <header class="stage-header">
+        <div class="scene-title">
+          <span class="live-dot" aria-hidden="true"></span>
+          <div><span>质心 Voronoi 剖分</span><strong id="scene-name">随机散布</strong></div>
+        </div>
+        <div class="metrics" aria-live="polite">
+          <div><span>能量</span><strong id="metric-energy">0</strong></div>
+          <div><span>位移</span><strong><span id="metric-displacement">0.0</span><small> px</small></strong></div>
+          <div><span>迭代</span><strong id="metric-iteration">0</strong></div>
+          <div><span>帧率</span><strong><span id="metric-fps">60</span><small> FPS</small></strong></div>
+        </div>
+        <div class="stage-actions">
+          <button id="randomize" type="button" title="重新随机分布"><span aria-hidden="true">⤨</span><span class="action-label">随机化</span></button>
+          <button id="step-once" type="button" title="执行一次 Lloyd 松弛"><span aria-hidden="true">→</span><span class="action-label">单步</span></button>
+          <button id="pause" class="primary-action" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><span id="pause-label" class="action-label">暂停</span></button>
+        </div>
+      </header>
+      <div class="canvas-status" aria-hidden="true"><span id="tool-indicator">移动模式</span><i></i><span id="site-status">90 SITES</span></div>
+      <div class="formula" aria-hidden="true"><span>pᵢ ← pᵢ + λ(cᵢ − pᵢ)</span><small>LLOYD STEP</small></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
