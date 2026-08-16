@@ -13,7 +13,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/insertion-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/insertion-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/insertion-sort/",
+    "problem": "暂存当前键值、右移较大元素并插入有序前缀。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "时间最好 O(n)，平均 / 最坏 O(n²)；原地实现额外空间 O(1)。"
   },
   {
     "slug": "difference-array",
@@ -50,7 +52,9 @@ window.ALGORITHM_CATALOG = [
       "heap-priority-queue"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/heap-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/heap-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/heap-sort/",
+    "problem": "最大堆构建、堆顶提取、向下调整及有序后缀增长。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "建堆 O(n)，排序 O(n log n)；额外空间 O(1)。"
   },
   {
     "slug": "binary-search",
@@ -65,7 +69,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/binary-search/",
-    "demo": "https://wuhy80.github.io/algorithm/binary-search/"
+    "demo": "https://wuhy80.github.io/algorithm/binary-search/",
+    "problem": "有序数组的左右边界持续收缩，中点比较与命中过程逐步高亮。在有序数据或单调判定上定位目标、边界或第一个满足条件的位置。",
+    "complexity": "时间 O(log n)；迭代实现额外空间 O(1)。"
   },
   {
     "slug": "merge-sort",
@@ -80,7 +86,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/merge-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/merge-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/merge-sort/",
+    "problem": "数组递归拆分，左右有序段逐项比较并重新合并。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "时间 O(n log n)；数组实现通常需要 O(n) 辅助空间。"
   },
   {
     "slug": "sliding-window",
@@ -95,7 +103,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/sliding-window/",
-    "demo": "https://wuhy80.github.io/algorithm/sliding-window/"
+    "demo": "https://wuhy80.github.io/algorithm/sliding-window/",
+    "problem": "固定窗口逐格滑动，复用移出与移入元素更新区间和。通过只向前移动的边界维护候选区间，把重复枚举压缩为一次扫描。",
+    "complexity": "每个元素至多进出窗口一次，典型时间 O(n)；空间取决于窗口状态。"
   },
   {
     "slug": "radix-sort",
@@ -112,7 +122,9 @@ window.ALGORITHM_CATALOG = [
       "counting-sort"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/radix-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/radix-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/radix-sort/",
+    "problem": "按当前数位稳定分桶并逐轮收集形成有序序列。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "时间 O(d(n+k))，d 为位数、k 为每一位的取值范围；空间 O(n+k)。"
   },
   {
     "slug": "counting-sort",
@@ -127,7 +139,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/counting-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/counting-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/counting-sort/",
+    "problem": "频次统计、前缀累计和稳定回写输出数组。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "时间与空间均为 O(n+k)，k 为值域大小。"
   },
   {
     "slug": "quick-sort",
@@ -142,7 +156,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/quick-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/quick-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/quick-sort/",
+    "problem": "基准选择、双指针扫描、分区交换与递归区间展开。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "平均 O(n log n)，最坏 O(n²)；递归栈平均 O(log n)。"
   },
   {
     "slug": "quickselect",
@@ -159,7 +175,9 @@ window.ALGORITHM_CATALOG = [
       "quick-sort"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/quickselect/",
-    "demo": "https://wuhy80.github.io/algorithm/quickselect/"
+    "demo": "https://wuhy80.github.io/algorithm/quickselect/",
+    "problem": "基准分区后只深入目标秩所在一侧，逐步锁定第 K 小元素。用可证明的概率规则进行采样、打乱或候选选择，并控制期望复杂度与分布偏差。",
+    "complexity": "平均 O(n)，最坏 O(n²)；原地分区额外空间 O(1)。"
   },
   {
     "slug": "bubble-sort",
@@ -174,7 +192,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/bubble-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/bubble-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/bubble-sort/",
+    "problem": "相邻元素逐对比较、交换，最大值逐轮浮向数组末端。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "平均 / 最坏 O(n²)，已有序时可提前结束到 O(n)；空间 O(1)。"
   },
   {
     "slug": "prefix-sum",
@@ -207,7 +227,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/two-pointers/",
-    "demo": "https://wuhy80.github.io/algorithm/two-pointers/"
+    "demo": "https://wuhy80.github.io/algorithm/two-pointers/",
+    "problem": "有序数组左右指针根据当前和单调收缩搜索区间。通过只向前移动的边界维护候选区间，把重复枚举压缩为一次扫描。",
+    "complexity": "指针单调移动时通常 O(n)，额外空间 O(1)。"
   },
   {
     "slug": "reservoir-sampling",
@@ -244,7 +266,9 @@ window.ALGORITHM_CATALOG = [
       "counting-sort"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/bucket-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/bucket-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/bucket-sort/",
+    "problem": "元素按值域分桶、桶内排序并依序合并输出。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "分布均匀时平均 O(n+k)，最坏 O(n²)；空间 O(n+k)。"
   },
   {
     "slug": "shell-sort",
@@ -261,7 +285,9 @@ window.ALGORITHM_CATALOG = [
       "insertion-sort"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/shell-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/shell-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/shell-sort/",
+    "problem": "Gap 分组插入、远距离移动以及间隔逐步收缩。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "复杂度取决于增量序列，常见最坏上界 O(n²)；空间 O(1)。"
   },
   {
     "slug": "linear-search",
@@ -276,7 +302,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/linear-search/",
-    "demo": "https://wuhy80.github.io/algorithm/linear-search/"
+    "demo": "https://wuhy80.github.io/algorithm/linear-search/",
+    "problem": "探针从左向右逐项比较，并保留已扫描区域和最终命中位置。在连续序列中正确处理下标、边界、局部更新与顺序扫描，并避免不必要的数据搬移。",
+    "complexity": "最好 O(1)，平均 / 最坏 O(n)；空间 O(1)。"
   },
   {
     "slug": "selection-sort",
@@ -291,7 +319,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/selection-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/selection-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/selection-sort/",
+    "problem": "扫描未排序区间、记录最小值并交换到区间起点。按照比较键建立全序，同时权衡稳定性、额外空间、最坏时间和数据分布。",
+    "complexity": "时间始终 O(n²)，交换次数 O(n)；空间 O(1)。"
   },
   {
     "slug": "fisher-yates-shuffle",
@@ -387,7 +417,9 @@ window.ALGORITHM_CATALOG = [
       "dfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/bipartite-matching/",
-    "demo": "https://wuhy80.github.io/algorithm/bipartite-matching/"
+    "demo": "https://wuhy80.github.io/algorithm/bipartite-matching/",
+    "problem": "交替增广路径搜索与已有匹配重新安排。选择互不共享端点的边完成配对或指派，并通过增广重新安排局部选择。",
+    "complexity": "增广路基础实现 O(VE)，空间 O(V+E)。"
   },
   {
     "slug": "bridges-articulation",
@@ -403,7 +435,9 @@ window.ALGORITHM_CATALOG = [
       "dfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/bridges-articulation/",
-    "demo": "https://wuhy80.github.io/algorithm/bridges-articulation/"
+    "demo": "https://wuhy80.github.io/algorithm/bridges-articulation/",
+    "problem": "DFS 树回溯、Lowlink 更新及关键节点与边判定。识别图中的连通块、关键边、关键点、环或可以相互到达的强连通结构。",
+    "complexity": "一次 Tarjan DFS，时间 O(V+E)，空间 O(V)。"
   },
   {
     "slug": "bfs",
@@ -417,7 +451,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/bfs/",
-    "demo": "https://wuhy80.github.io/algorithm/bfs/"
+    "demo": "https://wuhy80.github.io/algorithm/bfs/",
+    "problem": "队列驱动搜索前沿逐层扩张，并重建起点到目标的最短步数路径。系统访问图中的节点与边，回答可达性、层次、遍历顺序或基础结构判定。",
+    "complexity": "邻接表实现时间 O(V+E)，空间 O(V)。"
   },
   {
     "slug": "eulerian-path",
@@ -433,7 +469,9 @@ window.ALGORITHM_CATALOG = [
       "dfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/eulerian-path/",
-    "demo": "https://wuhy80.github.io/algorithm/eulerian-path/"
+    "demo": "https://wuhy80.github.io/algorithm/eulerian-path/",
+    "problem": "Hierholzer 栈沿未使用边深入并在回退时构造完整路径。系统访问图中的节点与边，回答可达性、层次、遍历顺序或基础结构判定。",
+    "complexity": "Hierholzer 算法时间 O(V+E)，空间 O(V+E)。"
   },
   {
     "slug": "dfs",
@@ -447,7 +485,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/dfs/",
-    "demo": "https://wuhy80.github.io/algorithm/dfs/"
+    "demo": "https://wuhy80.github.io/algorithm/dfs/",
+    "problem": "栈与递归路径持续深入，遇到末路后回退探索其他分支。系统访问图中的节点与边，回答可达性、层次、遍历顺序或基础结构判定。",
+    "complexity": "邻接表实现时间 O(V+E)，递归或显式栈空间 O(V)。"
   },
   {
     "slug": "bidirectional-bfs",
@@ -481,7 +521,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/topological-sort/",
-    "demo": "https://wuhy80.github.io/algorithm/topological-sort/"
+    "demo": "https://wuhy80.github.io/algorithm/topological-sort/",
+    "problem": "入度归零、队列变化、依赖边删除和有向环检测。系统访问图中的节点与边，回答可达性、层次、遍历顺序或基础结构判定。",
+    "complexity": "时间 O(V+E)，空间 O(V)。"
   },
   {
     "slug": "hungarian-algorithm",
@@ -497,7 +539,9 @@ window.ALGORITHM_CATALOG = [
       "bipartite-matching"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/hungarian-algorithm/",
-    "demo": "https://wuhy80.github.io/algorithm/hungarian-algorithm/"
+    "demo": "https://wuhy80.github.io/algorithm/hungarian-algorithm/",
+    "problem": "成本矩阵行列归约、零元素覆盖与最优一一指派。选择互不共享端点的边完成配对或指派，并通过增广重新安排局部选择。",
+    "complexity": "经典方阵实现时间 O(n³)，空间 O(n²)。"
   },
   {
     "slug": "lowest-common-ancestor",
@@ -513,7 +557,9 @@ window.ALGORITHM_CATALOG = [
       "dfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/",
-    "demo": "https://wuhy80.github.io/algorithm/lowest-common-ancestor/"
+    "demo": "https://wuhy80.github.io/algorithm/lowest-common-ancestor/",
+    "problem": "查询节点先对齐深度，再同步提升到最近公共祖先。表达层级关系，并让一个节点的问题能够由若干子树的结果递归合并。",
+    "complexity": "二进制提升预处理 O(n log n)，单次查询 O(log n)，空间 O(n log n)。"
   },
   {
     "slug": "min-cost-max-flow",
@@ -530,7 +576,9 @@ window.ALGORITHM_CATALOG = [
       "edmonds-karp"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/min-cost-max-flow/",
-    "demo": "https://wuhy80.github.io/algorithm/min-cost-max-flow/"
+    "demo": "https://wuhy80.github.io/algorithm/min-cost-max-flow/",
+    "problem": "最低费用增广路、瓶颈流量和累计费用同步更新。在容量和守恒约束下分配网络资源，并求最大流、最小费用、割或可行环流。",
+    "complexity": "使用势能与最短路时典型 O(FE log V)，F 为增广次数或总流量尺度。"
   },
   {
     "slug": "astar-pathfinding",
@@ -546,7 +594,9 @@ window.ALGORITHM_CATALOG = [
       "dijkstra"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/astar-pathfinding/",
-    "demo": "https://wuhy80.github.io/algorithm/astar-pathfinding/"
+    "demo": "https://wuhy80.github.io/algorithm/astar-pathfinding/",
+    "problem": "搜索前沿扩张、代价变化、障碍编辑与最终路径回溯。在带权或具有特殊边权的图中，求起点到目标的最小路径代价并恢复路径。",
+    "complexity": "取决于启发函数；使用堆时每次扩展涉及 O(log V)，最坏仍可能检查整个状态空间。"
   },
   {
     "slug": "bellman-ford",
@@ -562,7 +612,9 @@ window.ALGORITHM_CATALOG = [
       "bfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/bellman-ford/",
-    "demo": "https://wuhy80.github.io/algorithm/bellman-ford/"
+    "demo": "https://wuhy80.github.io/algorithm/bellman-ford/",
+    "problem": "全边多轮松弛、负权边传播以及负权环检测。在带权或具有特殊边权的图中，求起点到目标的最小路径代价并恢复路径。",
+    "complexity": "时间 O(VE)，空间 O(V)。"
   },
   {
     "slug": "blossom-matching",
@@ -641,7 +693,9 @@ window.ALGORITHM_CATALOG = [
       "heap-priority-queue"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/dijkstra/",
-    "demo": "https://wuhy80.github.io/algorithm/dijkstra/"
+    "demo": "https://wuhy80.github.io/algorithm/dijkstra/",
+    "problem": "固定当前最短节点、逐边松弛距离并回溯最终路径。在带权或具有特殊边权的图中，求起点到目标的最小路径代价并恢复路径。",
+    "complexity": "邻接表和二叉堆实现 O((V+E) log V)，空间 O(V+E)。"
   },
   {
     "slug": "dinic",
@@ -658,7 +712,9 @@ window.ALGORITHM_CATALOG = [
       "bfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/dinic/",
-    "demo": "https://wuhy80.github.io/algorithm/dinic/"
+    "demo": "https://wuhy80.github.io/algorithm/dinic/",
+    "problem": "BFS 分层图、DFS 阻塞流与多路径增广过程。在容量和守恒约束下分配网络资源，并求最大流、最小费用、割或可行环流。",
+    "complexity": "一般图上界 O(V²E)，单位容量网络通常更快；空间 O(V+E)。"
   },
   {
     "slug": "edmonds-karp",
@@ -674,7 +730,9 @@ window.ALGORITHM_CATALOG = [
       "bfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/edmonds-karp/",
-    "demo": "https://wuhy80.github.io/algorithm/edmonds-karp/"
+    "demo": "https://wuhy80.github.io/algorithm/edmonds-karp/",
+    "problem": "BFS 增广路径、瓶颈流量与残量网络更新。在容量和守恒约束下分配网络资源，并求最大流、最小费用、割或可行环流。",
+    "complexity": "时间 O(VE²)，空间 O(V+E)。"
   },
   {
     "slug": "floyd-warshall",
@@ -690,7 +748,9 @@ window.ALGORITHM_CATALOG = [
       "dijkstra"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/floyd-warshall/",
-    "demo": "https://wuhy80.github.io/algorithm/floyd-warshall/"
+    "demo": "https://wuhy80.github.io/algorithm/floyd-warshall/",
+    "problem": "逐个允许中转点并动态更新节点对距离矩阵。在带权或具有特殊边权的图中，求起点到目标的最小路径代价并恢复路径。",
+    "complexity": "时间 O(V³)，空间 O(V²)。"
   },
   {
     "slug": "gomory-hu-tree",
@@ -728,7 +788,9 @@ window.ALGORITHM_CATALOG = [
       "bfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/hopcroft-karp/",
-    "demo": "https://wuhy80.github.io/algorithm/hopcroft-karp/"
+    "demo": "https://wuhy80.github.io/algorithm/hopcroft-karp/",
+    "problem": "交替图分层并在同一阶段扩展多条最短增广路。选择互不共享端点的边完成配对或指派，并通过增广重新安排局部选择。",
+    "complexity": "时间 O(E√V)，空间 O(V+E)。"
   },
   {
     "slug": "johnson-algorithm",
@@ -745,7 +807,9 @@ window.ALGORITHM_CATALOG = [
       "dijkstra"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/johnson-algorithm/",
-    "demo": "https://wuhy80.github.io/algorithm/johnson-algorithm/"
+    "demo": "https://wuhy80.github.io/algorithm/johnson-algorithm/",
+    "problem": "Bellman-Ford 势能重标与逐源 Dijkstra 距离计算。在带权或具有特殊边权的图中，求起点到目标的最小路径代价并恢复路径。",
+    "complexity": "稀疏图典型 O(VE log V)，空间 O(V+E)。"
   },
   {
     "slug": "kruskal-mst",
@@ -761,7 +825,9 @@ window.ALGORITHM_CATALOG = [
       "union-find"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/kruskal-mst/",
-    "demo": "https://wuhy80.github.io/algorithm/kruskal-mst/"
+    "demo": "https://wuhy80.github.io/algorithm/kruskal-mst/",
+    "problem": "按权重检查边，并用并查集接受或拒绝形成环的边。用最小总边权连接无向图的全部节点，同时保证选边集合始终无环。",
+    "complexity": "排序边 O(E log E)，并查集合并近似 O(Eα(V))。"
   },
   {
     "slug": "prim-mst",
@@ -777,7 +843,9 @@ window.ALGORITHM_CATALOG = [
       "dijkstra"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/prim-mst/",
-    "demo": "https://wuhy80.github.io/algorithm/prim-mst/"
+    "demo": "https://wuhy80.github.io/algorithm/prim-mst/",
+    "problem": "从树内节点向外扩张，每轮选择最轻割边。用最小总边权连接无向图的全部节点，同时保证选边集合始终无环。",
+    "complexity": "邻接表与堆实现 O(E log V)，空间 O(V+E)。"
   },
   {
     "slug": "push-relabel",
@@ -834,7 +902,9 @@ window.ALGORITHM_CATALOG = [
       "dfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/tarjan-scc/",
-    "demo": "https://wuhy80.github.io/algorithm/tarjan-scc/"
+    "demo": "https://wuhy80.github.io/algorithm/tarjan-scc/",
+    "problem": "DFS 时间戳、Lowlink、栈变化与分量弹出着色。识别图中的连通块、关键边、关键点、环或可以相互到达的强连通结构。",
+    "complexity": "一次 DFS，时间 O(V+E)，空间 O(V)。"
   },
   {
     "slug": "tower-of-hanoi",
@@ -848,7 +918,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/tower-of-hanoi/",
-    "demo": "https://wuhy80.github.io/algorithm/tower-of-hanoi/"
+    "demo": "https://wuhy80.github.io/algorithm/tower-of-hanoi/",
+    "problem": "递归分解圆盘搬运，展示全部 2ⁿ-1 次合法移动。枚举决策树中的可行方案，在前缀已经不可能成功时立即剪枝并撤销状态。",
+    "complexity": "移动次数 2ⁿ-1，时间 O(2ⁿ)，递归栈 O(n)。"
   },
   {
     "slug": "knights-tour",
@@ -862,7 +934,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/knights-tour/",
-    "demo": "https://wuhy80.github.io/algorithm/knights-tour/"
+    "demo": "https://wuhy80.github.io/algorithm/knights-tour/",
+    "problem": "Warnsdorff 候选排序、骑士跳步与回溯撤销。枚举决策树中的可行方案，在前缀已经不可能成功时立即剪枝并撤销状态。",
+    "complexity": "最坏为指数级搜索，启发式排序可显著减少实际分支；栈深度 O(n²)。"
   },
   {
     "slug": "sudoku-backtracking",
@@ -876,7 +950,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/sudoku-backtracking/",
-    "demo": "https://wuhy80.github.io/algorithm/sudoku-backtracking/"
+    "demo": "https://wuhy80.github.io/algorithm/sudoku-backtracking/",
+    "problem": "候选数字尝试、约束冲突、错误分支撤销与完整解生成。维护变量取值域并传播约束，在冲突时回溯，以寻找或证明不存在满足全部条件的赋值。",
+    "complexity": "最坏指数级，若有 m 个空格可粗略记为 O(9^m)；栈深度 O(m)。"
   },
   {
     "slug": "graph-coloring",
@@ -892,7 +968,9 @@ window.ALGORITHM_CATALOG = [
       "dfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/graph-coloring/",
-    "demo": "https://wuhy80.github.io/algorithm/graph-coloring/"
+    "demo": "https://wuhy80.github.io/algorithm/graph-coloring/",
+    "problem": "节点逐色尝试、相邻冲突判断与失败分支撤销。维护变量取值域并传播约束，在冲突时回溯，以寻找或证明不存在满足全部条件的赋值。",
+    "complexity": "k 种颜色时最坏 O(k^V)，空间 O(V)。"
   },
   {
     "slug": "dancing-links",
@@ -908,7 +986,9 @@ window.ALGORITHM_CATALOG = [
       "sudoku-backtracking"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/dancing-links/",
-    "demo": "https://wuhy80.github.io/algorithm/dancing-links/"
+    "demo": "https://wuhy80.github.io/algorithm/dancing-links/",
+    "problem": "精确覆盖矩阵选列、覆盖、恢复与 Algorithm X 解路径。维护变量取值域并传播约束，在冲突时回溯，以寻找或证明不存在满足全部条件的赋值。",
+    "complexity": "最坏指数级；单次覆盖 / 恢复与被移除节点数成正比。"
   },
   {
     "slug": "minimax-alpha-beta",
@@ -942,7 +1022,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/n-queens/",
-    "demo": "https://wuhy80.github.io/algorithm/n-queens/"
+    "demo": "https://wuhy80.github.io/algorithm/n-queens/",
+    "problem": "皇后逐行尝试摆放，冲突位置高亮并动态展示撤销回溯。枚举决策树中的可行方案，在前缀已经不可能成功时立即剪枝并撤销状态。",
+    "complexity": "最坏接近 O(n!)，位集合实现空间 O(n)。"
   },
   {
     "slug": "suffix-tree",
@@ -979,7 +1061,9 @@ window.ALGORITHM_CATALOG = [
       "merge-sort"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/suffix-array-lcp/",
-    "demo": "https://wuhy80.github.io/algorithm/suffix-array-lcp/"
+    "demo": "https://wuhy80.github.io/algorithm/suffix-array-lcp/",
+    "problem": "倍增排序全部后缀并计算相邻后缀最长公共前缀。为文本建立后缀或自动机索引，使大量子串、重复和词典序查询能够共享结构。",
+    "complexity": "倍增构造通常 O(n log n)，Kasai 求 LCP 为 O(n)，空间 O(n)。"
   },
   {
     "slug": "suffix-automaton",
@@ -1037,7 +1121,9 @@ window.ALGORITHM_CATALOG = [
       "edit-distance"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/regex-matching/",
-    "demo": "https://wuhy80.github.io/algorithm/regex-matching/"
+    "demo": "https://wuhy80.github.io/algorithm/regex-matching/",
+    "problem": "二维状态处理普通字符、点通配符与星号重复规则。在文本中定位模式、前缀或重复关系，并复用已经比较成功的字符信息。",
+    "complexity": "二维 DP 时间 O(nm)，空间 O(nm)，可滚动优化。"
   },
   {
     "slug": "aho-corasick",
@@ -1054,7 +1140,9 @@ window.ALGORITHM_CATALOG = [
       "kmp-search"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/aho-corasick/",
-    "demo": "https://wuhy80.github.io/algorithm/aho-corasick/"
+    "demo": "https://wuhy80.github.io/algorithm/aho-corasick/",
+    "problem": "Trie 插入、失败指针建立以及一次文本扫描中的多模式命中。为文本建立后缀或自动机索引，使大量子串、重复和词典序查询能够共享结构。",
+    "complexity": "构建 O(模式总长×字母转移代价)，匹配 O(文本长+匹配数)。"
   },
   {
     "slug": "booth-minimum-rotation",
@@ -1091,7 +1179,9 @@ window.ALGORITHM_CATALOG = [
       "linear-search"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/boyer-moore/",
-    "demo": "https://wuhy80.github.io/algorithm/boyer-moore/"
+    "demo": "https://wuhy80.github.io/algorithm/boyer-moore/",
+    "problem": "从模式串尾部比较，坏字符失配时跨越无效对齐。在文本中定位模式、前缀或重复关系，并复用已经比较成功的字符信息。",
+    "complexity": "平均常出现次线性扫描，经典最坏上界 O(nm)；预处理 O(m+字符集)。"
   },
   {
     "slug": "kmp-search",
@@ -1105,7 +1195,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/kmp-search/",
-    "demo": "https://wuhy80.github.io/algorithm/kmp-search/"
+    "demo": "https://wuhy80.github.io/algorithm/kmp-search/",
+    "problem": "构建 LPS 前缀表，失配时移动模式串而不回退文本指针。在文本中定位模式、前缀或重复关系，并复用已经比较成功的字符信息。",
+    "complexity": "前缀表 O(m)，匹配 O(n)，总时间 O(n+m)，空间 O(m)。"
   },
   {
     "slug": "manacher",
@@ -1121,7 +1213,9 @@ window.ALGORITHM_CATALOG = [
       "sliding-window"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/manacher/",
-    "demo": "https://wuhy80.github.io/algorithm/manacher/"
+    "demo": "https://wuhy80.github.io/algorithm/manacher/",
+    "problem": "分隔符变换、镜像半径复用与最长回文区间扩展。利用中心对称和已知回文边界判断、计数或维护回文子串。",
+    "complexity": "时间 O(n)，空间 O(n)。"
   },
   {
     "slug": "rabin-karp",
@@ -1135,7 +1229,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/rabin-karp/",
-    "demo": "https://wuhy80.github.io/algorithm/rabin-karp/"
+    "demo": "https://wuhy80.github.io/algorithm/rabin-karp/",
+    "problem": "文本窗口滑动、滚动哈希更新和哈希碰撞校验。在文本中定位模式、前缀或重复关系，并复用已经比较成功的字符信息。",
+    "complexity": "平均 O(n+m)，哈希碰撞频繁时最坏 O(nm)；空间 O(1) 或 O(m)。"
   },
   {
     "slug": "z-algorithm",
@@ -1151,7 +1247,9 @@ window.ALGORITHM_CATALOG = [
       "kmp-search"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/z-algorithm/",
-    "demo": "https://wuhy80.github.io/algorithm/z-algorithm/"
+    "demo": "https://wuhy80.github.io/algorithm/z-algorithm/",
+    "problem": "维护最右 Z Box，复用镜像结果计算全部前缀匹配长度。在文本中定位模式、前缀或重复关系，并复用已经比较成功的字符信息。",
+    "complexity": "时间 O(n)，空间 O(n)。"
   },
   {
     "slug": "knapsack-dp",
@@ -1165,7 +1263,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/knapsack-dp/",
-    "demo": "https://wuhy80.github.io/algorithm/knapsack-dp/"
+    "demo": "https://wuhy80.github.io/algorithm/knapsack-dp/",
+    "problem": "状态表逐格比较选与不选，并回溯最优物品组合。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "容量为 W 时典型时间 O(nW)，一维优化空间 O(W)。"
   },
   {
     "slug": "edit-distance",
@@ -1179,7 +1279,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/edit-distance/",
-    "demo": "https://wuhy80.github.io/algorithm/edit-distance/"
+    "demo": "https://wuhy80.github.io/algorithm/edit-distance/",
+    "problem": "插入、删除、替换状态转移与最优编辑路径回溯。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "时间 O(nm)，空间 O(nm)，只求距离可优化到 O(min(n,m))。"
   },
   {
     "slug": "weighted-interval-scheduling",
@@ -1195,7 +1297,9 @@ window.ALGORITHM_CATALOG = [
       "activity-selection"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/weighted-interval-scheduling/",
-    "demo": "https://wuhy80.github.io/algorithm/weighted-interval-scheduling/"
+    "demo": "https://wuhy80.github.io/algorithm/weighted-interval-scheduling/",
+    "problem": "兼容前驱查找、选择/跳过比较和最优任务集合回溯。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "排序 O(n log n)，DP 与前驱查询 O(n log n)，空间 O(n)。"
   },
   {
     "slug": "matrix-chain-multiplication",
@@ -1211,7 +1315,9 @@ window.ALGORITHM_CATALOG = [
       "knapsack-dp"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/matrix-chain-multiplication/",
-    "demo": "https://wuhy80.github.io/algorithm/matrix-chain-multiplication/"
+    "demo": "https://wuhy80.github.io/algorithm/matrix-chain-multiplication/",
+    "problem": "区间长度递增、断点枚举和最少标量乘法代价更新。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "区间 DP 时间 O(n³)，空间 O(n²)。"
   },
   {
     "slug": "coin-change",
@@ -1225,7 +1331,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/coin-change/",
-    "demo": "https://wuhy80.github.io/algorithm/coin-change/"
+    "demo": "https://wuhy80.github.io/algorithm/coin-change/",
+    "problem": "金额状态从更小金额转移并记录最少硬币数。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "金额为 A、硬币数为 n 时典型 O(nA)，空间 O(A)。"
   },
   {
     "slug": "traveling-salesman-bitmask",
@@ -1241,7 +1349,9 @@ window.ALGORITHM_CATALOG = [
       "knapsack-dp"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/traveling-salesman-bitmask/",
-    "demo": "https://wuhy80.github.io/algorithm/traveling-salesman-bitmask/"
+    "demo": "https://wuhy80.github.io/algorithm/traveling-salesman-bitmask/",
+    "problem": "已访问城市位掩码、终点状态扩展与最短回路重建。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "时间 O(n²2ⁿ)，空间 O(n2ⁿ)。"
   },
   {
     "slug": "tree-dp",
@@ -1257,7 +1367,9 @@ window.ALGORITHM_CATALOG = [
       "dfs"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/tree-dp/",
-    "demo": "https://wuhy80.github.io/algorithm/tree-dp/"
+    "demo": "https://wuhy80.github.io/algorithm/tree-dp/",
+    "problem": "后序合并子树的不选/选择状态并求最大权独立集。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "通常每个节点和每条边处理常数次，时间 O(n)，空间 O(n)。"
   },
   {
     "slug": "digit-dp",
@@ -1273,7 +1385,9 @@ window.ALGORITHM_CATALOG = [
       "knapsack-dp"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/digit-dp/",
-    "demo": "https://wuhy80.github.io/algorithm/digit-dp/"
+    "demo": "https://wuhy80.github.io/algorithm/digit-dp/",
+    "problem": "上界约束、数位状态分支和记忆化计数表更新。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "约 O(位数×状态数×数位取值)，记忆化空间与状态数同阶。"
   },
   {
     "slug": "subset-sum",
@@ -1289,7 +1403,9 @@ window.ALGORITHM_CATALOG = [
       "knapsack-dp"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/subset-sum/",
-    "demo": "https://wuhy80.github.io/algorithm/subset-sum/"
+    "demo": "https://wuhy80.github.io/algorithm/subset-sum/",
+    "problem": "逐元素从高到低更新可达和并判断目标状态。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "目标和为 S 时伪多项式时间 O(nS)，空间可优化到 O(S)。"
   },
   {
     "slug": "longest-increasing-subsequence",
@@ -1305,7 +1421,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/longest-increasing-subsequence/",
-    "demo": "https://wuhy80.github.io/algorithm/longest-increasing-subsequence/"
+    "demo": "https://wuhy80.github.io/algorithm/longest-increasing-subsequence/",
+    "problem": "最小尾值数组、二分替换和递增子序列重建。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "耐心排序方法 O(n log n)，保存前驱恢复序列需 O(n)。"
   },
   {
     "slug": "longest-common-subsequence",
@@ -1321,7 +1439,9 @@ window.ALGORITHM_CATALOG = [
       "edit-distance"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/longest-common-subsequence/",
-    "demo": "https://wuhy80.github.io/algorithm/longest-common-subsequence/"
+    "demo": "https://wuhy80.github.io/algorithm/longest-common-subsequence/",
+    "problem": "二维状态表填充并沿最优路径回溯公共子序列。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "时间 O(nm)，空间 O(nm)，只求长度可滚动优化。"
   },
   {
     "slug": "kadane",
@@ -1335,7 +1455,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/kadane/",
-    "demo": "https://wuhy80.github.io/algorithm/kadane/"
+    "demo": "https://wuhy80.github.io/algorithm/kadane/",
+    "problem": "在重新开始和延续前缀间选择，持续更新最大连续和。把重叠子问题压缩为有限状态，按依赖关系复用局部答案得到计数、可行性或最优值。",
+    "complexity": "时间 O(n)，额外空间 O(1)。"
   },
   {
     "slug": "fractional-knapsack",
@@ -1447,7 +1569,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/union-find/",
-    "demo": "https://wuhy80.github.io/algorithm/union-find/"
+    "demo": "https://wuhy80.github.io/algorithm/union-find/",
+    "problem": "父指针查找、按秩合并、路径压缩和连通性判断。识别图中的连通块、关键边、关键点、环或可以相互到达的强连通结构。",
+    "complexity": "按秩合并与路径压缩后，单次操作摊还 O(α(n))，空间 O(n)。"
   },
   {
     "slug": "monotonic-stack-queue",
@@ -1464,7 +1588,9 @@ window.ALGORITHM_CATALOG = [
       "deque"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/monotonic-stack-queue/",
-    "demo": "https://wuhy80.github.io/algorithm/monotonic-stack-queue/"
+    "demo": "https://wuhy80.github.io/algorithm/monotonic-stack-queue/",
+    "problem": "递减栈进出过程与右侧首个更大值确定。用受限的进入和离开顺序管理尚未完成的任务、边界或依赖关系。",
+    "complexity": "每个元素至多入栈 / 队和出栈 / 队一次，总时间 O(n)，空间 O(n)。"
   },
   {
     "slug": "cartesian-tree",
@@ -1498,7 +1624,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/heap-priority-queue/",
-    "demo": "https://wuhy80.github.io/algorithm/heap-priority-queue/"
+    "demo": "https://wuhy80.github.io/algorithm/heap-priority-queue/",
+    "problem": "插入上浮、提取堆顶和替换后的向下调整。动态维护有序集合，并通过局部修复把树高或访问路径稳定在对数级。",
+    "complexity": "取最值 O(1)，插入 / 删除最值 O(log n)，建堆 O(n)。"
   },
   {
     "slug": "queue",
@@ -1512,7 +1640,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/queue/",
-    "demo": "https://wuhy80.github.io/algorithm/queue/"
+    "demo": "https://wuhy80.github.io/algorithm/queue/",
+    "problem": "循环数组中的入队、出队以及 Head / Tail 指针移动。用受限的进入和离开顺序管理尚未完成的任务、边界或依赖关系。",
+    "complexity": "入队 / 出队 / 查看队首 O(1)，空间 O(n)。"
   },
   {
     "slug": "binary-search-tree",
@@ -1526,7 +1656,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/binary-search-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/binary-search-tree/",
+    "problem": "插入与查找路径逐层下降，删除后树结构重新连接。表达层级关系，并让一个节点的问题能够由若干子树的结果递归合并。",
+    "complexity": "平均操作 O(log n)，退化时 O(n)，空间 O(n)。"
   },
   {
     "slug": "hash-table",
@@ -1540,7 +1672,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/hash-table/",
-    "demo": "https://wuhy80.github.io/algorithm/hash-table/"
+    "demo": "https://wuhy80.github.io/algorithm/hash-table/",
+    "problem": "哈希定位、碰撞链扫描以及键值插入、查找和删除。把键映射到有限桶或位状态，在允许冲突处理的前提下实现快速成员与键值查询。",
+    "complexity": "平均插入 / 删除 / 查询 O(1)，最坏 O(n)，空间 O(n)。"
   },
   {
     "slug": "red-black-tree",
@@ -1556,7 +1690,9 @@ window.ALGORITHM_CATALOG = [
       "avl-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/red-black-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/red-black-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/red-black-tree/",
+    "problem": "插入后的颜色修复、叔节点判断及左右旋转。动态维护有序集合，并通过局部修复把树高或访问路径稳定在对数级。",
+    "complexity": "查询、插入、删除均 O(log n)，空间 O(n)。"
   },
   {
     "slug": "persistent-segment-tree",
@@ -1572,7 +1708,9 @@ window.ALGORITHM_CATALOG = [
       "segment-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/persistent-segment-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/persistent-segment-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/persistent-segment-tree/",
+    "problem": "新旧版本路径复制、未修改子树共享与区间和比较。在同一批数据上高效回答多次区间查询或更新，避免每个操作重新扫描完整范围。",
+    "complexity": "每次更新 / 查询 O(log n)，每个版本新增 O(log n) 节点。"
   },
   {
     "slug": "lazy-segment-tree",
@@ -1588,7 +1726,9 @@ window.ALGORITHM_CATALOG = [
       "segment-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/lazy-segment-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/lazy-segment-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/lazy-segment-tree/",
+    "problem": "区间递归覆盖、懒标记暂存和节点区间和更新。在同一批数据上高效回答多次区间查询或更新，避免每个操作重新扫描完整范围。",
+    "complexity": "区间更新 / 查询 O(log n)，建树 O(n)，空间 O(n)。"
   },
   {
     "slug": "linked-list",
@@ -1602,7 +1742,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/linked-list/",
-    "demo": "https://wuhy80.github.io/algorithm/linked-list/"
+    "demo": "https://wuhy80.github.io/algorithm/linked-list/",
+    "problem": "节点插入、删除、查找与 next 指针重新连接。通过节点引用组织非连续数据，使已知位置的插入、删除和重连只影响局部节点。",
+    "complexity": "已知节点的局部插入 / 删除 O(1)，查找 O(n)，空间 O(n)。"
   },
   {
     "slug": "interval-tree",
@@ -1638,7 +1780,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/splay-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/splay-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/splay-tree/",
+    "problem": "Zig、Zig-Zig、Zig-Zag 旋转把访问目标提升到根。动态维护有序集合，并通过局部修复把树高或访问路径稳定在对数级。",
+    "complexity": "单次最坏 O(n)，连续操作摊还 O(log n)，空间 O(n)。"
   },
   {
     "slug": "fenwick-tree",
@@ -1654,7 +1798,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/fenwick-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/fenwick-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/fenwick-tree/",
+    "problem": "lowbit 覆盖范围以及查询、更新索引的跳转路径。在同一批数据上高效回答多次区间查询或更新，避免每个操作重新扫描完整范围。",
+    "complexity": "单点更新与前缀查询 O(log n)，建表 O(n) 或 O(n log n)，空间 O(n)。"
   },
   {
     "slug": "deque",
@@ -1668,7 +1814,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/deque/",
-    "demo": "https://wuhy80.github.io/algorithm/deque/"
+    "demo": "https://wuhy80.github.io/algorithm/deque/",
+    "problem": "队首与队尾的插入删除操作及边界元素变化。用受限的进入和离开顺序管理尚未完成的任务、边界或依赖关系。",
+    "complexity": "两端插入 / 删除 O(1)，空间 O(n)。"
   },
   {
     "slug": "skip-list",
@@ -1684,7 +1832,9 @@ window.ALGORITHM_CATALOG = [
       "linked-list"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/skip-list/",
-    "demo": "https://wuhy80.github.io/algorithm/skip-list/"
+    "demo": "https://wuhy80.github.io/algorithm/skip-list/",
+    "problem": "多层稀疏索引插入、向右跳跃与逐层下降查找。动态维护有序集合，并通过局部修复把树高或访问路径稳定在对数级。",
+    "complexity": "期望查询 / 插入 / 删除 O(log n)，最坏 O(n)，空间 O(n)。"
   },
   {
     "slug": "sparse-table",
@@ -1700,7 +1850,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/sparse-table/",
-    "demo": "https://wuhy80.github.io/algorithm/sparse-table/"
+    "demo": "https://wuhy80.github.io/algorithm/sparse-table/",
+    "problem": "2 的幂次区间预处理以及双区间块常数时间查询。在同一批数据上高效回答多次区间查询或更新，避免每个操作重新扫描完整范围。",
+    "complexity": "预处理 O(n log n)，幂等区间查询 O(1)，空间 O(n log n)。"
   },
   {
     "slug": "segment-tree",
@@ -1716,7 +1868,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/segment-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/segment-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/segment-tree/",
+    "problem": "区间递归分解、完整覆盖节点选择和单点更新传播。在同一批数据上高效回答多次区间查询或更新，避免每个操作重新扫描完整范围。",
+    "complexity": "建树 O(n)，单点更新与区间查询 O(log n)，空间 O(n)。"
   },
   {
     "slug": "stack",
@@ -1730,7 +1884,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/stack/",
-    "demo": "https://wuhy80.github.io/algorithm/stack/"
+    "demo": "https://wuhy80.github.io/algorithm/stack/",
+    "problem": "元素压栈、出栈、查看栈顶以及 Overflow / Underflow 状态。用受限的进入和离开顺序管理尚未完成的任务、边界或依赖关系。",
+    "complexity": "压栈 / 弹栈 / 查看栈顶 O(1)，空间 O(n)。"
   },
   {
     "slug": "avl-tree",
@@ -1746,7 +1902,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/avl-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/avl-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/avl-tree/",
+    "problem": "插入后计算平衡因子，通过 LL、RR、LR、RL 旋转恢复平衡。动态维护有序集合，并通过局部修复把树高或访问路径稳定在对数级。",
+    "complexity": "查询、插入、删除 O(log n)，旋转 O(1)，空间 O(n)。"
   },
   {
     "slug": "b-tree",
@@ -1762,7 +1920,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/b-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/b-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/b-tree/",
+    "problem": "多键节点插入、满节点分裂和中间键向上提升。动态维护有序集合，并通过局部修复把树高或访问路径稳定在对数级。",
+    "complexity": "查询、插入、删除 O(log_B n) 次节点访问，空间 O(n)。"
   },
   {
     "slug": "b-plus-tree",
@@ -1778,7 +1938,9 @@ window.ALGORITHM_CATALOG = [
       "b-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/b-plus-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/b-plus-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/b-plus-tree/",
+    "problem": "叶节点插入分裂、父级分隔键和叶链连接。动态维护有序集合，并通过局部修复把树高或访问路径稳定在对数级。",
+    "complexity": "查询、插入、删除 O(log_B n)，范围扫描 O(log_B n+k)。"
   },
   {
     "slug": "bloom-filter",
@@ -1794,7 +1956,9 @@ window.ALGORITHM_CATALOG = [
       "hash-table"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/bloom-filter/",
-    "demo": "https://wuhy80.github.io/algorithm/bloom-filter/"
+    "demo": "https://wuhy80.github.io/algorithm/bloom-filter/",
+    "problem": "多哈希映射、位数组置位和概率成员查询。把键映射到有限桶或位状态，在允许冲突处理的前提下实现快速成员与键值查询。",
+    "complexity": "插入和查询 O(k)，k 为哈希函数数；空间 O(m)，存在假阳性。"
   },
   {
     "slug": "lru-cache",
@@ -1811,7 +1975,9 @@ window.ALGORITHM_CATALOG = [
       "linked-list"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/lru-cache/",
-    "demo": "https://wuhy80.github.io/algorithm/lru-cache/"
+    "demo": "https://wuhy80.github.io/algorithm/lru-cache/",
+    "problem": "访问命中、最近使用顺序移动与容量淘汰。把键映射到有限桶或位状态，在允许冲突处理的前提下实现快速成员与键值查询。",
+    "complexity": "哈希表加双向链表后，get / put 平均 O(1)，空间 O(capacity)。"
   },
   {
     "slug": "treap",
@@ -1827,7 +1993,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/treap/",
-    "demo": "https://wuhy80.github.io/algorithm/treap/"
+    "demo": "https://wuhy80.github.io/algorithm/treap/",
+    "problem": "BST 插入、随机优先级比较与旋转恢复堆序。动态维护有序集合，并通过局部修复把树高或访问路径稳定在对数级。",
+    "complexity": "期望查询、插入、删除 O(log n)，最坏 O(n)，空间 O(n)。"
   },
   {
     "slug": "trie",
@@ -1841,7 +2009,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/trie/",
-    "demo": "https://wuhy80.github.io/algorithm/trie/"
+    "demo": "https://wuhy80.github.io/algorithm/trie/",
+    "problem": "字符路径共享、单词终点、插入、查找、删除及前缀判断。表达层级关系，并让一个节点的问题能够由若干子树的结果递归合并。",
+    "complexity": "插入 / 查询 O(L)，L 为键长；空间与全部前缀节点数同阶。"
   },
   {
     "slug": "centroid-decomposition",
@@ -2037,7 +2207,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/quadtree/",
-    "demo": "https://wuhy80.github.io/algorithm/quadtree/"
+    "demo": "https://wuhy80.github.io/algorithm/quadtree/",
+    "problem": "二维区域递归四分、点插入和矩形范围查询。按空间边界组织对象，在查询时一次排除整片不可能相关的区域。",
+    "complexity": "平衡分布下查询近似 O(log n+k)，最坏 O(n)，空间 O(n)。"
   },
   {
     "slug": "bounding-volume-hierarchy",
@@ -2073,7 +2245,9 @@ window.ALGORITHM_CATALOG = [
       "binary-search-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/kd-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/kd-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/kd-tree/",
+    "problem": "交替坐标轴中位划分、最近邻搜索与空间剪枝。按空间边界组织对象，在查询时一次排除整片不可能相关的区域。",
+    "complexity": "平均查询 O(log n+k)，高维或退化时 O(n)，空间 O(n)。"
   },
   {
     "slug": "r-tree",
@@ -2089,7 +2263,9 @@ window.ALGORITHM_CATALOG = [
       "b-tree"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/r-tree/",
-    "demo": "https://wuhy80.github.io/algorithm/r-tree/"
+    "demo": "https://wuhy80.github.io/algorithm/r-tree/",
+    "problem": "空间矩形插入、最小包围盒分组和范围查询。按空间边界组织对象，在查询时一次排除整片不可能相关的区域。",
+    "complexity": "平均查询与树高及候选重叠有关，最坏 O(n)，空间 O(n)。"
   },
   {
     "slug": "half-plane-intersection",
@@ -2126,7 +2302,9 @@ window.ALGORITHM_CATALOG = [
       "convex-hull"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/point-in-polygon/",
-    "demo": "https://wuhy80.github.io/algorithm/point-in-polygon/"
+    "demo": "https://wuhy80.github.io/algorithm/point-in-polygon/",
+    "problem": "水平射线逐边求交并按交点奇偶实时判定。用精确的方向和顺序判断点、线与多边形之间的包含、相交、距离和边界关系。",
+    "complexity": "射线法对 n 条边时间 O(n)，额外空间 O(1)。"
   },
   {
     "slug": "sweep-line-intersection",
@@ -2142,7 +2320,9 @@ window.ALGORITHM_CATALOG = [
       "heap-priority-queue"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/sweep-line-intersection/",
-    "demo": "https://wuhy80.github.io/algorithm/sweep-line-intersection/"
+    "demo": "https://wuhy80.github.io/algorithm/sweep-line-intersection/",
+    "problem": "端点事件、活动线段集合与交点逐步发现。用精确的方向和顺序判断点、线与多边形之间的包含、相交、距离和边界关系。",
+    "complexity": "典型 O((n+k) log n)，k 为交点数，空间 O(n+k)。"
   },
   {
     "slug": "convex-hull",
@@ -2158,7 +2338,9 @@ window.ALGORITHM_CATALOG = [
       "merge-sort"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/convex-hull/",
-    "demo": "https://wuhy80.github.io/algorithm/convex-hull/"
+    "demo": "https://wuhy80.github.io/algorithm/convex-hull/",
+    "problem": "按坐标排序、叉积判断、栈弹出及上下凸包合并。用精确的方向和顺序判断点、线与多边形之间的包含、相交、距离和边界关系。",
+    "complexity": "排序加单调链时间 O(n log n)，空间 O(n)。"
   },
   {
     "slug": "rotating-calipers",
@@ -2174,7 +2356,9 @@ window.ALGORITHM_CATALOG = [
       "convex-hull"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/rotating-calipers/",
-    "demo": "https://wuhy80.github.io/algorithm/rotating-calipers/"
+    "demo": "https://wuhy80.github.io/algorithm/rotating-calipers/",
+    "problem": "凸包边与对踵点同步推进并求最远点对。用精确的方向和顺序判断点、线与多边形之间的包含、相交、距离和边界关系。",
+    "complexity": "凸包已知后通常 O(h)，h 为凸包点数。"
   },
   {
     "slug": "closest-pair",
@@ -2190,7 +2374,9 @@ window.ALGORITHM_CATALOG = [
       "merge-sort"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/closest-pair/",
-    "demo": "https://wuhy80.github.io/algorithm/closest-pair/"
+    "demo": "https://wuhy80.github.io/algorithm/closest-pair/",
+    "problem": "点集分治、中线条带候选和最近距离持续收缩。用精确的方向和顺序判断点、线与多边形之间的包含、相交、距离和边界关系。",
+    "complexity": "分治算法时间 O(n log n)，空间 O(n)。"
   },
   {
     "slug": "delaunay-triangulation",
@@ -2206,7 +2392,9 @@ window.ALGORITHM_CATALOG = [
       "convex-hull"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/delaunay-triangulation/",
-    "demo": "https://wuhy80.github.io/algorithm/delaunay-triangulation/"
+    "demo": "https://wuhy80.github.io/algorithm/delaunay-triangulation/",
+    "problem": "新点插入、坏三角形移除与空腔边界重建。用精确的方向和顺序判断点、线与多边形之间的包含、相交、距离和边界关系。",
+    "complexity": "常见实现期望 O(n log n)，输出规模 O(n)。"
   },
   {
     "slug": "voronoi-relaxation",
@@ -2220,7 +2408,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/voronoi-relaxation/",
-    "demo": "https://wuhy80.github.io/algorithm/voronoi-relaxation/"
+    "demo": "https://wuhy80.github.io/algorithm/voronoi-relaxation/",
+    "problem": "泰森多边形随控制点移动，并逐步趋向均匀分布。用精确的方向和顺序判断点、线与多边形之间的包含、相交、距离和边界关系。",
+    "complexity": "每轮由 Voronoi 构造和质心计算主导，常见约 O(n log n)，总成本乘迭代轮数。"
   },
   {
     "slug": "sieve-of-eratosthenes",
@@ -2234,7 +2424,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/sieve-of-eratosthenes/",
-    "demo": "https://wuhy80.github.io/algorithm/sieve-of-eratosthenes/"
+    "demo": "https://wuhy80.github.io/algorithm/sieve-of-eratosthenes/",
+    "problem": "当前质数选取、倍数标记与质数集合逐步收敛。利用整除、素因子、同余与指数结构求解大整数上的精确关系。",
+    "complexity": "时间 O(n log log n)，空间 O(n)。"
   },
   {
     "slug": "segmented-sieve",
@@ -2270,7 +2462,9 @@ window.ALGORITHM_CATALOG = [
       "fft"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/fourier-epicycles/",
-    "demo": "https://wuhy80.github.io/algorithm/fourier-epicycles/"
+    "demo": "https://wuhy80.github.io/algorithm/fourier-epicycles/",
+    "problem": "多级旋转向量逐步重建并绘制复杂轮廓。通过变换、消元或快速幂复用子结构，加速卷积、线性递推和方程求解。",
+    "complexity": "直接离散傅里叶变换 O(n²)，使用 FFT 可降为 O(n log n)。"
   },
   {
     "slug": "gaussian-elimination",
@@ -2326,7 +2520,9 @@ window.ALGORITHM_CATALOG = [
       "matrix-exponentiation"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/fft/",
-    "demo": "https://wuhy80.github.io/algorithm/fft/"
+    "demo": "https://wuhy80.github.io/algorithm/fft/",
+    "problem": "位逆序排列、分层蝶形合并和频域幅度生成。通过变换、消元或快速幂复用子结构，加速卷积、线性递推和方程求解。",
+    "complexity": "时间 O(n log n)，空间 O(n)。"
   },
   {
     "slug": "modular-exponentiation",
@@ -2340,7 +2536,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/modular-exponentiation/",
-    "demo": "https://wuhy80.github.io/algorithm/modular-exponentiation/"
+    "demo": "https://wuhy80.github.io/algorithm/modular-exponentiation/",
+    "problem": "指数二进制位读取、底数平方和模结果累积。利用整除、素因子、同余与指数结构求解大整数上的精确关系。",
+    "complexity": "时间 O(log exponent)，额外空间 O(1)。"
   },
   {
     "slug": "extended-euclidean",
@@ -2374,7 +2572,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/euclidean-algorithm/",
-    "demo": "https://wuhy80.github.io/algorithm/euclidean-algorithm/"
+    "demo": "https://wuhy80.github.io/algorithm/euclidean-algorithm/",
+    "problem": "商余数等式迭代、参数替换和最大公约数收敛。利用整除、素因子、同余与指数结构求解大整数上的精确关系。",
+    "complexity": "时间 O(log min(a,b))，空间 O(1)。"
   },
   {
     "slug": "euler-totient",
@@ -2390,7 +2590,9 @@ window.ALGORITHM_CATALOG = [
       "sieve-of-eratosthenes"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/euler-totient/",
-    "demo": "https://wuhy80.github.io/algorithm/euler-totient/"
+    "demo": "https://wuhy80.github.io/algorithm/euler-totient/",
+    "problem": "质数识别、倍数 φ 值批量更新与目标结果收敛。利用整除、素因子、同余与指数结构求解大整数上的精确关系。",
+    "complexity": "单个数试除计算 O(√n)，筛法批量计算 O(n log log n) 量级。"
   },
   {
     "slug": "linear-sieve",
@@ -2467,7 +2669,9 @@ window.ALGORITHM_CATALOG = [
       "extended-euclidean"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/chinese-remainder-theorem/",
-    "demo": "https://wuhy80.github.io/algorithm/chinese-remainder-theorem/"
+    "demo": "https://wuhy80.github.io/algorithm/chinese-remainder-theorem/",
+    "problem": "部分模数、乘法逆元与同余方程逐项合并。利用整除、素因子、同余与指数结构求解大整数上的精确关系。",
+    "complexity": "合并 k 个同余式通常 O(k log M)，取决于大整数运算。"
   },
   {
     "slug": "baby-step-giant-step",
@@ -2504,7 +2708,9 @@ window.ALGORITHM_CATALOG = [
       "modular-exponentiation"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/miller-rabin/",
-    "demo": "https://wuhy80.github.io/algorithm/miller-rabin/"
+    "demo": "https://wuhy80.github.io/algorithm/miller-rabin/",
+    "problem": "n-1 分解、模幂底数测试与合数见证识别。利用整除、素因子、同余与指数结构求解大整数上的精确关系。",
+    "complexity": "每个底数 O(log³ n) 位运算量级，固定底数可确定判断 64 位整数。"
   },
   {
     "slug": "pollard-rho",
@@ -2541,7 +2747,9 @@ window.ALGORITHM_CATALOG = [
       "huffman-coding"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/arithmetic-coding/",
-    "demo": "https://wuhy80.github.io/algorithm/arithmetic-coding/"
+    "demo": "https://wuhy80.github.io/algorithm/arithmetic-coding/",
+    "problem": "符号概率驱动 low/high 编码区间持续收缩。发现频率偏斜或重复结构，生成可唯一解码且通常更短的数据表示。",
+    "complexity": "编码 / 解码与符号数近似线性，模型维护成本取决于频率结构。"
   },
   {
     "slug": "run-length-encoding",
@@ -2595,7 +2803,9 @@ window.ALGORITHM_CATALOG = [
       "heap-priority-queue"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/huffman-coding/",
-    "demo": "https://wuhy80.github.io/algorithm/huffman-coding/"
+    "demo": "https://wuhy80.github.io/algorithm/huffman-coding/",
+    "problem": "字符频率队列、最低频节点合并和前缀编码树生成。发现频率偏斜或重复结构，生成可唯一解码且通常更短的数据表示。",
+    "complexity": "建树 O(k log k)，编码 / 解码 O(n)，空间 O(k)。"
   },
   {
     "slug": "lz77",
@@ -2611,7 +2821,9 @@ window.ALGORITHM_CATALOG = [
       "sliding-window"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/lz77/",
-    "demo": "https://wuhy80.github.io/algorithm/lz77/"
+    "demo": "https://wuhy80.github.io/algorithm/lz77/",
+    "problem": "搜索窗口、最长重复匹配与距离长度令牌输出。发现频率偏斜或重复结构，生成可唯一解码且通常更短的数据表示。",
+    "complexity": "朴素窗口匹配最坏 O(nW)，工程实现借助索引可显著加速；输出与匹配数成正比。"
   },
   {
     "slug": "lzw",
@@ -2627,7 +2839,9 @@ window.ALGORITHM_CATALOG = [
       "trie"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/lzw/",
-    "demo": "https://wuhy80.github.io/algorithm/lzw/"
+    "demo": "https://wuhy80.github.io/algorithm/lzw/",
+    "problem": "短语词典动态扩展和编码编号依次输出。发现频率偏斜或重复结构，生成可唯一解码且通常更短的数据表示。",
+    "complexity": "使用哈希字典时编码 / 解码期望 O(n)，空间与字典大小同阶。"
   },
   {
     "slug": "wave-function-collapse",
@@ -2641,7 +2855,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/wave-function-collapse/",
-    "demo": "https://wuhy80.github.io/algorithm/wave-function-collapse/"
+    "demo": "https://wuhy80.github.io/algorithm/wave-function-collapse/",
+    "problem": "网格按最低熵逐格坍缩，约束向周围持续传播。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "成本取决于网格、候选模式数与传播次数，最坏会因回溯呈指数增长。"
   },
   {
     "slug": "reaction-diffusion",
@@ -2655,7 +2871,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/reaction-diffusion/",
-    "demo": "https://wuhy80.github.io/algorithm/reaction-diffusion/"
+    "demo": "https://wuhy80.github.io/algorithm/reaction-diffusion/",
+    "problem": "Gray-Scott 模型实时生长斑点、条纹和有机纹理。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "每轮更新 O(网格单元数)，空间 O(网格单元数)。"
   },
   {
     "slug": "game-of-life",
@@ -2669,7 +2887,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/game-of-life/",
-    "demo": "https://wuhy80.github.io/algorithm/game-of-life/"
+    "demo": "https://wuhy80.github.io/algorithm/game-of-life/",
+    "problem": "细胞在离散规则下繁衍、消亡并产生复杂结构。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "每一代 O(rows×cols)，双缓冲空间 O(rows×cols)。"
   },
   {
     "slug": "particle-swarm",
@@ -2685,7 +2905,9 @@ window.ALGORITHM_CATALOG = [
       "genetic-rockets"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/particle-swarm/",
-    "demo": "https://wuhy80.github.io/algorithm/particle-swarm/"
+    "demo": "https://wuhy80.github.io/algorithm/particle-swarm/",
+    "problem": "粒子在目标函数地形中移动并逐步汇聚到最优区域。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "每轮 O(粒子数×维度)，空间 O(粒子数×维度)。"
   },
   {
     "slug": "maze-generation",
@@ -2699,7 +2921,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/maze-generation/",
-    "demo": "https://wuhy80.github.io/algorithm/maze-generation/"
+    "demo": "https://wuhy80.github.io/algorithm/maze-generation/",
+    "problem": "墙体逐步开凿形成迷宫，并动态展示寻路过程。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "常见生成算法时间 O(网格单元数)，空间 O(网格单元数)。"
   },
   {
     "slug": "genetic-rockets",
@@ -2713,7 +2937,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/genetic-rockets/",
-    "demo": "https://wuhy80.github.io/algorithm/genetic-rockets/"
+    "demo": "https://wuhy80.github.io/algorithm/genetic-rockets/",
+    "problem": "多代火箭飞向目标，展示选择、交叉、变异和适应度进化。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "每代 O(种群规模×基因长度)，总成本再乘迭代代数。"
   },
   {
     "slug": "ant-colony",
@@ -2729,7 +2955,9 @@ window.ALGORITHM_CATALOG = [
       "dijkstra"
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/ant-colony/",
-    "demo": "https://wuhy80.github.io/algorithm/ant-colony/"
+    "demo": "https://wuhy80.github.io/algorithm/ant-colony/",
+    "problem": "蚂蚁探索路径、信息素沉积与挥发、最短路线逐渐显现。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "每轮约 O(蚂蚁数×构造路径成本)，总成本乘迭代轮数。"
   },
   {
     "slug": "boids",
@@ -2743,7 +2971,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/boids/",
-    "demo": "https://wuhy80.github.io/algorithm/boids/"
+    "demo": "https://wuhy80.github.io/algorithm/boids/",
+    "problem": "鸟群实时聚合、分离、同步、避障和鼠标交互。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "朴素邻居检查 O(n²)，使用空间哈希或网格可接近 O(n)。"
   },
   {
     "slug": "n-body",
@@ -2757,7 +2987,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/n-body/",
-    "demo": "https://wuhy80.github.io/algorithm/n-body/"
+    "demo": "https://wuhy80.github.io/algorithm/n-body/",
+    "problem": "星体受引力运动、形成轨道与拖尾，并展示引力积分过程。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "直接两两计算 O(n²)，Barnes-Hut 可近似到 O(n log n)。"
   },
   {
     "slug": "flow-field",
@@ -2771,7 +3003,9 @@ window.ALGORITHM_CATALOG = [
     ],
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/flow-field/",
-    "demo": "https://wuhy80.github.io/algorithm/flow-field/"
+    "demo": "https://wuhy80.github.io/algorithm/flow-field/",
+    "problem": "大量粒子沿连续噪声向量场流动并留下动态轨迹。按照局部规则同步更新大量单元或个体，研究系统随参数和时间的演化。",
+    "complexity": "场构建通常 O(网格单元数)，每个个体沿场查询 O(1)。"
   },
   {
     "slug": "dynamic-array",

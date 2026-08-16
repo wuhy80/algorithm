@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { buildLearningGuide } from './learning-guide.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const catalogPath = path.join(root, 'catalog.json');
@@ -32,7 +33,7 @@ function prerequisiteMarkdown(entry) {
   if (!entry.prerequisites.length) return '无';
   return entry.prerequisites.map((slug) => {
     const prerequisite = catalog.find((item) => item.slug === slug);
-    return prerequisite ? `[${prerequisite.name.split(/\s+/)[0]}](${prerequisite.source})` : slug;
+    return prerequisite ? `[${prerequisite.name}](${prerequisite.source})` : slug;
   }).join('、');
 }
 
@@ -45,6 +46,7 @@ let readme = `# Algorithm Visualization Lab
 - [打开可视化目录](https://wuhy80.github.io/algorithm/)
 - 算法名称链接到对应 GitHub 源码目录
 - “打开演示”链接直接进入对应 Pages 地址
+- 每个目录的 README 都提供问题驱动的详细学习指南、伪代码、复杂度推导和自测问题
 
 ## 学习路径
 
@@ -84,43 +86,11 @@ node scripts/generate-readme.mjs
 writeGenerated(path.join(root,'README.md'),readme);
 writeGenerated(path.join(root,'catalog-data.js'),`// Generated from catalog.json. Do not edit directly.\nwindow.ALGORITHM_CATALOG = ${JSON.stringify(catalog,null,2)};`);
 
-for (const entry of catalog.filter((item) => item.problem)) {
-  const content = `# ${entry.name}
-
-## 算法是什么
-
-${entry.summary}
-
-## 解决什么问题
-
-${entry.problem}
-
-## 核心思路
-
-演示会把算法的关键状态拆成可单步执行的快照，并同步显示当前步骤、核心指标和结构变化。可以修改左侧输入参数后重新生成过程。
-
-## 复杂度
-
-${entry.complexity}
-
-## 先修内容
-
-${entry.prerequisites.length ? prerequisiteMarkdown(entry) : '无硬性先修要求，建议先熟悉页面中使用的基础数据结构。'}
-
-## 文件
-
-- \`index.html\`：演示页面结构
-- \`styles.css\`：响应式界面样式
-- \`app.js\`：算法实现、步骤生成和 Canvas 绘制
-- \`README.md\`：本说明
-
-## 在线查看
-
-- [打开演示](${entry.demo})
-- [查看源码](${entry.source})
-- [返回算法目录](https://wuhy80.github.io/algorithm/)
-`;
-  writeGenerated(path.join(root,entry.slug,'README.md'),content);
+for (const entry of catalog) {
+  writeGenerated(
+    path.join(root,entry.slug,'README.md'),
+    buildLearningGuide(entry, catalog, prerequisiteMarkdown),
+  );
 }
 
 console.log(checkOnly ? `Verified ${catalog.length} catalog entries` : `Generated README and catalog data for ${catalog.length} entries`);

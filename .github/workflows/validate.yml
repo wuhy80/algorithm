@@ -30,6 +30,8 @@ jobs:
           node --check scripts/scaffold-core-batch.mjs
           node --check scripts/foundation-batch-app.js
           node --check scripts/scaffold-foundation-batch.mjs
+          node --check scripts/learning-guide.mjs
+          node --check scripts/enrich-learning-metadata.mjs
 
   browser:
     runs-on: ubuntu-latest

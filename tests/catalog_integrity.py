@@ -7,6 +7,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = ("index.html", "styles.css", "app.js", "README.md")
 DIFFICULTIES = {"基础", "进阶", "高级"}
+LEARNING_GUIDE_HEADINGS = (
+    "## 先抓住一句话",
+    "## 为什么需要它",
+    "## 心智模型",
+    "## 核心不变量",
+    "## 算法步骤",
+    "## 框架伪代码",
+    "## 跟着演示手算",
+    "## 复杂度怎么分析",
+    "## 常见错误",
+    "## 什么时候使用",
+    "## 与其他算法的联系",
+    "## 自测问题",
+)
 
 
 class CatalogIntegrityTests(unittest.TestCase):
@@ -26,6 +40,8 @@ class CatalogIntegrityTests(unittest.TestCase):
             with self.subTest(slug=entry["slug"]):
                 self.assertTrue(entry["name"])
                 self.assertTrue(entry["summary"])
+                self.assertTrue(entry["problem"])
+                self.assertTrue(entry["complexity"])
                 self.assertTrue(entry["category"])
                 self.assertIn(entry["difficulty"], DIFFICULTIES)
                 self.assertIn(entry["stage"], range(1, 5))
@@ -40,6 +56,19 @@ class CatalogIntegrityTests(unittest.TestCase):
                 )
                 for filename in REQUIRED_FILES:
                     self.assertTrue((ROOT / entry["slug"] / filename).is_file(), filename)
+
+    def test_every_readme_is_a_detailed_learning_guide(self):
+        for entry in self.catalog:
+            with self.subTest(slug=entry["slug"]):
+                readme = (ROOT / entry["slug"] / "README.md").read_text(
+                    encoding="utf-8"
+                )
+                self.assertGreaterEqual(len(readme), 2400)
+                self.assertIn(f"# {entry['name']}", readme)
+                self.assertIn(entry["summary"], readme)
+                self.assertIn(entry["complexity"], readme)
+                for heading in LEARNING_GUIDE_HEADINGS:
+                    self.assertIn(heading, readme)
 
     def test_prerequisites_resolve_in_stage_order_without_cycles(self):
         for entry in self.catalog:
