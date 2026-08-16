@@ -16,6 +16,26 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/insertion-sort/"
   },
   {
+    "slug": "difference-array",
+    "name": "差分数组 Difference Array",
+    "category": "查找、排序与算法技巧",
+    "summary": "区间更新只修改两个差分边界，最后通过前缀累加恢复完整数组。",
+    "problem": "高效处理大量离线区间加法，再一次性生成更新后的数组。",
+    "complexity": "O(1) 更新 / O(n) 恢复",
+    "difficulty": "基础",
+    "stage": 2,
+    "tags": [
+      "数组",
+      "区间更新",
+      "前缀和"
+    ],
+    "prerequisites": [
+      "prefix-sum"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/difference-array/",
+    "demo": "https://wuhy80.github.io/algorithm/difference-array/"
+  },
+  {
     "slug": "heap-sort",
     "name": "堆排序 Heap Sort",
     "category": "查找、排序与算法技巧",
@@ -157,6 +177,24 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/bubble-sort/"
   },
   {
+    "slug": "prefix-sum",
+    "name": "前缀和 Prefix Sum",
+    "category": "查找、排序与算法技巧",
+    "summary": "逐项建立前缀累计值，并用两个前缀值之差常数时间回答区间和。",
+    "problem": "预处理静态数组，使大量区间求和查询从线性扫描降为常数时间。",
+    "complexity": "O(n) 预处理 / O(1) 查询",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "数组",
+      "预处理",
+      "区间查询"
+    ],
+    "prerequisites": [],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/prefix-sum/",
+    "demo": "https://wuhy80.github.io/algorithm/prefix-sum/"
+  },
+  {
     "slug": "two-pointers",
     "name": "双指针 Two Pointers",
     "category": "查找、排序与算法技巧",
@@ -170,6 +208,26 @@ window.ALGORITHM_CATALOG = [
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/two-pointers/",
     "demo": "https://wuhy80.github.io/algorithm/two-pointers/"
+  },
+  {
+    "slug": "reservoir-sampling",
+    "name": "水塘抽样 Reservoir Sampling",
+    "category": "查找、排序与算法技巧",
+    "summary": "单遍读取数据流，以递减概率替换固定容量水塘中的随机位置。",
+    "problem": "从未知长度或无法全部保存的数据流中等概率抽取 k 个样本。",
+    "complexity": "O(n) 时间 / O(k) 空间",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "随机化",
+      "流式算法",
+      "抽样"
+    ],
+    "prerequisites": [
+      "fisher-yates-shuffle"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/reservoir-sampling/",
+    "demo": "https://wuhy80.github.io/algorithm/reservoir-sampling/"
   },
   {
     "slug": "bucket-sort",
@@ -234,6 +292,45 @@ window.ALGORITHM_CATALOG = [
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/selection-sort/",
     "demo": "https://wuhy80.github.io/algorithm/selection-sort/"
+  },
+  {
+    "slug": "fisher-yates-shuffle",
+    "name": "Fisher-Yates 洗牌",
+    "category": "查找、排序与算法技巧",
+    "summary": "从尾到头在未固定区间均匀选择元素交换，使用种子复现每一步。",
+    "problem": "在线性时间内生成每种排列等概率出现的无偏随机排列。",
+    "complexity": "O(n)",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "随机化",
+      "数组",
+      "原地算法"
+    ],
+    "prerequisites": [],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/fisher-yates-shuffle/",
+    "demo": "https://wuhy80.github.io/algorithm/fisher-yates-shuffle/"
+  },
+  {
+    "slug": "floyd-cycle-detection",
+    "name": "Floyd 快慢指针判环",
+    "category": "查找、排序与算法技巧",
+    "summary": "快慢指针在链表中以不同速度前进，相遇后同步定位环入口。",
+    "problem": "以常数额外空间判断链表或状态转移序列是否存在环并找到入口。",
+    "complexity": "O(n) 时间 / O(1) 空间",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "链表",
+      "双指针",
+      "判环"
+    ],
+    "prerequisites": [
+      "linked-list",
+      "two-pointers"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/floyd-cycle-detection/",
+    "demo": "https://wuhy80.github.io/algorithm/floyd-cycle-detection/"
   },
   {
     "slug": "zero-one-bfs",
@@ -323,20 +420,6 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/bfs/"
   },
   {
-    "slug": "tower-of-hanoi",
-    "name": "汉诺塔 Tower of Hanoi",
-    "category": "图算法、网络流与回溯",
-    "summary": "递归分解圆盘搬运，展示全部 2ⁿ-1 次合法移动",
-    "difficulty": "基础",
-    "stage": 1,
-    "tags": [
-      "图"
-    ],
-    "prerequisites": [],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/tower-of-hanoi/",
-    "demo": "https://wuhy80.github.io/algorithm/tower-of-hanoi/"
-  },
-  {
     "slug": "eulerian-path",
     "name": "欧拉路径 Eulerian Path",
     "category": "图算法、网络流与回溯",
@@ -353,20 +436,6 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/eulerian-path/"
   },
   {
-    "slug": "knights-tour",
-    "name": "骑士巡游 Knight's Tour",
-    "category": "图算法、网络流与回溯",
-    "summary": "Warnsdorff 候选排序、骑士跳步与回溯撤销",
-    "difficulty": "进阶",
-    "stage": 2,
-    "tags": [
-      "图"
-    ],
-    "prerequisites": [],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/knights-tour/",
-    "demo": "https://wuhy80.github.io/algorithm/knights-tour/"
-  },
-  {
     "slug": "dfs",
     "name": "深度优先搜索 DFS",
     "category": "图算法、网络流与回溯",
@@ -379,20 +448,6 @@ window.ALGORITHM_CATALOG = [
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/dfs/",
     "demo": "https://wuhy80.github.io/algorithm/dfs/"
-  },
-  {
-    "slug": "sudoku-backtracking",
-    "name": "数独回溯 Sudoku Backtracking",
-    "category": "图算法、网络流与回溯",
-    "summary": "候选数字尝试、约束冲突、错误分支撤销与完整解生成",
-    "difficulty": "基础",
-    "stage": 1,
-    "tags": [
-      "图"
-    ],
-    "prerequisites": [],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/sudoku-backtracking/",
-    "demo": "https://wuhy80.github.io/algorithm/sudoku-backtracking/"
   },
   {
     "slug": "bidirectional-bfs",
@@ -427,38 +482,6 @@ window.ALGORITHM_CATALOG = [
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/topological-sort/",
     "demo": "https://wuhy80.github.io/algorithm/topological-sort/"
-  },
-  {
-    "slug": "graph-coloring",
-    "name": "图着色回溯 Graph Coloring",
-    "category": "图算法、网络流与回溯",
-    "summary": "节点逐色尝试、相邻冲突判断与失败分支撤销",
-    "difficulty": "进阶",
-    "stage": 2,
-    "tags": [
-      "图"
-    ],
-    "prerequisites": [
-      "dfs"
-    ],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/graph-coloring/",
-    "demo": "https://wuhy80.github.io/algorithm/graph-coloring/"
-  },
-  {
-    "slug": "dancing-links",
-    "name": "舞蹈链 Dancing Links",
-    "category": "图算法、网络流与回溯",
-    "summary": "精确覆盖矩阵选列、覆盖、恢复与 Algorithm X 解路径",
-    "difficulty": "高级",
-    "stage": 4,
-    "tags": [
-      "图"
-    ],
-    "prerequisites": [
-      "sudoku-backtracking"
-    ],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/dancing-links/",
-    "demo": "https://wuhy80.github.io/algorithm/dancing-links/"
   },
   {
     "slug": "hungarian-algorithm",
@@ -508,6 +531,22 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/min-cost-max-flow/",
     "demo": "https://wuhy80.github.io/algorithm/min-cost-max-flow/"
+  },
+  {
+    "slug": "astar-pathfinding",
+    "name": "A* 寻路 A* Pathfinding",
+    "category": "图算法、网络流与回溯",
+    "summary": "搜索前沿扩张、代价变化、障碍编辑与最终路径回溯",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "模拟"
+    ],
+    "prerequisites": [
+      "dijkstra"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/astar-pathfinding/",
+    "demo": "https://wuhy80.github.io/algorithm/astar-pathfinding/"
   },
   {
     "slug": "bellman-ford",
@@ -565,6 +604,27 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/boruvka-mst/",
     "demo": "https://wuhy80.github.io/algorithm/boruvka-mst/"
+  },
+  {
+    "slug": "chu-liu-edmonds",
+    "name": "Chu-Liu/Edmonds 有向最小生成树",
+    "category": "图算法、网络流与回溯",
+    "summary": "选择最轻入边并缩并有向环，通过重标边权继续构造根向最小树形图。",
+    "problem": "在带根有向图中寻找覆盖所有可达节点的最小权重树形图。",
+    "complexity": "O(VE)",
+    "difficulty": "高级",
+    "stage": 3,
+    "tags": [
+      "图",
+      "有向生成树",
+      "缩点"
+    ],
+    "prerequisites": [
+      "kruskal-mst",
+      "tarjan-scc"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/chu-liu-edmonds/",
+    "demo": "https://wuhy80.github.io/algorithm/chu-liu-edmonds/"
   },
   {
     "slug": "dijkstra",
@@ -630,6 +690,27 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/floyd-warshall/"
   },
   {
+    "slug": "gomory-hu-tree",
+    "name": "Gomory-Hu 全局割树",
+    "category": "图算法、网络流与回溯",
+    "summary": "执行 V-1 次最小割并调整父关系，用一棵树编码全部点对最小割。",
+    "problem": "紧凑表示无向带权图任意两点之间的最小割值。",
+    "complexity": "V-1 次最大流",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "图",
+      "最小割",
+      "树"
+    ],
+    "prerequisites": [
+      "stoer-wagner-min-cut",
+      "dinic"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/gomory-hu-tree/",
+    "demo": "https://wuhy80.github.io/algorithm/gomory-hu-tree/"
+  },
+  {
     "slug": "hopcroft-karp",
     "name": "Hopcroft-Karp 匹配",
     "category": "图算法、网络流与回溯",
@@ -680,20 +761,6 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/kruskal-mst/"
   },
   {
-    "slug": "n-queens",
-    "name": "N 皇后 N-Queens",
-    "category": "图算法、网络流与回溯",
-    "summary": "皇后逐行尝试摆放，冲突位置高亮并动态展示撤销回溯",
-    "difficulty": "基础",
-    "stage": 1,
-    "tags": [
-      "图"
-    ],
-    "prerequisites": [],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/n-queens/",
-    "demo": "https://wuhy80.github.io/algorithm/n-queens/"
-  },
-  {
     "slug": "prim-mst",
     "name": "Prim 最小生成树",
     "category": "图算法、网络流与回溯",
@@ -708,6 +775,27 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/prim-mst/",
     "demo": "https://wuhy80.github.io/algorithm/prim-mst/"
+  },
+  {
+    "slug": "push-relabel",
+    "name": "Push-Relabel 最大流",
+    "category": "图算法、网络流与回溯",
+    "summary": "维护预流、节点余量和高度标号，反复执行推流或重标。",
+    "problem": "求容量网络从源点到汇点的最大可行流。",
+    "complexity": "O(V²E)",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "图",
+      "网络流",
+      "预流"
+    ],
+    "prerequisites": [
+      "dinic",
+      "edmonds-karp"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/push-relabel/",
+    "demo": "https://wuhy80.github.io/algorithm/push-relabel/"
   },
   {
     "slug": "stoer-wagner-min-cut",
@@ -744,6 +832,135 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/tarjan-scc/",
     "demo": "https://wuhy80.github.io/algorithm/tarjan-scc/"
+  },
+  {
+    "slug": "tower-of-hanoi",
+    "name": "汉诺塔 Tower of Hanoi",
+    "category": "回溯、博弈与约束求解",
+    "summary": "递归分解圆盘搬运，展示全部 2ⁿ-1 次合法移动",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "图"
+    ],
+    "prerequisites": [],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/tower-of-hanoi/",
+    "demo": "https://wuhy80.github.io/algorithm/tower-of-hanoi/"
+  },
+  {
+    "slug": "knights-tour",
+    "name": "骑士巡游 Knight's Tour",
+    "category": "回溯、博弈与约束求解",
+    "summary": "Warnsdorff 候选排序、骑士跳步与回溯撤销",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "图"
+    ],
+    "prerequisites": [],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/knights-tour/",
+    "demo": "https://wuhy80.github.io/algorithm/knights-tour/"
+  },
+  {
+    "slug": "sudoku-backtracking",
+    "name": "数独回溯 Sudoku Backtracking",
+    "category": "回溯、博弈与约束求解",
+    "summary": "候选数字尝试、约束冲突、错误分支撤销与完整解生成",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "图"
+    ],
+    "prerequisites": [],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/sudoku-backtracking/",
+    "demo": "https://wuhy80.github.io/algorithm/sudoku-backtracking/"
+  },
+  {
+    "slug": "graph-coloring",
+    "name": "图着色回溯 Graph Coloring",
+    "category": "回溯、博弈与约束求解",
+    "summary": "节点逐色尝试、相邻冲突判断与失败分支撤销",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "图"
+    ],
+    "prerequisites": [
+      "dfs"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/graph-coloring/",
+    "demo": "https://wuhy80.github.io/algorithm/graph-coloring/"
+  },
+  {
+    "slug": "dancing-links",
+    "name": "舞蹈链 Dancing Links",
+    "category": "回溯、博弈与约束求解",
+    "summary": "精确覆盖矩阵选列、覆盖、恢复与 Algorithm X 解路径",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "图"
+    ],
+    "prerequisites": [
+      "sudoku-backtracking"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/dancing-links/",
+    "demo": "https://wuhy80.github.io/algorithm/dancing-links/"
+  },
+  {
+    "slug": "minimax-alpha-beta",
+    "name": "Minimax 与 Alpha-Beta 剪枝",
+    "category": "回溯、博弈与约束求解",
+    "summary": "在 MAX/MIN 博弈树中回传效用，并在 α≥β 时跳过不可能影响结果的分支。",
+    "problem": "在双人零和完全信息博弈中选择最优行动并减少需要评估的状态。",
+    "complexity": "最坏 O(b^d)，理想剪枝 O(b^(d/2))",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "博弈树",
+      "搜索",
+      "剪枝"
+    ],
+    "prerequisites": [
+      "dfs"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/minimax-alpha-beta/",
+    "demo": "https://wuhy80.github.io/algorithm/minimax-alpha-beta/"
+  },
+  {
+    "slug": "n-queens",
+    "name": "N 皇后 N-Queens",
+    "category": "回溯、博弈与约束求解",
+    "summary": "皇后逐行尝试摆放，冲突位置高亮并动态展示撤销回溯",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "图"
+    ],
+    "prerequisites": [],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/n-queens/",
+    "demo": "https://wuhy80.github.io/algorithm/n-queens/"
+  },
+  {
+    "slug": "suffix-tree",
+    "name": "后缀树 Suffix Tree",
+    "category": "字符串算法",
+    "summary": "把所有后缀插入压缩 Trie，在部分匹配位置切分边并共享公共前缀。",
+    "problem": "用线性规模索引表示全部后缀，支持快速子串、重复和匹配查询。",
+    "complexity": "演示构建 O(n²)",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "字符串",
+      "压缩Trie",
+      "后缀结构"
+    ],
+    "prerequisites": [
+      "suffix-array-lcp",
+      "suffix-automaton"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/suffix-tree/",
+    "demo": "https://wuhy80.github.io/algorithm/suffix-tree/"
   },
   {
     "slug": "suffix-array-lcp",
@@ -837,6 +1054,27 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/aho-corasick/"
   },
   {
+    "slug": "booth-minimum-rotation",
+    "name": "Booth 最小表示法",
+    "category": "字符串算法",
+    "summary": "在双倍字符串中比较两个候选起点，一次失配排除一整段候选。",
+    "problem": "在线性时间寻找循环字符串的字典序最小旋转表示。",
+    "complexity": "O(n)",
+    "difficulty": "高级",
+    "stage": 3,
+    "tags": [
+      "字符串",
+      "循环表示",
+      "双指针"
+    ],
+    "prerequisites": [
+      "kmp-search",
+      "two-pointers"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/booth-minimum-rotation/",
+    "demo": "https://wuhy80.github.io/algorithm/booth-minimum-rotation/"
+  },
+  {
     "slug": "boyer-moore",
     "name": "Boyer-Moore 字符串匹配",
     "category": "字符串算法",
@@ -851,26 +1089,6 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/boyer-moore/",
     "demo": "https://wuhy80.github.io/algorithm/boyer-moore/"
-  },
-  {
-    "slug": "burrows-wheeler-transform",
-    "name": "Burrows-Wheeler 变换 BWT",
-    "category": "字符串算法",
-    "summary": "生成并排序循环旋转，提取最后一列和主索引展示字符聚集。",
-    "problem": "可逆地重排字符串，让相同字符聚集以提升后续压缩效率。",
-    "complexity": "O(n² log n) 演示实现",
-    "difficulty": "高级",
-    "stage": 3,
-    "tags": [
-      "字符串",
-      "压缩",
-      "后缀排序"
-    ],
-    "prerequisites": [
-      "suffix-array-lcp"
-    ],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/burrows-wheeler-transform/",
-    "demo": "https://wuhy80.github.io/algorithm/burrows-wheeler-transform/"
   },
   {
     "slug": "kmp-search",
@@ -1195,20 +1413,24 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/job-sequencing/"
   },
   {
-    "slug": "huffman-coding",
-    "name": "Huffman 编码",
+    "slug": "stable-marriage",
+    "name": "稳定婚姻匹配 Gale-Shapley",
     "category": "贪心、调度与编码",
-    "summary": "字符频率队列、最低频节点合并和前缀编码树生成",
+    "summary": "自由提议者依偏好提议，接收者始终保留当前更偏好的匹配。",
+    "problem": "为两组带偏好顺序的参与者寻找不存在阻塞对的稳定匹配。",
+    "complexity": "O(n²)",
     "difficulty": "进阶",
     "stage": 2,
     "tags": [
-      "贪心"
+      "贪心",
+      "匹配",
+      "偏好"
     ],
     "prerequisites": [
-      "heap-priority-queue"
+      "bipartite-matching"
     ],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/huffman-coding/",
-    "demo": "https://wuhy80.github.io/algorithm/huffman-coding/"
+    "source": "https://github.com/wuhy80/algorithm/tree/main/stable-marriage/",
+    "demo": "https://wuhy80.github.io/algorithm/stable-marriage/"
   },
   {
     "slug": "union-find",
@@ -1240,6 +1462,26 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/monotonic-stack-queue/",
     "demo": "https://wuhy80.github.io/algorithm/monotonic-stack-queue/"
+  },
+  {
+    "slug": "cartesian-tree",
+    "name": "笛卡尔树 Cartesian Tree",
+    "category": "数据结构",
+    "summary": "单调栈维护右脊，使中序次序等于原数组且节点同时满足最小堆序。",
+    "problem": "把序列顺序与堆优先级结合，用于 RMQ、区间结构和后缀算法。",
+    "complexity": "O(n) 构建",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "树",
+      "单调栈",
+      "RMQ"
+    ],
+    "prerequisites": [
+      "monotonic-stack-queue"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/cartesian-tree/",
+    "demo": "https://wuhy80.github.io/algorithm/cartesian-tree/"
   },
   {
     "slug": "heap-priority-queue",
@@ -1358,6 +1600,26 @@ window.ALGORITHM_CATALOG = [
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/linked-list/",
     "demo": "https://wuhy80.github.io/algorithm/linked-list/"
+  },
+  {
+    "slug": "interval-tree",
+    "name": "区间树 Interval Tree",
+    "category": "数据结构",
+    "summary": "按中心点划分区间，查询时剪去不可能与目标相交的子树。",
+    "problem": "高效报告与给定点或范围重叠的全部区间。",
+    "complexity": "O(n log n) 构建 / O(log n+k) 查询",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "树",
+      "区间查询",
+      "空间索引"
+    ],
+    "prerequisites": [
+      "binary-search-tree"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/interval-tree/",
+    "demo": "https://wuhy80.github.io/algorithm/interval-tree/"
   },
   {
     "slug": "splay-tree",
@@ -1678,6 +1940,48 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/heavy-light-decomposition/"
   },
   {
+    "slug": "euler-tour-tree",
+    "name": "Euler Tour Tree",
+    "category": "高级查询与树分解",
+    "summary": "把树的进入/退出事件存入隐式 Treap，通过序列切分合并移动整棵子树。",
+    "problem": "在动态森林中支持子树剪切、重新连接、连通性和聚合查询。",
+    "complexity": "每次操作 O(log n)",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "动态树",
+      "欧拉序",
+      "隐式Treap"
+    ],
+    "prerequisites": [
+      "treap",
+      "tree-dp"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/euler-tour-tree/",
+    "demo": "https://wuhy80.github.io/algorithm/euler-tour-tree/"
+  },
+  {
+    "slug": "link-cut-tree",
+    "name": "Link-Cut Tree",
+    "category": "高级查询与树分解",
+    "summary": "通过 Access、Makeroot 与 Splay 动态维护首选路径和路径聚合值。",
+    "problem": "在动态森林中以对数摊还时间支持连接、断边和路径查询。",
+    "complexity": "每次操作摊还 O(log n)",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "动态树",
+      "Splay",
+      "路径查询"
+    ],
+    "prerequisites": [
+      "splay-tree",
+      "heavy-light-decomposition"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/link-cut-tree/",
+    "demo": "https://wuhy80.github.io/algorithm/link-cut-tree/"
+  },
+  {
     "slug": "wavelet-matrix",
     "name": "Wavelet Matrix",
     "category": "高级查询与树分解",
@@ -1699,6 +2003,26 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/wavelet-matrix/"
   },
   {
+    "slug": "octree",
+    "name": "八叉树 Octree",
+    "category": "空间数据结构",
+    "summary": "容量超限的三维立方体沿三个坐标轴同时二分，递归形成八个子体素。",
+    "problem": "索引三维点云、体素与空间对象，并剪枝范围和邻近查询。",
+    "complexity": "平均 O(log n) 插入与查询",
+    "difficulty": "高级",
+    "stage": 3,
+    "tags": [
+      "空间索引",
+      "三维",
+      "点云"
+    ],
+    "prerequisites": [
+      "quadtree"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/octree/",
+    "demo": "https://wuhy80.github.io/algorithm/octree/"
+  },
+  {
     "slug": "quadtree",
     "name": "四叉树 Quadtree",
     "category": "空间数据结构",
@@ -1711,6 +2035,26 @@ window.ALGORITHM_CATALOG = [
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/quadtree/",
     "demo": "https://wuhy80.github.io/algorithm/quadtree/"
+  },
+  {
+    "slug": "bounding-volume-hierarchy",
+    "name": "BVH 层次包围盒",
+    "category": "空间数据结构",
+    "summary": "按最长轴中分对象并递归建立包围盒，查询时跳过不相交分支。",
+    "problem": "加速光线追踪、碰撞检测和空间范围查询。",
+    "complexity": "O(n log n) 构建",
+    "difficulty": "高级",
+    "stage": 3,
+    "tags": [
+      "空间索引",
+      "包围盒",
+      "碰撞检测"
+    ],
+    "prerequisites": [
+      "kd-tree"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/bounding-volume-hierarchy/",
+    "demo": "https://wuhy80.github.io/algorithm/bounding-volume-hierarchy/"
   },
   {
     "slug": "kd-tree",
@@ -1743,6 +2087,27 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/r-tree/",
     "demo": "https://wuhy80.github.io/algorithm/r-tree/"
+  },
+  {
+    "slug": "half-plane-intersection",
+    "name": "半平面交 Half-Plane Intersection",
+    "category": "计算几何",
+    "summary": "逐个用线性不等式边界裁剪凸多边形，保留可行区域并生成交点。",
+    "problem": "求多个线性半平面的公共凸区域及其面积。",
+    "complexity": "增量裁剪 O(hv)",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "计算几何",
+      "凸多边形",
+      "裁剪"
+    ],
+    "prerequisites": [
+      "convex-hull",
+      "point-in-polygon"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/half-plane-intersection/",
+    "demo": "https://wuhy80.github.io/algorithm/half-plane-intersection/"
   },
   {
     "slug": "point-in-polygon",
@@ -1855,7 +2220,7 @@ window.ALGORITHM_CATALOG = [
   {
     "slug": "sieve-of-eratosthenes",
     "name": "埃拉托斯特尼筛法",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "当前质数选取、倍数标记与质数集合逐步收敛",
     "difficulty": "基础",
     "stage": 1,
@@ -1869,7 +2234,7 @@ window.ALGORITHM_CATALOG = [
   {
     "slug": "segmented-sieve",
     "name": "分段筛 Segmented Sieve",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "先生成 √R 内基础质数，再仅标记目标区间中的对应倍数。",
     "problem": "在不保存 1 到 R 全部状态的情况下筛选大区间内的质数。",
     "complexity": "O((R-L+1) log log R)",
@@ -1887,9 +2252,25 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/segmented-sieve/"
   },
   {
+    "slug": "fourier-epicycles",
+    "name": "傅里叶旋轮 Fourier Epicycles",
+    "category": "数论、变换与线性代数",
+    "summary": "多级旋转向量逐步重建并绘制复杂轮廓",
+    "difficulty": "进阶",
+    "stage": 3,
+    "tags": [
+      "模拟"
+    ],
+    "prerequisites": [
+      "fft"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/fourier-epicycles/",
+    "demo": "https://wuhy80.github.io/algorithm/fourier-epicycles/"
+  },
+  {
     "slug": "gaussian-elimination",
     "name": "高斯消元 Gaussian Elimination",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "通过部分选主元、行归一化和逐列消元得到行最简形与唯一解。",
     "problem": "求解线性方程组、计算秩并判断解的存在性。",
     "complexity": "O(n³)",
@@ -1909,7 +2290,7 @@ window.ALGORITHM_CATALOG = [
   {
     "slug": "matrix-exponentiation",
     "name": "矩阵快速幂 Matrix Exponentiation",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "按指数二进制位重复平方方阵，并在置位时乘入结果矩阵。",
     "problem": "快速计算高次矩阵幂以及线性递推的第 n 项。",
     "complexity": "O(k³ log n)",
@@ -1929,7 +2310,7 @@ window.ALGORITHM_CATALOG = [
   {
     "slug": "fft",
     "name": "快速傅里叶变换 FFT",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "位逆序排列、分层蝶形合并和频域幅度生成",
     "difficulty": "高级",
     "stage": 3,
@@ -1945,7 +2326,7 @@ window.ALGORITHM_CATALOG = [
   {
     "slug": "modular-exponentiation",
     "name": "快速模幂 Modular Exponentiation",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "指数二进制位读取、底数平方和模结果累积",
     "difficulty": "基础",
     "stage": 1,
@@ -1959,7 +2340,7 @@ window.ALGORITHM_CATALOG = [
   {
     "slug": "extended-euclidean",
     "name": "扩展欧几里得 Extended Euclidean",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "求余迭代同时更新 Bézout 系数，持续验证线性组合恒等式。",
     "problem": "同时求 gcd(a,b) 及满足 ax+by=gcd(a,b) 的整数系数。",
     "complexity": "O(log min(a,b))",
@@ -1979,7 +2360,7 @@ window.ALGORITHM_CATALOG = [
   {
     "slug": "euclidean-algorithm",
     "name": "欧几里得算法 Euclidean",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "商余数等式迭代、参数替换和最大公约数收敛",
     "difficulty": "基础",
     "stage": 1,
@@ -1993,7 +2374,7 @@ window.ALGORITHM_CATALOG = [
   {
     "slug": "euler-totient",
     "name": "欧拉函数筛 Totient",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "质数识别、倍数 φ 值批量更新与目标结果收敛",
     "difficulty": "进阶",
     "stage": 2,
@@ -2007,9 +2388,29 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/euler-totient/"
   },
   {
+    "slug": "linear-sieve",
+    "name": "欧拉线性筛 Linear Sieve",
+    "category": "数论、变换与线性代数",
+    "summary": "记录最小质因子，让每个合数仅被筛除一次。",
+    "problem": "在线性时间生成给定上限内全部质数及每个整数的最小质因子。",
+    "complexity": "O(n)",
+    "difficulty": "基础",
+    "stage": 2,
+    "tags": [
+      "数论",
+      "质数",
+      "筛法"
+    ],
+    "prerequisites": [
+      "sieve-of-eratosthenes"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/linear-sieve/",
+    "demo": "https://wuhy80.github.io/algorithm/linear-sieve/"
+  },
+  {
     "slug": "ntt",
     "name": "数论变换 NTT",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "在有限域中执行正逆蝶形变换，精确计算整数多项式卷积。",
     "problem": "避免浮点误差地快速完成大整数或多项式卷积。",
     "complexity": "O(n log n)",
@@ -2028,9 +2429,29 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/ntt/"
   },
   {
+    "slug": "prime-factorization",
+    "name": "质因数分解 Prime Factorization",
+    "category": "数论、变换与线性代数",
+    "summary": "从最小质因子开始反复试除，持续缩小剩余整数并输出标准分解。",
+    "problem": "把一个正整数唯一表示为若干质数幂的乘积。",
+    "complexity": "O(√n)",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "数论",
+      "质数",
+      "试除"
+    ],
+    "prerequisites": [
+      "sieve-of-eratosthenes"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/prime-factorization/",
+    "demo": "https://wuhy80.github.io/algorithm/prime-factorization/"
+  },
+  {
     "slug": "chinese-remainder-theorem",
     "name": "中国剩余定理 CRT",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "部分模数、乘法逆元与同余方程逐项合并",
     "difficulty": "进阶",
     "stage": 2,
@@ -2044,9 +2465,30 @@ window.ALGORITHM_CATALOG = [
     "demo": "https://wuhy80.github.io/algorithm/chinese-remainder-theorem/"
   },
   {
+    "slug": "baby-step-giant-step",
+    "name": "Baby-Step Giant-Step 离散对数",
+    "category": "数论、变换与线性代数",
+    "summary": "把指数拆成约 √m 的婴儿步与巨人步，并用哈希表寻找相遇值。",
+    "problem": "求解模意义下 a^x≡b 的离散对数。",
+    "complexity": "O(√m) 时间与空间",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "数论",
+      "离散对数",
+      "哈希"
+    ],
+    "prerequisites": [
+      "modular-exponentiation",
+      "extended-euclidean"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/baby-step-giant-step/",
+    "demo": "https://wuhy80.github.io/algorithm/baby-step-giant-step/"
+  },
+  {
     "slug": "miller-rabin",
     "name": "Miller-Rabin 素性测试",
-    "category": "数论与基础计算",
+    "category": "数论、变换与线性代数",
     "summary": "n-1 分解、模幂底数测试与合数见证识别",
     "difficulty": "高级",
     "stage": 3,
@@ -2058,6 +2500,27 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/miller-rabin/",
     "demo": "https://wuhy80.github.io/algorithm/miller-rabin/"
+  },
+  {
+    "slug": "pollard-rho",
+    "name": "Pollard-Rho 因数分解",
+    "category": "数论、变换与线性代数",
+    "summary": "在模 n 伪随机游走中使用快慢指针，通过差值的 GCD 发现非平凡因子。",
+    "problem": "高效分解试除法难以处理的大合数，常与 Miller-Rabin 配合。",
+    "complexity": "期望 O(n^(1/4))",
+    "difficulty": "高级",
+    "stage": 4,
+    "tags": [
+      "数论",
+      "随机化",
+      "因数分解"
+    ],
+    "prerequisites": [
+      "miller-rabin",
+      "floyd-cycle-detection"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/pollard-rho/",
+    "demo": "https://wuhy80.github.io/algorithm/pollard-rho/"
   },
   {
     "slug": "arithmetic-coding",
@@ -2074,6 +2537,60 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/arithmetic-coding/",
     "demo": "https://wuhy80.github.io/algorithm/arithmetic-coding/"
+  },
+  {
+    "slug": "run-length-encoding",
+    "name": "游程编码 Run-Length Encoding",
+    "category": "压缩算法",
+    "summary": "把连续相同字符合并成符号与重复长度，动态显示游程形成。",
+    "problem": "无损压缩包含长连续重复值的文本、图像行或离散序列。",
+    "complexity": "O(n)",
+    "difficulty": "基础",
+    "stage": 1,
+    "tags": [
+      "压缩",
+      "游程",
+      "字符串"
+    ],
+    "prerequisites": [],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/run-length-encoding/",
+    "demo": "https://wuhy80.github.io/algorithm/run-length-encoding/"
+  },
+  {
+    "slug": "burrows-wheeler-transform",
+    "name": "Burrows-Wheeler 变换 BWT",
+    "category": "压缩算法",
+    "summary": "生成并排序循环旋转，提取最后一列和主索引展示字符聚集。",
+    "problem": "可逆地重排字符串，让相同字符聚集以提升后续压缩效率。",
+    "complexity": "O(n² log n) 演示实现",
+    "difficulty": "高级",
+    "stage": 3,
+    "tags": [
+      "字符串",
+      "压缩",
+      "后缀排序"
+    ],
+    "prerequisites": [
+      "suffix-array-lcp"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/burrows-wheeler-transform/",
+    "demo": "https://wuhy80.github.io/algorithm/burrows-wheeler-transform/"
+  },
+  {
+    "slug": "huffman-coding",
+    "name": "Huffman 编码",
+    "category": "压缩算法",
+    "summary": "字符频率队列、最低频节点合并和前缀编码树生成",
+    "difficulty": "进阶",
+    "stage": 2,
+    "tags": [
+      "贪心"
+    ],
+    "prerequisites": [
+      "heap-priority-queue"
+    ],
+    "source": "https://github.com/wuhy80/algorithm/tree/main/huffman-coding/",
+    "demo": "https://wuhy80.github.io/algorithm/huffman-coding/"
   },
   {
     "slug": "lz77",
@@ -2134,22 +2651,6 @@ window.ALGORITHM_CATALOG = [
     "prerequisites": [],
     "source": "https://github.com/wuhy80/algorithm/tree/main/reaction-diffusion/",
     "demo": "https://wuhy80.github.io/algorithm/reaction-diffusion/"
-  },
-  {
-    "slug": "fourier-epicycles",
-    "name": "傅里叶旋轮 Fourier Epicycles",
-    "category": "生成、优化与模拟",
-    "summary": "多级旋转向量逐步重建并绘制复杂轮廓",
-    "difficulty": "进阶",
-    "stage": 2,
-    "tags": [
-      "模拟"
-    ],
-    "prerequisites": [
-      "fft"
-    ],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/fourier-epicycles/",
-    "demo": "https://wuhy80.github.io/algorithm/fourier-epicycles/"
   },
   {
     "slug": "game-of-life",
@@ -2224,22 +2725,6 @@ window.ALGORITHM_CATALOG = [
     ],
     "source": "https://github.com/wuhy80/algorithm/tree/main/ant-colony/",
     "demo": "https://wuhy80.github.io/algorithm/ant-colony/"
-  },
-  {
-    "slug": "astar-pathfinding",
-    "name": "A* 寻路 A* Pathfinding",
-    "category": "生成、优化与模拟",
-    "summary": "搜索前沿扩张、代价变化、障碍编辑与最终路径回溯",
-    "difficulty": "进阶",
-    "stage": 2,
-    "tags": [
-      "模拟"
-    ],
-    "prerequisites": [
-      "dijkstra"
-    ],
-    "source": "https://github.com/wuhy80/algorithm/tree/main/astar-pathfinding/",
-    "demo": "https://wuhy80.github.io/algorithm/astar-pathfinding/"
   },
   {
     "slug": "boids",

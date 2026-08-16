@@ -25,6 +25,7 @@ jobs:
         run: |
           node --check site.js
           node --check activity-selection/app.js
+          node --check octree/app.js
 
   browser:
     runs-on: ubuntu-latest

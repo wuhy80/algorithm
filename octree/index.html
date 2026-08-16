@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111719">
+  <link rel="icon" href="data:,">
+  <title>Algorithm Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="panel">
+      <header class="brand">
+        <b id="monogram">AL</b>
+        <div><small id="eyebrow">ALGORITHM / LAB</small><h1 id="title">算法可视化</h1></div>
+      </header>
+      <section>
+        <h2><span id="input-title">输入参数</span><i>01</i></h2>
+        <label class="field" id="primary-wrap" for="input-a"><span id="primary-label">数据</span><textarea id="input-a" rows="3"></textarea></label>
+        <label class="field" id="secondary-wrap" for="input-b"><span id="secondary-label">目标</span><input id="input-b" type="text"></label>
+        <label class="field" id="option-wrap" for="option"><span id="option-label">预设</span><select id="option"></select></label>
+        <button id="apply" class="wide" type="button">应用参数</button>
+        <p id="error" class="error" aria-live="polite"></p>
+      </section>
+      <section>
+        <h2><span>播放参数</span><i>02</i></h2>
+        <label class="range" for="speed"><span>播放速度 <output id="speed-value">1.0x</output></span><input id="speed" type="range" min="0.25" max="3" step="0.25" value="1"></label>
+        <p id="principle"></p>
+      </section>
+      <footer id="complexity">ALGORITHM VISUALIZATION</footer>
+    </aside>
+    <main class="stage">
+      <canvas id="canvas" role="img" aria-label="算法执行过程动画"></canvas>
+      <header class="top">
+        <div class="live"><i></i><span><small>当前状态</small><strong id="status">准备就绪</strong></span></div>
+        <div class="stats">
+          <span><small id="metric-label-1">步骤</small><b id="metric-1">0</b></span>
+          <span><small id="metric-label-2">进度</small><b id="metric-2">0</b></span>
+          <span><small id="metric-label-3">结果</small><b id="metric-3">--</b></span>
+        </div>
+        <div class="actions"><button id="reset" type="button">重置</button><button id="step" type="button">单步</button><button id="play" class="primary" type="button">播放</button></div>
+      </header>
+      <div class="note" id="note">STEP 1</div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

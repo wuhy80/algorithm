@@ -18,6 +18,14 @@ NEW_SLUGS = {
     "rollback-union-find", "wavelet-matrix", "suffix-automaton", "palindromic-tree",
     "burrows-wheeler-transform", "extended-euclidean", "matrix-exponentiation",
     "segmented-sieve", "ntt", "gaussian-elimination",
+    "prefix-sum", "difference-array", "floyd-cycle-detection",
+    "fisher-yates-shuffle", "reservoir-sampling", "stable-marriage",
+    "minimax-alpha-beta", "run-length-encoding", "prime-factorization",
+    "linear-sieve", "cartesian-tree", "interval-tree", "push-relabel",
+    "chu-liu-edmonds", "gomory-hu-tree", "link-cut-tree", "euler-tour-tree",
+    "suffix-tree", "booth-minimum-rotation", "pollard-rho",
+    "baby-step-giant-step", "half-plane-intersection", "octree",
+    "bounding-volume-hierarchy",
 }
 EXPECTED_RESULTS = {
     "activity-selection": "4",
@@ -44,6 +52,30 @@ EXPECTED_RESULTS = {
     "segmented-sieve": "16",
     "ntt": "7",
     "gaussian-elimination": "3",
+    "prefix-sum": "39",
+    "difference-array": "2",
+    "floyd-cycle-detection": "1",
+    "fisher-yates-shuffle": "10",
+    "reservoir-sampling": "4",
+    "stable-marriage": "4",
+    "minimax-alpha-beta": "5",
+    "run-length-encoding": "16",
+    "prime-factorization": "1",
+    "linear-sieve": "57",
+    "cartesian-tree": "1",
+    "interval-tree": "2",
+    "push-relabel": "23",
+    "chu-liu-edmonds": "11",
+    "gomory-hu-tree": "5",
+    "link-cut-tree": "22",
+    "euler-tour-tree": "21",
+    "suffix-tree": "11",
+    "booth-minimum-rotation": "2",
+    "pollard-rho": "83 × 97",
+    "baby-step-giant-step": "6",
+    "half-plane-intersection": "67.5",
+    "octree": "1",
+    "bounding-volume-hierarchy": "4",
 }
 
 
@@ -101,9 +133,9 @@ class BrowserSmokeTests(unittest.TestCase):
         for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
             with self.subTest(viewport=viewport):
                 page, errors = self.open_page("", viewport)
-                self.assertEqual(141, page.locator(".algorithm-row").count())
-                self.assertEqual("141", page.locator("#total-count").inner_text())
-                self.assertEqual("12", page.locator("#category-count").inner_text())
+                self.assertEqual(len(CATALOG), page.locator(".algorithm-row").count())
+                self.assertEqual(str(len(CATALOG)), page.locator("#total-count").inner_text())
+                self.assertEqual(str(len({entry["category"] for entry in CATALOG})), page.locator("#category-count").inner_text())
                 metrics = self.layout_metrics(page)
                 self.assertLessEqual(metrics["overflow"], 1, metrics)
                 self.assertFalse(metrics["clipped"], metrics)
@@ -147,6 +179,34 @@ class BrowserSmokeTests(unittest.TestCase):
                 page.close()
         context.close()
         self.assertFalse(failures, "\n".join(failures))
+
+    def test_octree_webgl_scene_is_drawn_on_desktop_and_mobile(self):
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(viewport=viewport):
+                page, errors = self.open_page("octree/", viewport)
+                for _ in range(12):
+                    page.locator("#step").click()
+                page.wait_for_timeout(80)
+                metrics = page.evaluate(
+                    """() => {
+                        const canvas = document.querySelector('canvas');
+                        const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+                        const pixels = new Uint8Array(canvas.width * canvas.height * 4);
+                        gl.readPixels(0, 0, canvas.width, canvas.height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+                        const colors = new Set();
+                        let bright = 0;
+                        for (let i = 0; i < pixels.length; i += 400) {
+                            colors.add(`${pixels[i]},${pixels[i+1]},${pixels[i+2]},${pixels[i+3]}`);
+                            if (pixels[i] + pixels[i+1] + pixels[i+2] > 130) bright++;
+                        }
+                        return { webgl: !!gl, colors: colors.size, bright };
+                    }"""
+                )
+                self.assertTrue(metrics["webgl"], metrics)
+                self.assertGreaterEqual(metrics["colors"], 4, metrics)
+                self.assertGreater(metrics["bright"], 20, metrics)
+                self.assertFalse(errors, errors)
+                page.close()
 
     def test_new_demos_reach_terminal_state_on_desktop_and_fit_mobile(self):
         for slug in sorted(NEW_SLUGS):
