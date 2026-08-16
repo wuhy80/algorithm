@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#121719">
+  <meta name="description" content="N 皇后回溯算法逐步动画演示">
+  <title>N-Queens Lab · N 皇后回溯</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel" aria-label="N 皇后算法参数">
+      <header class="brand"><div class="brand-mark" aria-hidden="true"><i>Q</i></div><div><span>BACKTRACKING LAB</span><h1>N 皇后问题</h1></div></header>
+      <section>
+        <div class="section-title"><h2>棋盘规模</h2><small>01</small></div>
+        <label class="range" for="board-size"><span><b>皇后数量 N</b><output id="board-size-value">8 × 8</output></span><input id="board-size" type="range" min="4" max="12" step="1" value="8"></label>
+        <label class="select-label" for="search-order">列尝试顺序</label>
+        <div class="select-wrap"><select id="search-order"><option value="left">从左到右</option><option value="center">中心优先</option><option value="alternating">两侧交替</option></select></div>
+      </section>
+      <section>
+        <div class="section-title"><h2>演算控制</h2><small>02</small></div>
+        <label class="range" for="speed"><span><b>播放速度</b><output id="speed-value">12 步/秒</output></span><input id="speed" type="range" min="1" max="60" step="1" value="12"></label>
+        <div class="legend"><span><i class="placed"></i>已放置</span><span><i class="trying"></i>正在尝试</span><span><i class="conflict"></i>发生冲突</span></div>
+      </section>
+      <section>
+        <div class="section-title"><h2>回溯策略</h2><small>03</small></div>
+        <ol class="rules"><li><b>尝试</b><span>在当前行选择一列</span></li><li><b>约束</b><span>检查同列与两条对角线</span></li><li><b>递归</b><span>安全则进入下一行</span></li><li><b>撤销</b><span>无解时移除上一行皇后</span></li></ol>
+      </section>
+      <section class="complexity"><span>SEARCH SPACE</span><strong>O(N!)</strong><small>约束剪枝远少于 Nᴺ</small></section>
+      <footer><span>N-QUEENS</span><span>DEPTH-FIRST SEARCH</span></footer>
+    </aside>
+    <main class="stage">
+      <canvas id="canvas" aria-label="N 皇后回溯搜索棋盘"></canvas>
+      <header class="stage-header">
+        <div class="live"><i></i><div><span id="run-state">回溯搜索中</span><strong id="event-label">准备第一行</strong></div></div>
+        <div class="metrics" aria-live="polite"><div><span>尝试</span><strong id="attempts">0</strong></div><div><span>已放置</span><strong id="placed">0/8</strong></div><div><span>撤销</span><strong id="backtracks">0</strong></div><div><span>帧率</span><strong><b id="fps">60</b><small> FPS</small></strong></div></div>
+        <div class="actions"><button id="reset" type="button" title="重新开始"><span aria-hidden="true">↻</span><b>重置</b></button><button id="step" type="button" title="执行一步"><span aria-hidden="true">↦</span><b>单步</b></button><button id="pause" class="primary" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button></div>
+      </header>
+      <div class="stage-note" aria-hidden="true"><span>ROW BY ROW</span><i></i><span id="board-note">8 QUEENS</span></div>
+      <div class="constraint-note" aria-live="polite"><span id="constraint-label">等待尝试</span></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

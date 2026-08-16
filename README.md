@@ -1,48 +1,85 @@
 # 算法可视化实验室
 
-这个仓库按算法划分目录。每个目录包含独立实现、可运行演示和算法说明，彼此之间没有运行依赖。所有演示都以实时动画呈现算法过程，并支持动态调节关键参数。
+这个仓库以实时动画拆解算法和数据结构。每个项目都保存在独立目录中，包含可直接运行的网页演示、核心实现和中文 README，彼此之间没有运行依赖。
 
-## 算法目录
+算法名称链接到 GitHub 源码目录；“打开演示”链接到可以直接体验的 GitHub Pages 页面。
+
+## 查找与排序
 
 | 算法 | 动画表现 | 状态 | 演示 |
 | --- | --- | --- | --- |
-| [Boids 群鸟算法](./boids/) | 鸟群实时聚合、分离、同步、避障和鼠标交互 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/boids/) |
-| [蚁群优化 Ant Colony Optimization](./ant-colony/) | 蚂蚁探索路径、信息素沉积与挥发、最短路线逐渐显现 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/ant-colony/) |
-| [A* 寻路 A* Pathfinding](./astar-pathfinding/) | 搜索前沿扩张、代价变化、障碍编辑与最终路径回溯 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/astar-pathfinding/) |
-| [粒子群优化 Particle Swarm Optimization](./particle-swarm/) | 粒子在目标函数地形中移动并逐步汇聚到最优区域 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/particle-swarm/) |
-| [遗传火箭 Genetic Rockets](./genetic-rockets/) | 多代火箭飞向目标，展示选择、交叉、变异和适应度进化 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/genetic-rockets/) |
-| [N 体引力 N-body Simulation](./n-body/) | 星体受引力运动、形成轨道与拖尾，并展示引力积分过程 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/n-body/) |
-| [反应扩散 Reaction-Diffusion](./reaction-diffusion/) | Gray-Scott 模型实时生长斑点、条纹和有机纹理 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/reaction-diffusion/) |
-| [波函数坍缩 Wave Function Collapse](./wave-function-collapse/) | 网格按最低熵逐格坍缩，约束向周围持续传播 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/wave-function-collapse/) |
-| [Perlin 噪声流场 Flow Field](./flow-field/) | 大量粒子沿连续噪声向量场流动并留下动态轨迹 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/flow-field/) |
-| [迷宫生成 Maze Generation](./maze-generation/) | 墙体逐步开凿形成迷宫，并动态展示寻路过程 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/maze-generation/) |
-| [傅里叶旋轮 Fourier Epicycles](./fourier-epicycles/) | 多级旋转向量逐步重建并绘制复杂轮廓 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/fourier-epicycles/) |
-| [康威生命游戏 Conway's Game of Life](./game-of-life/) | 细胞在离散规则下繁衍、消亡并产生复杂结构 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/game-of-life/) |
-| [Voronoi 与 Lloyd 松弛](./voronoi-relaxation/) | 泰森多边形随控制点移动，并逐步趋向均匀分布 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/voronoi-relaxation/) |
+| [二分查找 Binary Search](https://github.com/wuhy80/algorithm/tree/main/binary-search/) | 有序数组的左右边界持续收缩，中点比较与命中过程逐步高亮 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/binary-search/) |
+| [冒泡排序 Bubble Sort](https://github.com/wuhy80/algorithm/tree/main/bubble-sort/) | 相邻元素逐对比较、交换，最大值逐轮浮向数组末端 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/bubble-sort/) |
+| [快速排序 Quick Sort](https://github.com/wuhy80/algorithm/tree/main/quick-sort/) | 基准选择、双指针扫描、分区交换与递归区间展开 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/quick-sort/) |
+| [归并排序 Merge Sort](https://github.com/wuhy80/algorithm/tree/main/merge-sort/) | 数组递归拆分，左右有序段逐项比较并重新合并 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/merge-sort/) |
+
+## 图遍历与回溯
+
+| 算法 | 动画表现 | 状态 | 演示 |
+| --- | --- | --- | --- |
+| [广度优先搜索 BFS](https://github.com/wuhy80/algorithm/tree/main/bfs/) | 队列驱动搜索前沿逐层扩张，并重建起点到目标的最短步数路径 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/bfs/) |
+| [深度优先搜索 DFS](https://github.com/wuhy80/algorithm/tree/main/dfs/) | 栈与递归路径持续深入，遇到末路后回退探索其他分支 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/dfs/) |
+| [N 皇后 N-Queens](https://github.com/wuhy80/algorithm/tree/main/n-queens/) | 皇后逐行尝试摆放，冲突位置高亮并动态展示撤销回溯 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/n-queens/) |
+| [数独回溯 Sudoku Backtracking](https://github.com/wuhy80/algorithm/tree/main/sudoku-backtracking/) | 候选数字尝试、约束冲突、错误分支撤销与完整解生成 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/sudoku-backtracking/) |
+
+## 数据结构
+
+| 数据结构 | 动画表现 | 状态 | 演示 |
+| --- | --- | --- | --- |
+| [栈 Stack](https://github.com/wuhy80/algorithm/tree/main/stack/) | 元素压栈、出栈、查看栈顶以及 Overflow / Underflow 状态 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/stack/) |
+| [队列 Queue](https://github.com/wuhy80/algorithm/tree/main/queue/) | 循环数组中的入队、出队以及 Head / Tail 指针移动 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/queue/) |
+| [链表 Linked List](https://github.com/wuhy80/algorithm/tree/main/linked-list/) | 节点插入、删除、查找与 next 指针重新连接 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/linked-list/) |
+| [二叉搜索树 Binary Search Tree](https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/) | 插入与查找路径逐层下降，删除后树结构重新连接 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/binary-search-tree/) |
+| [AVL 平衡树](https://github.com/wuhy80/algorithm/tree/main/avl-tree/) | 插入后计算平衡因子，通过 LL、RR、LR、RL 旋转恢复平衡 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/avl-tree/) |
+| [堆与优先队列 Heap](https://github.com/wuhy80/algorithm/tree/main/heap-priority-queue/) | 插入上浮、提取堆顶和替换后的向下调整 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/heap-priority-queue/) |
+| [哈希表 Hash Table](https://github.com/wuhy80/algorithm/tree/main/hash-table/) | 哈希定位、碰撞链扫描以及键值插入、查找和删除 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/hash-table/) |
+| [并查集 Union-Find](https://github.com/wuhy80/algorithm/tree/main/union-find/) | 父指针查找、按秩合并、路径压缩和连通性判断 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/union-find/) |
+
+## 生成、优化与模拟
+
+| 算法 | 动画表现 | 状态 | 演示 |
+| --- | --- | --- | --- |
+| [Boids 群鸟算法](https://github.com/wuhy80/algorithm/tree/main/boids/) | 鸟群实时聚合、分离、同步、避障和鼠标交互 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/boids/) |
+| [蚁群优化 Ant Colony Optimization](https://github.com/wuhy80/algorithm/tree/main/ant-colony/) | 蚂蚁探索路径、信息素沉积与挥发、最短路线逐渐显现 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/ant-colony/) |
+| [A* 寻路 A* Pathfinding](https://github.com/wuhy80/algorithm/tree/main/astar-pathfinding/) | 搜索前沿扩张、代价变化、障碍编辑与最终路径回溯 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/astar-pathfinding/) |
+| [粒子群优化 Particle Swarm Optimization](https://github.com/wuhy80/algorithm/tree/main/particle-swarm/) | 粒子在目标函数地形中移动并逐步汇聚到最优区域 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/particle-swarm/) |
+| [遗传火箭 Genetic Rockets](https://github.com/wuhy80/algorithm/tree/main/genetic-rockets/) | 多代火箭飞向目标，展示选择、交叉、变异和适应度进化 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/genetic-rockets/) |
+| [N 体引力 N-body Simulation](https://github.com/wuhy80/algorithm/tree/main/n-body/) | 星体受引力运动、形成轨道与拖尾，并展示引力积分过程 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/n-body/) |
+| [反应扩散 Reaction-Diffusion](https://github.com/wuhy80/algorithm/tree/main/reaction-diffusion/) | Gray-Scott 模型实时生长斑点、条纹和有机纹理 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/reaction-diffusion/) |
+| [波函数坍缩 Wave Function Collapse](https://github.com/wuhy80/algorithm/tree/main/wave-function-collapse/) | 网格按最低熵逐格坍缩，约束向周围持续传播 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/wave-function-collapse/) |
+| [Perlin 噪声流场 Flow Field](https://github.com/wuhy80/algorithm/tree/main/flow-field/) | 大量粒子沿连续噪声向量场流动并留下动态轨迹 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/flow-field/) |
+| [迷宫生成 Maze Generation](https://github.com/wuhy80/algorithm/tree/main/maze-generation/) | 墙体逐步开凿形成迷宫，并动态展示寻路过程 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/maze-generation/) |
+| [傅里叶旋轮 Fourier Epicycles](https://github.com/wuhy80/algorithm/tree/main/fourier-epicycles/) | 多级旋转向量逐步重建并绘制复杂轮廓 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/fourier-epicycles/) |
+| [康威生命游戏 Conway's Game of Life](https://github.com/wuhy80/algorithm/tree/main/game-of-life/) | 细胞在离散规则下繁衍、消亡并产生复杂结构 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/game-of-life/) |
+| [Voronoi 与 Lloyd 松弛](https://github.com/wuhy80/algorithm/tree/main/voronoi-relaxation/) | 泰森多边形随控制点移动，并逐步趋向均匀分布 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/voronoi-relaxation/) |
+
+## 推荐学习路径
+
+1. 从二分查找和基础排序理解比较、交换、分治与递归。
+2. 通过栈、队列、链表掌握线性数据结构的状态变化。
+3. 使用 BFS、DFS 和回溯理解搜索空间、前沿与撤销选择。
+4. 进入 BST、AVL、堆、哈希表和并查集，学习索引、平衡和集合维护。
+5. 最后探索图优化、群体智能、生成系统与物理模拟。
 
 ## 演示原则
 
 - 展示算法的演化过程，而不只是最终结果或静态图表。
-- 使用 Canvas 或 WebGL 支撑大量动态元素和稳定帧率。
-- 提供关键参数、暂停、重置和直接画布交互。
-- 同时适配桌面与移动端，并保持算法实现可独立阅读。
-- 实时展示与算法有关的性能或状态指标，不添加无意义的数据面板。
+- 提供播放/暂停、单步执行、重置以及与算法相关的动态参数。
+- 使用 Canvas 或高效 DOM 更新支撑动画，并实时展示关键状态指标。
+- 同时适配桌面与移动端，交互控件保持键盘可访问。
+- 每个目录都能独立运行和阅读，不依赖构建工具或后端服务。
 
 ## 目录约定
 
-新增算法时，在仓库根目录下建立单独目录，并至少包含：
+每个算法或数据结构目录至少包含：
 
-- `README.md`：算法原理、解决的问题、复杂度和使用方式。
-- 算法实现：核心逻辑与必要的界面文件。
-- 可运行入口：能够独立启动或直接打开的示例。
+- `index.html`：可以直接打开的演示入口。
+- `styles.css`：独立界面样式。
+- `app.js`：算法和动画实现。
+- `README.md`：原理、解决的问题、复杂度和使用方式。
 
-## 链接约定
+GitHub Pages 从 `main` 分支根目录发布，目录名同时作为在线演示路径：
 
-首页中的链接统一遵循以下规则：
-
-- 算法名称链接到仓库内的源码目录，例如 `./boids/`。
-- “打开演示”链接到完整的 GitHub Pages 地址，例如 `https://wuhy80.github.io/algorithm/boids/`。
-- 新算法的目录名同时作为 Pages 路径，格式为 `https://wuhy80.github.io/algorithm/<算法目录>/`。
-- 尚未实现的占位项不创建失效链接；实现完成后再同时补充源码和演示链接。
-
-GitHub Pages 从 `main` 分支根目录发布，因此每个算法目录中的 `index.html` 都会自动成为该算法的在线演示入口。
+```text
+https://wuhy80.github.io/algorithm/<目录名>/
+```

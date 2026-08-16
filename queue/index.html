@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11171d">
+  <link rel="icon" href="data:,">
+  <title>Queue Lab · 队列结构实验场</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel">
+      <header class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div><div><span>QUEUE LAB / FIFO</span><h1>队列结构实验场</h1></div></header>
+      <section><div class="section-title"><h2>队列操作</h2><small>01</small></div><label class="field" for="value"><span>元素值</span><input id="value" type="number" min="0" max="999" value="36"></label><div class="tool-grid"><button id="enqueue" class="selected" type="button">入队 Enqueue</button><button id="dequeue" type="button">出队 Dequeue</button><button id="front" type="button">查看队首</button><button id="step" type="button">单步操作</button></div></section>
+      <section><div class="section-title"><h2>演示参数</h2><small>02</small></div><label class="range" for="capacity"><span><b>队列容量</b><output id="capacity-value">8</output></span><input id="capacity" type="range" min="4" max="12" step="1" value="8"></label><label class="range" for="speed"><span><b>动画速度</b><output id="speed-value">1.0×</output></span><input id="speed" type="range" min="0.4" max="2.4" step="0.2" value="1"></label><label class="check"><input id="auto" type="checkbox" checked><span>自动生成操作</span></label></section>
+      <section><div class="section-title"><h2>核心规则</h2><small>03</small></div><p class="rule"><b>FIFO</b> 最早进入的元素最先离开。循环数组通过移动 head 和 tail 实现 O(1) 入队与出队。</p></section>
+      <footer><span>FIRST IN</span><span>FIRST OUT</span></footer>
+    </aside>
+    <main class="stage"><canvas id="canvas" aria-label="队列入队、出队和循环数组动画"></canvas><header class="stage-header"><div class="live"><i></i><div><span>当前操作</span><strong id="status">等待操作</strong></div></div><div class="metrics"><div><span>元素数量</span><strong id="size">0</strong></div><div><span>队首位置</span><strong id="head">0</strong></div><div><span>队尾位置</span><strong id="tail">0</strong></div></div><div class="actions"><button id="reset" type="button"><span aria-hidden="true">↺</span><b>重置</b></button><button id="pause" class="primary" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button></div></header><div class="stage-note"><span>DEQUEUE</span><i></i><span>ENQUEUE</span></div></main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

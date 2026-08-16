@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101718">
+  <meta name="description" content="可交互的广度优先搜索算法动画演示">
+  <title>BFS Lab · 广度优先搜索</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel" aria-label="广度优先搜索参数">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div><span>GRAPH TRAVERSAL LAB</span><h1>广度优先搜索</h1></div>
+      </header>
+
+      <section>
+        <div class="section-title"><h2>图结构</h2><small>01</small></div>
+        <label class="range" for="node-count"><span><b>节点数量</b><output id="node-count-value">24</output></span><input id="node-count" type="range" min="10" max="40" step="2" value="24"></label>
+        <label class="range" for="edge-density"><span><b>额外连边</b><output id="edge-density-value">18%</output></span><input id="edge-density" type="range" min="0" max="45" step="1" value="18"></label>
+        <button class="block-button" id="new-graph" type="button"><span aria-hidden="true">⠿</span>生成新图</button>
+      </section>
+
+      <section>
+        <div class="section-title"><h2>遍历控制</h2><small>02</small></div>
+        <label class="range" for="speed"><span><b>播放速度</b><output id="speed-value">8 步/秒</output></span><input id="speed" type="range" min="1" max="30" step="1" value="8"></label>
+        <p class="field-note">点击画布中的任意节点，将它设为新的起点。</p>
+        <div class="legend" aria-label="节点状态图例">
+          <span><i class="unseen"></i>未访问</span>
+          <span><i class="frontier"></i>队列中</span>
+          <span><i class="current"></i>当前</span>
+          <span><i class="visited"></i>已访问</span>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title"><h2>算法规则</h2><small>03</small></div>
+        <ol class="rules">
+          <li><b>入队</b><span>起点加入先进先出队列</span></li>
+          <li><b>展开</b><span>取出队首并检查邻接点</span></li>
+          <li><b>发现</b><span>未访问邻接点依次入队</span></li>
+        </ol>
+      </section>
+
+      <footer><span>BFS / FIFO QUEUE</span><span>O(V + E)</span></footer>
+    </aside>
+
+    <main class="stage">
+      <canvas id="canvas" aria-label="广度优先搜索图遍历动画"></canvas>
+      <header class="stage-header">
+        <div class="live"><i></i><div><span id="run-state">逐层探索</span><strong id="start-label">起点 NODE 01</strong></div></div>
+        <div class="metrics" aria-live="polite">
+          <div><span>已访问</span><strong id="visited">0</strong></div>
+          <div><span>队列</span><strong id="frontier">1</strong></div>
+          <div><span>当前层</span><strong id="depth">0</strong></div>
+          <div><span>帧率</span><strong><b id="fps">60</b><small> FPS</small></strong></div>
+        </div>
+        <div class="actions">
+          <button id="reset" type="button" title="重置遍历"><span aria-hidden="true">↻</span><b>重置</b></button>
+          <button id="step" type="button" title="执行一步"><span aria-hidden="true">↦</span><b>单步</b></button>
+          <button id="pause" class="primary" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button>
+        </div>
+      </header>
+      <div class="queue-readout" aria-live="polite"><span>QUEUE</span><i></i><strong id="queue-content">01</strong></div>
+      <div class="stage-note" aria-hidden="true"><span>LEVEL-ORDER TRAVERSAL</span><i></i><span id="graph-size">24 NODES</span></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

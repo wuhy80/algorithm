@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11181a">
+  <title>Search Lab · 二分查找</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel" aria-label="二分查找控制面板">
+      <header class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><b></b></div><div><span>SEARCH LAB / 01</span><h1>二分查找</h1></div></header>
+      <section>
+        <div class="section-title"><h2>有序数据</h2><small>01</small></div>
+        <label class="field" for="custom-data"><span>数组（逗号或空格分隔）</span><textarea id="custom-data" rows="3">3, 8, 12, 17, 23, 29, 34, 41, 48, 56, 63, 71, 78, 85, 92</textarea></label>
+        <button id="apply-data" class="panel-button" type="button">应用并排序</button>
+        <p class="validation" id="validation" aria-live="polite"></p>
+      </section>
+      <section>
+        <div class="section-title"><h2>查找目标</h2><small>02</small></div>
+        <label class="field compact" for="target"><span>目标值</span><input id="target" type="number" value="63" step="1"></label>
+        <label class="range" for="speed"><span><b>播放速度</b><output id="speed-value">1.0×</output></span><input id="speed" type="range" min="0.25" max="3" step="0.25" value="1"></label>
+      </section>
+      <section>
+        <div class="section-title"><h2>图例</h2><small>03</small></div>
+        <div class="legend"><span><i class="range-key"></i>候选区间</span><span><i class="mid-key"></i>中点</span><span><i class="discard-key"></i>已排除</span><span><i class="found-key"></i>已找到</span></div>
+      </section>
+      <footer><span>DIVIDE BY TWO</span><span>O(LOG N)</span></footer>
+    </aside>
+    <main class="stage">
+      <canvas id="canvas" aria-label="二分查找逐步区间可视化"></canvas>
+      <header class="stage-header">
+        <div class="live"><i></i><div><span id="phase-label">准备查找</span><strong id="status-text">目标 63</strong></div></div>
+        <div class="metrics" aria-live="polite"><div><span>比较次数</span><strong id="comparisons">0</strong></div><div><span>候选数量</span><strong id="remaining">15</strong></div><div><span>结果索引</span><strong id="result">--</strong></div></div>
+        <div class="actions"><button id="randomize" type="button"><span aria-hidden="true">✦</span><b>随机数据</b></button><button id="step" type="button"><span aria-hidden="true">→</span><b>单步</b></button><button id="play" class="primary" type="button"><span id="play-icon" aria-hidden="true">▶</span><b id="play-label">播放</b></button></div>
+      </header>
+      <div class="stage-note"><span>每次排除一半区间</span><i></i><span id="bounds">LOW 0 · HIGH 14</span></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

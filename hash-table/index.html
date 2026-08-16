@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171713">
+  <link rel="icon" href="data:,">
+  <title>Hash Lab · 哈希表实验场</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel">
+      <header class="brand"><div class="brand-mark" aria-hidden="true"><i>#</i></div><div><span>HASH LAB / CHAINING</span><h1>哈希表实验场</h1></div></header>
+      <section><div class="section-title"><h2>键值操作</h2><small>01</small></div><div class="field-row"><label class="field" for="key"><span>键</span><input id="key" type="text" maxlength="10" value="lime"></label><label class="field" for="value"><span>值</span><input id="value" type="number" min="0" max="999" value="72"></label></div><div class="tool-grid"><button id="insert" class="selected" type="button">插入 / 更新</button><button id="search" type="button">查找键</button><button id="remove" type="button">删除键</button><button id="step" type="button">单步探查</button></div></section>
+      <section><div class="section-title"><h2>演示参数</h2><small>02</small></div><label class="select" for="buckets"><span>桶数量</span><select id="buckets"><option value="7">7</option><option value="11" selected>11</option><option value="13">13</option><option value="17">17</option></select></label><label class="range" for="speed"><span><b>探查速度</b><output id="speed-value">1.0×</output></span><input id="speed" type="range" min="0.4" max="2.6" step="0.2" value="1"></label><label class="check"><input id="auto" type="checkbox"><span>自动生成操作</span></label></section>
+      <section><div class="section-title"><h2>冲突策略</h2><small>03</small></div><p class="rule">不同键映射到同一桶时，使用<b>分离链表</b>保存冲突项。查找只扫描目标桶，而不是整张表。</p></section>
+      <footer><span>HASH → BUCKET</span><span>SEPARATE CHAINING</span></footer>
+    </aside>
+    <main class="stage"><canvas id="canvas" aria-label="哈希定位和链地址冲突处理动画"></canvas><header class="stage-header"><div class="live"><i></i><div><span>当前步骤</span><strong id="status">等待操作</strong></div></div><div class="metrics"><div><span>负载因子</span><strong id="load">0.00</strong></div><div><span>冲突数量</span><strong id="collisions">0</strong></div><div><span>本次比较</span><strong id="comparisons">0</strong></div></div><div class="actions"><button id="random" type="button"><span aria-hidden="true">✦</span><b>随机数据</b></button><button id="pause" class="primary" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button></div></header><div class="stage-note"><span id="formula">hash(key) mod 11</span><i></i><span id="bucket-label">BUCKET --</span></div></main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

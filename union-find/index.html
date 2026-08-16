@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#15151b">
+  <link rel="icon" href="data:,">
+  <title>Union Lab · 并查集实验场</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel">
+      <header class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div><div><span>UNION LAB / DSU</span><h1>并查集实验场</h1></div></header>
+      <section><div class="section-title"><h2>集合操作</h2><small>01</small></div><div class="select-row"><label for="node-a"><span>节点 A</span><select id="node-a"></select></label><label for="node-b"><span>节点 B</span><select id="node-b"></select></label></div><div class="tool-grid"><button id="union" class="selected" type="button">合并 Union</button><button id="find-a" type="button">查找 A</button><button id="connected" type="button">连通判断</button><button id="step" type="button">单步执行</button></div></section>
+      <section><div class="section-title"><h2>演示参数</h2><small>02</small></div><label class="range" for="nodes"><span><b>节点数量</b><output id="nodes-value">12</output></span><input id="nodes" type="range" min="6" max="18" step="1" value="12"></label><label class="range" for="speed"><span><b>执行速度</b><output id="speed-value">1.0×</output></span><input id="speed" type="range" min="0.4" max="2.6" step="0.2" value="1"></label><label class="check"><input id="compression" type="checkbox" checked><span>启用路径压缩</span></label><label class="check"><input id="auto" type="checkbox"><span>自动随机合并</span></label></section>
+      <section><div class="section-title"><h2>优化策略</h2><small>03</small></div><p class="rule"><b>按秩合并</b>把较浅的树连接到较深的树；<b>路径压缩</b>让查找路径上的节点直接指向根。</p></section>
+      <footer><span>DISJOINT SET</span><span>PATH COMPRESSION</span></footer>
+    </aside>
+    <main class="stage"><canvas id="canvas" aria-label="并查集查找、合并和路径压缩动画"></canvas><header class="stage-header"><div class="live"><i></i><div><span>当前步骤</span><strong id="status">等待操作</strong></div></div><div class="metrics"><div><span>集合数量</span><strong id="components">0</strong></div><div><span>最大深度</span><strong id="depth">0</strong></div><div><span>操作次数</span><strong id="operations">0</strong></div></div><div class="actions"><button id="reset" type="button"><span aria-hidden="true">↺</span><b>重置</b></button><button id="pause" class="primary" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button></div></header><div class="stage-note"><span>PARENT FOREST</span><i></i><span id="path-label">PATH --</span></div></main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

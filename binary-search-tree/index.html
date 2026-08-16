@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#111816">
+  <meta name="description" content="二叉搜索树插入、查找和删除路径的交互式动画演示">
+  <title>Search Tree Lab · 二叉搜索树实验场</title><link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="lab-shell">
+  <aside class="panel" aria-label="二叉搜索树控制面板">
+    <header class="brand"><div class="brand-mark tree-mark" aria-hidden="true"><i></i><i></i><i></i></div><div><span>SEARCH TREE LAB / BST</span><h1>二叉搜索树实验场</h1></div></header>
+    <section><div class="section-title"><h2>节点操作</h2><small>01</small></div><label class="field-label" for="node-value">键值</label><div class="value-entry"><input id="node-value" type="number" min="0" max="99" value="45"><button id="insert" type="button">插入节点</button><button id="find" type="button">查找路径</button></div><div class="command-grid"><button id="remove" class="danger" type="button">删除节点</button><button id="randomize" type="button">随机示例</button></div></section>
+    <section><div class="section-title"><h2>播放控制</h2><small>02</small></div><label class="range" for="speed"><span><b>动画速度</b><output id="speed-value">5</output></span><input id="speed" type="range" min="1" max="10" value="5"></label><div class="playback"><button id="step" type="button"><span class="step-icon" aria-hidden="true"></span>单步</button><button id="pause" class="primary" type="button"><span id="pause-icon" class="pause-icon" aria-hidden="true"></span><b id="pause-label">暂停</b></button></div></section>
+    <section><div class="section-title"><h2>结构</h2><small>03</small></div><button id="reset" class="wide-button" type="button"><span aria-hidden="true">↻</span>重置示例</button><div class="legend" aria-hidden="true"><span><i class="current"></i>搜索指针</span><span><i class="write"></i>结构更新</span><span><i class="target"></i>删除目标</span></div></section>
+    <footer><span>LEFT &lt; ROOT</span><span>RIGHT &gt; ROOT</span></footer>
+  </aside>
+  <main class="stage"><canvas id="canvas" aria-label="二叉搜索树及搜索路径动画"></canvas><header class="stage-header"><div class="live"><i id="live-dot"></i><div><span>当前阶段</span><strong id="status">等待操作</strong></div></div><div class="metrics" aria-live="polite"><div><span>节点</span><strong id="metric-count">9</strong></div><div><span>树高</span><strong id="metric-height">4</strong></div><div><span>比较</span><strong id="metric-comparisons">0</strong></div></div><div class="stage-actions"><button id="stage-reset" type="button"><span aria-hidden="true">↻</span><b>重置</b></button><button id="stage-pause" class="primary" type="button"><span id="stage-pause-icon" class="pause-icon" aria-hidden="true"></span><b id="stage-pause-label">暂停</b></button></div></header><div class="stage-note"><span id="operation-label">较小向左，较大向右</span><i></i><span id="step-label">READY</span></div></main>
+</div><script src="app.js"></script></body></html>

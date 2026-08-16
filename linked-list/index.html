@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111816">
+  <meta name="description" content="单链表指针更新与查找过程的交互式动画演示">
+  <title>Pointer Lab · 单链表实验场</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel" aria-label="单链表控制面板">
+      <header class="brand">
+        <div class="brand-mark list-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div><span>POINTER LAB / LIST</span><h1>单链表实验场</h1></div>
+      </header>
+
+      <section>
+        <div class="section-title"><h2>节点操作</h2><small>01</small></div>
+        <label class="field-label" for="node-value">节点值</label>
+        <div class="value-entry">
+          <input id="node-value" type="number" min="0" max="99" value="42" inputmode="numeric">
+          <button id="add-head" type="button">插入头部</button>
+          <button id="add-tail" type="button">插入尾部</button>
+        </div>
+        <div class="command-grid">
+          <button id="find" type="button">查找值</button>
+          <button id="remove" class="danger" type="button">删除值</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title"><h2>播放控制</h2><small>02</small></div>
+        <label class="range" for="speed"><span><b>动画速度</b><output id="speed-value">5</output></span><input id="speed" type="range" min="1" max="10" step="1" value="5"></label>
+        <div class="playback">
+          <button id="step" type="button"><span class="step-icon" aria-hidden="true"></span>单步</button>
+          <button id="pause" class="primary" type="button"><span id="pause-icon" class="pause-icon" aria-hidden="true"></span><b id="pause-label">暂停</b></button>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title"><h2>结构</h2><small>03</small></div>
+        <button id="reset" class="wide-button" type="button"><span aria-hidden="true">↻</span>重置示例</button>
+        <div class="legend" aria-hidden="true"><span><i class="current"></i>当前指针</span><span><i class="write"></i>指针写入</span><span><i class="target"></i>目标节点</span></div>
+      </section>
+      <footer><span>O(1) HEAD INSERT</span><span>O(N) SEARCH</span></footer>
+    </aside>
+
+    <main class="stage">
+      <canvas id="canvas" aria-label="单链表节点与 next 指针动画"></canvas>
+      <header class="stage-header">
+        <div class="live"><i id="live-dot"></i><div><span>当前阶段</span><strong id="status">等待操作</strong></div></div>
+        <div class="metrics" aria-live="polite"><div><span>节点</span><strong id="metric-count">4</strong></div><div><span>比较</span><strong id="metric-comparisons">0</strong></div><div><span>指针写入</span><strong id="metric-writes">0</strong></div></div>
+        <div class="stage-actions"><button id="stage-reset" type="button"><span aria-hidden="true">↻</span><b>重置</b></button><button id="stage-pause" class="primary" type="button"><span id="stage-pause-icon" class="pause-icon" aria-hidden="true"></span><b id="stage-pause-label">暂停</b></button></div>
+      </header>
+      <div class="stage-note"><span id="operation-label">HEAD → 首节点</span><i></i><span id="step-label">READY</span></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

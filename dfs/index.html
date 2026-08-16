@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111719">
+  <meta name="description" content="可编辑网格中的深度优先搜索动画演示">
+  <title>DFS Lab · 深度优先搜索</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel" aria-label="深度优先搜索参数">
+      <header class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div><span>DEPTH EXPLORATION LAB</span><h1>深度优先搜索</h1></div></header>
+      <section>
+        <div class="section-title"><h2>迷宫网格</h2><small>01</small></div>
+        <label class="range" for="grid-size"><span><b>网格密度</b><output id="grid-size-value">30 列</output></span><input id="grid-size" type="range" min="18" max="46" step="2" value="30"></label>
+        <label class="range" for="wall-density"><span><b>障碍密度</b><output id="wall-density-value">22%</output></span><input id="wall-density" type="range" min="5" max="38" step="1" value="22"></label>
+        <button class="block-button" id="new-maze" type="button"><span aria-hidden="true">⠿</span>生成可达迷宫</button>
+      </section>
+      <section>
+        <div class="section-title"><h2>编辑工具</h2><small>02</small></div>
+        <span class="field-label">点击或拖动画布</span>
+        <div class="tool-grid" id="tools" role="group" aria-label="网格编辑工具">
+          <button type="button" data-tool="wall" aria-pressed="true">绘制障碍</button>
+          <button type="button" data-tool="erase" aria-pressed="false">擦除障碍</button>
+          <button type="button" data-tool="start" aria-pressed="false">移动起点</button>
+          <button type="button" data-tool="target" aria-pressed="false">移动目标</button>
+        </div>
+        <div class="legend"><span><i class="stack"></i>搜索栈</span><span><i class="current"></i>当前</span><span><i class="closed"></i>已回退</span></div>
+      </section>
+      <section>
+        <div class="section-title"><h2>遍历速度</h2><small>03</small></div>
+        <label class="range" for="speed"><span><b>播放速度</b><output id="speed-value">18 步/秒</output></span><input id="speed" type="range" min="1" max="60" step="1" value="18"></label>
+        <p class="field-note">DFS 会沿一个方向持续深入；走入死路后，撤销路径并返回最近仍有分支的位置。</p>
+      </section>
+      <footer><span>DFS / LIFO STACK</span><span>O(V + E)</span></footer>
+    </aside>
+    <main class="stage">
+      <canvas id="canvas" aria-label="深度优先搜索迷宫动画"></canvas>
+      <header class="stage-header">
+        <div class="live"><i></i><div><span id="run-state">向深处探索</span><strong id="status-label">寻找目标</strong></div></div>
+        <div class="metrics" aria-live="polite">
+          <div><span>已访问</span><strong id="visited">0</strong></div><div><span>栈深度</span><strong id="stack-depth">1</strong></div><div><span>回退</span><strong id="backtracks">0</strong></div><div><span>帧率</span><strong><b id="fps">60</b><small> FPS</small></strong></div>
+        </div>
+        <div class="actions"><button id="reset" type="button" title="重置搜索"><span aria-hidden="true">↻</span><b>重置</b></button><button id="step" type="button" title="执行一步"><span aria-hidden="true">↦</span><b>单步</b></button><button id="pause" class="primary" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button></div>
+      </header>
+      <div class="stage-note" aria-hidden="true"><span id="tool-status">绘制障碍</span><i></i><span id="grid-status">30 × 24 CELLS</span></div>
+      <div class="stack-note" aria-live="polite"><span>PATH STACK</span><i></i><strong id="path-preview">START</strong></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

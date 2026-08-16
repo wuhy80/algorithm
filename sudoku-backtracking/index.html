@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111719">
+  <meta name="description" content="数独回溯求解逐步动画演示">
+  <title>Sudoku Lab · 数独回溯求解</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="panel" aria-label="数独回溯参数">
+      <header class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div><span>CONSTRAINT SOLVER LAB</span><h1>数独回溯求解</h1></div></header>
+      <section>
+        <div class="section-title"><h2>题目</h2><small>01</small></div>
+        <label class="select-label" for="puzzle">内置数独</label>
+        <div class="select-wrap"><select id="puzzle"><option value="easy">入门 · 51 个空格</option><option value="medium" selected>进阶 · 45 个空格</option><option value="hard">困难 · 53 个空格</option><option value="expert">专家 · 58 个空格</option></select></div>
+        <div class="puzzle-meta"><span>约束传播</span><strong>MRV 最少候选优先</strong></div>
+      </section>
+      <section>
+        <div class="section-title"><h2>搜索控制</h2><small>02</small></div>
+        <label class="range" for="speed"><span><b>播放速度</b><output id="speed-value">24 步/秒</output></span><input id="speed" type="range" min="1" max="120" step="1" value="24"></label>
+        <label class="select-label" for="digit-order">数字尝试顺序</label>
+        <div class="select-wrap"><select id="digit-order"><option value="ascending">1 → 9</option><option value="descending">9 → 1</option><option value="center">中心数字优先</option></select></div>
+      </section>
+      <section>
+        <div class="section-title"><h2>状态图例</h2><small>03</small></div>
+        <div class="legend"><span><i class="given"></i>题目数字</span><span><i class="placed"></i>搜索填入</span><span><i class="trying"></i>正在尝试</span><span><i class="conflict"></i>冲突 / 撤销</span></div>
+        <p class="field-note">同行、同列或同一 3 × 3 宫内已经存在相同数字时，候选立即被拒绝；后续无解则撤销最近一次填入。</p>
+      </section>
+      <section>
+        <div class="section-title"><h2>回溯流程</h2><small>04</small></div>
+        <ol class="rules"><li><b>选择</b><span>定位候选数最少的空格</span></li><li><b>尝试</b><span>依次放入 1 至 9</span></li><li><b>冲突</b><span>违反行、列、宫约束则跳过</span></li><li><b>撤销</b><span>后续无解则恢复为空格</span></li></ol>
+      </section>
+      <footer><span>SUDOKU / 9 × 9</span><span>BACKTRACKING</span></footer>
+    </aside>
+    <main class="stage">
+      <canvas id="canvas" aria-label="数独回溯求解棋盘"></canvas>
+      <header class="stage-header">
+        <div class="live"><i></i><div><span id="run-state">约束搜索中</span><strong id="event-label">选择下一个空格</strong></div></div>
+        <div class="metrics" aria-live="polite"><div><span>尝试</span><strong id="attempts">0</strong></div><div><span>已填</span><strong id="filled">36/81</strong></div><div><span>撤销</span><strong id="backtracks">0</strong></div><div><span>帧率</span><strong><b id="fps">60</b><small> FPS</small></strong></div></div>
+        <div class="actions"><button id="reset" type="button" title="重新求解"><span aria-hidden="true">↻</span><b>重置</b></button><button id="step" type="button" title="执行一步"><span aria-hidden="true">↦</span><b>单步</b></button><button id="pause" class="primary" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button></div>
+      </header>
+      <div class="stage-note" aria-hidden="true"><span>ROW · COLUMN · BOX</span><i></i><span id="puzzle-note">MEDIUM</span></div>
+      <div class="constraint-note" aria-live="polite"><span id="constraint-label">等待候选</span></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
