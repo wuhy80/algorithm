@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101718">
+  <meta name="description" content="可交互的 Gray-Scott 反应扩散算法实时演示">
+  <title>Morphogenesis Lab · 反应扩散实验场</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="control-panel" aria-label="反应扩散参数">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div>
+          <span>MORPHOGENESIS LAB</span>
+          <h1>反应扩散实验场</h1>
+        </div>
+      </header>
+
+      <section class="control-section compact-section" aria-labelledby="pattern-title">
+        <div class="section-heading">
+          <h2 id="pattern-title">形态预设</h2>
+          <span class="section-index">01</span>
+        </div>
+        <label class="select-label" for="preset">Gray-Scott 参数组合</label>
+        <div class="select-wrap">
+          <select id="preset">
+            <option value="coral">珊瑚生长</option>
+            <option value="mitosis">细胞分裂</option>
+            <option value="worms">蠕虫网络</option>
+            <option value="solitons">孤立波</option>
+            <option value="maze">迷宫纹理</option>
+            <option value="custom">自定义</option>
+          </select>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="legend-a"></i>物质 A</span>
+          <span><i class="legend-front"></i>反应前沿</span>
+          <span><i class="legend-b"></i>物质 B</span>
+        </div>
+      </section>
+
+      <section class="control-section" aria-labelledby="reaction-title">
+        <div class="section-heading">
+          <h2 id="reaction-title">反应速率</h2>
+          <span class="section-index">02</span>
+        </div>
+        <label class="range-control" for="feed">
+          <span><b>补给率 F</b><output id="feed-value">0.0545</output></span>
+          <input id="feed" type="range" min="0.0100" max="0.1000" step="0.0005" value="0.0545">
+        </label>
+        <label class="range-control" for="kill">
+          <span><b>消耗率 K</b><output id="kill-value">0.0620</output></span>
+          <input id="kill" type="range" min="0.0400" max="0.0750" step="0.0005" value="0.0620">
+        </label>
+      </section>
+
+      <section class="control-section" aria-labelledby="diffusion-title">
+        <div class="section-heading">
+          <h2 id="diffusion-title">扩散与计算</h2>
+          <span class="section-index">03</span>
+        </div>
+        <label class="range-control" for="diff-a">
+          <span><b>物质 A 扩散</b><output id="diff-a-value">1.00</output></span>
+          <input id="diff-a" type="range" min="0.20" max="1.40" step="0.02" value="1.00">
+        </label>
+        <label class="range-control" for="diff-b">
+          <span><b>物质 B 扩散</b><output id="diff-b-value">0.50</output></span>
+          <input id="diff-b" type="range" min="0.10" max="1.00" step="0.02" value="0.50">
+        </label>
+        <label class="range-control" for="iterations">
+          <span><b>每帧迭代</b><output id="iterations-value">8 次</output></span>
+          <input id="iterations" type="range" min="1" max="20" step="1" value="8">
+        </label>
+        <label class="range-control" for="resolution">
+          <span><b>网格分辨率</b><output id="resolution-value">180</output></span>
+          <input id="resolution" type="range" min="96" max="276" step="12" value="180">
+        </label>
+      </section>
+
+      <section class="control-section" aria-labelledby="brush-title">
+        <div class="section-heading">
+          <h2 id="brush-title">画布工具</h2>
+          <span class="section-index">04</span>
+        </div>
+        <span class="field-label">按住并拖动画布</span>
+        <div class="segmented" id="brush-mode" role="group" aria-label="绘制模式">
+          <button type="button" data-mode="add" aria-pressed="true">注入物质 B</button>
+          <button type="button" data-mode="erase" aria-pressed="false">清除纹理</button>
+        </div>
+        <label class="range-control brush-range" for="brush-size">
+          <span><b>笔刷半径</b><output id="brush-size-value">10 px</output></span>
+          <input id="brush-size" type="range" min="3" max="28" step="1" value="10">
+        </label>
+      </section>
+
+      <footer class="panel-footer">
+        <span>GRAY–SCOTT / 1983</span>
+        <span>DOUBLE BUFFER</span>
+      </footer>
+    </aside>
+
+    <main class="simulation-stage">
+      <canvas id="simulation" aria-label="Gray-Scott 反应扩散实时模拟画布"></canvas>
+
+      <header class="stage-header">
+        <div class="scene-title">
+          <i class="live-dot" aria-hidden="true"></i>
+          <div>
+            <span id="run-state">持续演化</span>
+            <strong id="pattern-name">珊瑚生长</strong>
+          </div>
+        </div>
+
+        <div class="metrics" aria-live="polite">
+          <div><span>帧率</span><strong><b id="metric-fps">60</b><small> FPS</small></strong></div>
+          <div><span>迭代</span><strong id="metric-generation">0</strong></div>
+          <div><span>活跃区域</span><strong><b id="metric-activity">0.0</b><small>%</small></strong></div>
+        </div>
+
+        <div class="stage-actions">
+          <button id="reset" type="button" title="重新生成初始扰动"><span aria-hidden="true">↻</span><b>重置</b></button>
+          <button id="pause" class="primary-action" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button>
+        </div>
+      </header>
+
+      <div class="canvas-note" aria-hidden="true">
+        <span id="brush-status">注入物质 B</span>
+        <i></i>
+        <span id="grid-status">180 × 112 CELLS</span>
+      </div>
+      <div class="equation" aria-hidden="true">
+        <span>∂A = Dₐ∇²A − AB² + F(1−A)</span>
+        <span>∂B = Dᵦ∇²B + AB² − (K+F)B</span>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
