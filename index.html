@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#15211f" />
+    <meta
+      name="description"
+      content="141 个算法与数据结构的交互式可视化目录，包含难度分级、先修关系和学习路径。"
+    />
+    <link rel="icon" href="data:," />
+    <title>算法可视化图谱 · Algorithm Visualization Atlas</title>
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="算法可视化图谱首页">
+        <span class="brand-mark">AV</span>
+        <span><b>算法可视化图谱</b><small>ALGORITHM ATLAS</small></span>
+      </a>
+      <nav aria-label="站点链接">
+        <a href="#catalog">算法目录</a>
+        <a
+          href="https://github.com/wuhy80/algorithm"
+          target="_blank"
+          rel="noreferrer"
+          ><i data-lucide="github" aria-hidden="true"></i>GitHub</a
+        >
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">ALGORITHM / DATA STRUCTURE / SIMULATION</p>
+          <h1 id="hero-title">算法可视化图谱</h1>
+          <p>
+            从基础查找与线性结构，到网络流、树分解、字符串自动机和动态模拟。每个主题都提供独立源码、可调参数与逐步动画。
+          </p>
+          <label class="search-box" for="search">
+            <i data-lucide="search" aria-hidden="true"></i>
+            <span class="sr-only">搜索算法</span>
+            <input
+              id="search"
+              type="search"
+              autocomplete="off"
+              placeholder="搜索名称、问题、范式或标签"
+            />
+            <kbd>/</kbd>
+          </label>
+          <div class="hero-stats" aria-label="目录统计">
+            <span><b id="total-count">141</b><small>可运行演示</small></span>
+            <span><b id="category-count">12</b><small>主题领域</small></span>
+            <span><b>4</b><small>学习阶段</small></span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <canvas
+            id="atlas-canvas"
+            role="img"
+            aria-label="算法节点与依赖关系动态网络"
+          ></canvas>
+          <div class="canvas-legend" aria-hidden="true">
+            <span>SEARCH</span><span>GRAPH</span><span>TREE</span
+            ><span>STRING</span><span>MATH</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learning" aria-labelledby="learning-title">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LEARNING PATH</p>
+            <h2 id="learning-title">四段学习路径</h2>
+          </div>
+          <button id="clear-track" class="quiet-button" type="button" hidden>
+            <i data-lucide="x" aria-hidden="true"></i>清除阶段筛选
+          </button>
+        </div>
+        <div class="track-list" role="list">
+          <button
+            type="button"
+            class="track"
+            data-stage="1"
+            aria-pressed="false"
+          >
+            <span>01</span><b>基础操作与核心思想</b
+            ><small>查找、排序、线性结构、树与图遍历</small
+            ><i data-lucide="arrow-right" aria-hidden="true"></i>
+          </button>
+          <button
+            type="button"
+            class="track"
+            data-stage="2"
+            aria-pressed="false"
+          >
+            <span>02</span><b>常用范式与组合技巧</b
+            ><small>贪心、动态规划、字符串、区间与最短路</small
+            ><i data-lucide="arrow-right" aria-hidden="true"></i>
+          </button>
+          <button
+            type="button"
+            class="track"
+            data-stage="3"
+            aria-pressed="false"
+          >
+            <span>03</span><b>进阶算法与工程结构</b
+            ><small>网络流、高级数据结构、几何与数论</small
+            ><i data-lucide="arrow-right" aria-hidden="true"></i>
+          </button>
+          <button
+            type="button"
+            class="track"
+            data-stage="4"
+            aria-pressed="false"
+          >
+            <span>04</span><b>专项高级算法</b
+            ><small>复杂匹配、树分解、自动机、变换与模拟</small
+            ><i data-lucide="arrow-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <main id="catalog" class="catalog-layout">
+      <aside class="category-panel" aria-labelledby="category-title">
+        <div class="aside-heading">
+          <h2 id="category-title">主题领域</h2>
+          <button
+            id="clear-category"
+            type="button"
+            aria-label="显示全部主题"
+            data-tooltip="显示全部主题"
+          >
+            <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+          </button>
+        </div>
+        <nav id="category-list" aria-label="算法主题"></nav>
+      </aside>
+
+      <section class="catalog-main" aria-labelledby="catalog-title">
+        <div class="catalog-toolbar">
+          <div>
+            <p class="eyebrow">CATALOG</p>
+            <h2 id="catalog-title">全部算法与数据结构</h2>
+          </div>
+          <div class="difficulty-filter" role="group" aria-label="按难度筛选">
+            <button type="button" data-difficulty="全部" aria-pressed="true">
+              全部
+            </button>
+            <button type="button" data-difficulty="基础" aria-pressed="false">
+              基础
+            </button>
+            <button type="button" data-difficulty="进阶" aria-pressed="false">
+              进阶
+            </button>
+            <button type="button" data-difficulty="高级" aria-pressed="false">
+              高级
+            </button>
+          </div>
+        </div>
+        <div class="result-summary" aria-live="polite">
+          <span id="result-count">141 项结果</span
+          ><span id="active-filters"></span>
+        </div>
+        <div id="algorithm-list" class="algorithm-list"></div>
+        <div id="empty-state" class="empty-state" hidden>
+          <i data-lucide="search-x" aria-hidden="true"></i>
+          <h3>没有匹配结果</h3>
+          <button id="reset-filters" type="button">清除全部筛选</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Algorithm Visualization Atlas · 141 independent demos</span>
+      <a
+        href="https://github.com/wuhy80/algorithm"
+        target="_blank"
+        rel="noreferrer"
+        >查看项目源码 <i data-lucide="external-link" aria-hidden="true"></i
+      ></a>
+    </footer>
+
+    <script src="catalog-data.js"></script>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="site.js"></script>
+  </body>
+</html>
