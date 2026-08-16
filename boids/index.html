@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101715">
+  <title>Flock Lab · 群鸟算法实验场</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="control-panel" aria-label="群鸟算法参数">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div>
+          <p>FLOCK LAB</p>
+          <h1>群鸟算法实验场</h1>
+        </div>
+      </header>
+
+      <section class="control-section compact-section" aria-labelledby="scene-title">
+        <div class="section-heading">
+          <h2 id="scene-title">场景</h2>
+          <button class="icon-button" id="reset-settings" type="button" title="恢复默认参数" aria-label="恢复默认参数">↺</button>
+        </div>
+        <label class="select-label" for="preset">行为预设</label>
+        <div class="select-wrap">
+          <select id="preset">
+            <option value="natural">自然迁徙</option>
+            <option value="school">紧密集群</option>
+            <option value="storm">湍流风暴</option>
+            <option value="calm">舒缓漂流</option>
+            <option value="custom">自定义</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="control-section" aria-labelledby="flock-title">
+        <div class="section-heading">
+          <h2 id="flock-title">鸟群参数</h2>
+          <span class="section-index">01</span>
+        </div>
+
+        <label class="range-control" for="count">
+          <span><b>鸟群数量</b><output id="count-value">420</output></span>
+          <input id="count" type="range" min="40" max="1200" step="10" value="420">
+        </label>
+
+        <label class="range-control" for="perception">
+          <span><b>感知半径</b><output id="perception-value">62 px</output></span>
+          <input id="perception" type="range" min="20" max="140" step="1" value="62">
+        </label>
+
+        <label class="range-control" for="speed">
+          <span><b>最大速度</b><output id="speed-value">3.2</output></span>
+          <input id="speed" type="range" min="0.8" max="6" step="0.1" value="3.2">
+        </label>
+      </section>
+
+      <section class="control-section" aria-labelledby="rule-title">
+        <div class="section-heading">
+          <h2 id="rule-title">行为权重</h2>
+          <span class="section-index">02</span>
+        </div>
+
+        <label class="range-control" for="alignment">
+          <span><b>方向同步</b><output id="alignment-value">1.00</output></span>
+          <input id="alignment" type="range" min="0" max="2.5" step="0.05" value="1">
+        </label>
+
+        <label class="range-control" for="cohesion">
+          <span><b>群体聚合</b><output id="cohesion-value">0.85</output></span>
+          <input id="cohesion" type="range" min="0" max="2.5" step="0.05" value="0.85">
+        </label>
+
+        <label class="range-control" for="separation">
+          <span><b>个体分离</b><output id="separation-value">1.35</output></span>
+          <input id="separation" type="range" min="0" max="3" step="0.05" value="1.35">
+        </label>
+
+        <label class="range-control" for="force">
+          <span><b>转向力度</b><output id="force-value">0.055</output></span>
+          <input id="force" type="range" min="0.01" max="0.14" step="0.005" value="0.055">
+        </label>
+      </section>
+
+      <section class="control-section" aria-labelledby="world-title">
+        <div class="section-heading">
+          <h2 id="world-title">环境</h2>
+          <span class="section-index">03</span>
+        </div>
+
+        <span class="field-label">边界模式</span>
+        <div class="segmented" id="boundary-control" role="group" aria-label="边界模式">
+          <button type="button" data-value="wrap" aria-pressed="true">穿越</button>
+          <button type="button" data-value="bounce" aria-pressed="false">回弹</button>
+        </div>
+
+        <span class="field-label">画布工具</span>
+        <div class="segmented three" id="tool-control" role="group" aria-label="画布工具">
+          <button type="button" data-value="attract" aria-pressed="true">引导</button>
+          <button type="button" data-value="repel" aria-pressed="false">驱散</button>
+          <button type="button" data-value="obstacle" aria-pressed="false">障碍</button>
+        </div>
+
+        <div class="switch-row">
+          <label class="switch-control" for="trails">
+            <input id="trails" type="checkbox" checked>
+            <span aria-hidden="true"></span>
+            <b>运动轨迹</b>
+          </label>
+          <button class="text-button" id="clear-obstacles" type="button">清除障碍</button>
+        </div>
+      </section>
+
+      <footer class="panel-footer">
+        <span>BOIDS / 1986</span>
+        <span>SPATIAL HASH</span>
+      </footer>
+    </aside>
+
+    <main class="simulation-stage">
+      <canvas id="flock-canvas" aria-label="实时群鸟算法模拟画布"></canvas>
+
+      <header class="stage-header">
+        <div class="scene-title">
+          <span class="live-dot" aria-hidden="true"></span>
+          <div>
+            <span>实时演化</span>
+            <strong id="scene-name">自然迁徙</strong>
+          </div>
+        </div>
+
+        <div class="metrics" aria-live="polite">
+          <div><span>个体</span><strong id="metric-count">420</strong></div>
+          <div><span>帧率</span><strong><span id="metric-fps">60</span><small> FPS</small></strong></div>
+          <div><span>协调度</span><strong><span id="metric-coherence">0</span><small>%</small></strong></div>
+        </div>
+
+        <div class="stage-actions">
+          <button id="scatter" type="button"><span aria-hidden="true">✦</span><span class="action-label">重组</span></button>
+          <button id="pause" class="primary-action" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><span id="pause-label">暂停</span></button>
+        </div>
+      </header>
+
+      <div class="canvas-status" aria-hidden="true">
+        <span id="tool-indicator">引导力场</span>
+        <span class="status-line"></span>
+        <span id="obstacle-count">0 个障碍</span>
+      </div>
+
+      <div class="canvas-coordinate" aria-hidden="true">
+        <span>N 31°14′</span>
+        <span>E 121°29′</span>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
