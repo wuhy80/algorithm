@@ -6,7 +6,7 @@
 
 | 算法 | 说明 | 演示 |
 | --- | --- | --- |
-| [Boids 群鸟算法](./boids/README.md) | 模拟鸟群、鱼群等群体运动的分布式行为模型 | [打开演示](./boids/index.html) |
+| [Boids 群鸟算法](./boids/) | 模拟鸟群、鱼群等群体运动的分布式行为模型 | [打开演示](https://wuhy80.github.io/algorithm/boids/) |
 
 ## 目录约定
 
@@ -15,3 +15,13 @@
 - `README.md`：算法原理、解决的问题、复杂度和使用方式。
 - 算法实现：核心逻辑与必要的界面文件。
 - 可运行入口：能够独立启动或直接打开的示例。
+
+## 链接约定
+
+首页中的链接统一遵循以下规则：
+
+- 算法名称链接到仓库内的源码目录，例如 `./boids/`。
+- “打开演示”链接到完整的 GitHub Pages 地址，例如 `https://wuhy80.github.io/algorithm/boids/`。
+- 新算法的目录名同时作为 Pages 路径，格式为 `https://wuhy80.github.io/algorithm/<算法目录>/`。
+
+GitHub Pages 从 `main` 分支根目录发布，因此每个算法目录中的 `index.html` 都会自动成为该算法的在线演示入口。
