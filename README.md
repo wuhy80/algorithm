@@ -17,7 +17,7 @@
 | [Perlin 噪声流场 Flow Field](./flow-field/) | 大量粒子沿连续噪声向量场流动并留下动态轨迹 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/flow-field/) |
 | [迷宫生成 Maze Generation](./maze-generation/) | 墙体逐步开凿形成迷宫，并动态展示寻路过程 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/maze-generation/) |
 | [傅里叶旋轮 Fourier Epicycles](./fourier-epicycles/) | 多级旋转向量逐步重建并绘制复杂轮廓 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/fourier-epicycles/) |
-| 康威生命游戏 Conway's Game of Life | 细胞在离散规则下繁衍、消亡并产生复杂结构 | 待实现 | - |
+| [康威生命游戏 Conway's Game of Life](./game-of-life/) | 细胞在离散规则下繁衍、消亡并产生复杂结构 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/game-of-life/) |
 | Voronoi 与 Lloyd 松弛 | 泰森多边形随控制点移动，并逐步趋向均匀分布 | 待实现 | - |
 
 ## 演示原则

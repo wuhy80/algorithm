@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101718">
+  <meta name="description" content="可绘制、可调速的康威生命游戏实时演示">
+  <title>Life Lab · 康威生命游戏</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="control-panel" aria-label="生命游戏参数">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div>
+          <span>CELLULAR AUTOMATA LAB</span>
+          <h1>康威生命游戏</h1>
+        </div>
+      </header>
+
+      <section class="control-section compact-section" aria-labelledby="pattern-title">
+        <div class="section-heading">
+          <h2 id="pattern-title">初始图案</h2>
+          <span class="section-index">01</span>
+        </div>
+        <label class="select-label" for="pattern">经典生命结构</label>
+        <div class="select-wrap">
+          <select id="pattern">
+            <option value="random">随机星云</option>
+            <option value="glider">滑翔机</option>
+            <option value="pulsar">脉冲星</option>
+            <option value="gosper">高斯帕滑翔机枪</option>
+            <option value="lwss">轻量级飞船</option>
+            <option value="rpentomino">R 五连块</option>
+            <option value="acorn">橡实</option>
+            <option value="custom">自定义画布</option>
+          </select>
+        </div>
+        <label class="range-control density-control" for="random-density">
+          <span><b>随机存活率</b><output id="random-density-value">24%</output></span>
+          <input id="random-density" type="range" min="5" max="60" step="1" value="24">
+        </label>
+        <div class="legend" aria-hidden="true">
+          <span><i class="newborn"></i>新生</span>
+          <span><i class="stable"></i>稳定</span>
+          <span><i class="elder"></i>长寿</span>
+        </div>
+      </section>
+
+      <section class="control-section" aria-labelledby="world-title">
+        <div class="section-heading">
+          <h2 id="world-title">世界参数</h2>
+          <span class="section-index">02</span>
+        </div>
+        <label class="range-control" for="density">
+          <span><b>网格密度</b><output id="density-value">112 列</output></span>
+          <input id="density" type="range" min="48" max="184" step="8" value="112">
+        </label>
+        <label class="range-control" for="speed">
+          <span><b>演化速度</b><output id="speed-value">18 代/秒</output></span>
+          <input id="speed" type="range" min="1" max="60" step="1" value="18">
+        </label>
+        <span class="field-label boundary-label">边界模式</span>
+        <div class="segmented" id="boundary-mode" role="group" aria-label="边界模式">
+          <button type="button" data-boundary="wrap" aria-pressed="true">环绕世界</button>
+          <button type="button" data-boundary="dead" aria-pressed="false">封闭边界</button>
+        </div>
+      </section>
+
+      <section class="control-section" aria-labelledby="draw-title">
+        <div class="section-heading">
+          <h2 id="draw-title">画布工具</h2>
+          <span class="section-index">03</span>
+        </div>
+        <span class="field-label">按住并拖动画布</span>
+        <div class="segmented" id="draw-mode" role="group" aria-label="绘制工具">
+          <button type="button" data-mode="draw" aria-pressed="true">绘制细胞</button>
+          <button type="button" data-mode="erase" aria-pressed="false">擦除细胞</button>
+        </div>
+        <div class="tool-actions">
+          <button id="clear" type="button"><span aria-hidden="true">×</span>清空画布</button>
+          <button id="center-pattern" type="button"><span aria-hidden="true">◎</span>居中图案</button>
+        </div>
+      </section>
+
+      <section class="rule-strip" aria-label="生命游戏规则">
+        <span><b>B3</b> 三邻居诞生</span>
+        <span><b>S23</b> 二或三邻居存活</span>
+      </section>
+
+      <footer class="panel-footer">
+        <span>CONWAY / 1970</span>
+        <span>B3 · S23</span>
+      </footer>
+    </aside>
+
+    <main class="simulation-stage">
+      <canvas id="simulation" aria-label="康威生命游戏实时网格"></canvas>
+
+      <header class="stage-header">
+        <div class="scene-title">
+          <i class="live-dot" aria-hidden="true"></i>
+          <div>
+            <span id="run-state">自动演化</span>
+            <strong id="pattern-name">随机星云</strong>
+          </div>
+        </div>
+
+        <div class="metrics" aria-live="polite">
+          <div><span>代数</span><strong id="metric-generation">0</strong></div>
+          <div><span>存活</span><strong id="metric-alive">0</strong></div>
+          <div><span>变化率</span><strong><b id="metric-change">0.0</b><small>%</small></strong></div>
+          <div><span>帧率</span><strong><b id="metric-fps">60</b><small> FPS</small></strong></div>
+        </div>
+
+        <div class="stage-actions">
+          <button id="randomize" type="button" title="重新随机生成"><span aria-hidden="true">⠿</span><b>随机</b></button>
+          <button id="step" type="button" title="演化一代"><span aria-hidden="true">↦</span><b>单步</b></button>
+          <button id="pause" class="primary-action" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><b id="pause-label">暂停</b></button>
+        </div>
+      </header>
+
+      <div class="canvas-note" aria-hidden="true">
+        <span id="tool-status">绘制细胞</span>
+        <i></i>
+        <span id="grid-status">112 × 90 CELLS</span>
+      </div>
+      <div class="rule-note" aria-hidden="true">
+        <span>UNDERPOPULATION</span>
+        <i></i>
+        <span>REPRODUCTION</span>
+        <i></i>
+        <span>OVERCROWDING</span>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
