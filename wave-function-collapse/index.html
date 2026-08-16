@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111816">
+  <meta name="description" content="可交互的波函数坍缩算法可视化：观察最低熵选择、约束传播与回退。">
+  <title>WFC Lab · 波函数坍缩实验场</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab-shell">
+    <aside class="control-panel" aria-label="波函数坍缩参数">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <i></i><i></i><i></i><i></i>
+        </div>
+        <div>
+          <span>WFC LAB / GENERATIVE</span>
+          <h1>波函数坍缩实验场</h1>
+        </div>
+      </header>
+
+      <section class="control-section" aria-labelledby="tiles-title">
+        <div class="section-title">
+          <h2 id="tiles-title">瓦片系统</h2>
+          <small>01</small>
+        </div>
+        <div class="tile-set" id="tile-set" role="group" aria-label="瓦片系统">
+          <button type="button" data-value="circuit" aria-pressed="true">
+            <span class="tile-swatch circuit" aria-hidden="true"></span>
+            <b>电路</b>
+          </button>
+          <button type="button" data-value="river" aria-pressed="false">
+            <span class="tile-swatch river" aria-hidden="true"></span>
+            <b>水系</b>
+          </button>
+          <button type="button" data-value="metro" aria-pressed="false">
+            <span class="tile-swatch metro" aria-hidden="true"></span>
+            <b>路网</b>
+          </button>
+        </div>
+      </section>
+
+      <section class="control-section" aria-labelledby="grid-title">
+        <div class="section-title">
+          <h2 id="grid-title">生成参数</h2>
+          <small>02</small>
+        </div>
+
+        <label class="range-control" for="grid-size">
+          <span><b>网格规模</b><output id="grid-size-value">28 × 28</output></span>
+          <input id="grid-size" type="range" min="12" max="48" step="2" value="28">
+        </label>
+
+        <label class="range-control" for="speed">
+          <span><b>坍缩速度</b><output id="speed-value">24 格/秒</output></span>
+          <input id="speed" type="range" min="1" max="120" step="1" value="24">
+        </label>
+
+        <label class="range-control" for="randomness">
+          <span><b>随机度</b><output id="randomness-value">58%</output></span>
+          <input id="randomness" type="range" min="0" max="100" step="1" value="58">
+        </label>
+      </section>
+
+      <section class="control-section" aria-labelledby="rules-title">
+        <div class="section-title">
+          <h2 id="rules-title">约束条件</h2>
+          <small>03</small>
+        </div>
+
+        <span class="field-label">边界模式</span>
+        <div class="segmented" id="boundary" role="group" aria-label="边界模式">
+          <button type="button" data-value="sealed" aria-pressed="true">封闭</button>
+          <button type="button" data-value="open" aria-pressed="false">开放</button>
+        </div>
+
+        <label class="switch-control" for="show-entropy">
+          <input id="show-entropy" type="checkbox" checked>
+          <span aria-hidden="true"></span>
+          <b>显示熵热度</b>
+        </label>
+      </section>
+
+      <footer class="panel-footer">
+        <span>MINIMUM ENTROPY</span>
+        <span>BACKTRACKING</span>
+      </footer>
+    </aside>
+
+    <main class="simulation-stage">
+      <canvas id="wfc-canvas" aria-label="波函数坍缩生成网格"></canvas>
+
+      <header class="stage-header">
+        <div class="live-status">
+          <i id="live-dot" aria-hidden="true"></i>
+          <div>
+            <span id="run-state">正在坍缩</span>
+            <strong id="set-name">量子电路</strong>
+          </div>
+        </div>
+
+        <div class="metrics" aria-live="polite">
+          <div><span>已确定</span><strong id="metric-collapsed">0%</strong></div>
+          <div><span>平均熵</span><strong id="metric-entropy">0.00</strong></div>
+          <div><span>回退</span><strong id="metric-backtracks">0</strong></div>
+        </div>
+
+        <div class="stage-actions">
+          <button id="step" type="button" title="单步坍缩">
+            <span class="step-icon" aria-hidden="true"></span><b>单步</b>
+          </button>
+          <button id="rebuild" type="button" title="重新生成">
+            <span class="rebuild-icon" aria-hidden="true"></span><b>重建</b>
+          </button>
+          <button id="pause" class="primary-action" type="button" title="暂停">
+            <span class="pause-icon" aria-hidden="true"></span><b id="pause-label">暂停</b>
+          </button>
+        </div>
+      </header>
+
+      <div class="stage-note" aria-hidden="true">
+        <span id="algorithm-state">准备约束空间</span>
+        <i></i>
+        <span id="cell-state">0 / 784 CELLS</span>
+      </div>
+
+      <div class="legend" aria-hidden="true">
+        <span><i class="uncertain"></i>未确定</span>
+        <span><i class="active"></i>传播中</span>
+        <span><i class="fixed"></i>已坍缩</span>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
