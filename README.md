@@ -14,7 +14,7 @@
 | N 体引力 N-body Simulation | 星体受引力运动、形成轨道与拖尾，并展示空间分区加速 | 待实现 | - |
 | 反应扩散 Reaction-Diffusion | Gray-Scott 模型实时生长斑点、条纹和有机纹理 | 待实现 | - |
 | 波函数坍缩 Wave Function Collapse | 网格按最低熵逐格坍缩，约束向周围持续传播 | 待实现 | - |
-| Perlin 噪声流场 Flow Field | 大量粒子沿连续噪声向量场流动并留下动态轨迹 | 待实现 | - |
+| [Perlin 噪声流场 Flow Field](./flow-field/) | 大量粒子沿连续噪声向量场流动并留下动态轨迹 | 已上线 | [打开演示](https://wuhy80.github.io/algorithm/flow-field/) |
 | 迷宫生成 Maze Generation | 墙体逐步开凿形成迷宫，并动态展示寻路过程 | 待实现 | - |
 | 傅里叶旋轮 Fourier Epicycles | 多级旋转向量逐步重建并绘制复杂轮廓 | 待实现 | - |
 | 康威生命游戏 Conway's Game of Life | 细胞在离散规则下繁衍、消亡并产生复杂结构 | 待实现 | - |
