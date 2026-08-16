@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0b0e">
+  <title>Orbit Lab · N 体引力实验</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="control-panel" aria-label="N 体引力参数">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true"><i></i><i></i><b></b></div>
+        <div>
+          <p>ORBIT LAB / 06</p>
+          <h1>N 体引力实验</h1>
+        </div>
+      </header>
+
+      <section class="control-section scene-section" aria-labelledby="scene-title">
+        <div class="section-heading">
+          <h2 id="scene-title">初始系统</h2>
+          <button class="icon-button" id="reset-settings" type="button" title="恢复场景默认参数" aria-label="恢复场景默认参数">↻</button>
+        </div>
+        <label class="field-label" for="preset">场景预设</label>
+        <div class="select-wrap">
+          <select id="preset">
+            <option value="solar">原行星盘</option>
+            <option value="binary">双星系统</option>
+            <option value="collision">星系相遇</option>
+            <option value="cluster">球状星团</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="control-section" aria-labelledby="system-title">
+        <div class="section-heading">
+          <h2 id="system-title">系统参数</h2>
+          <span class="section-index">01</span>
+        </div>
+        <label class="range-control" for="body-count">
+          <span><b>天体数量</b><output id="body-count-value">240</output></span>
+          <input id="body-count" type="range" min="30" max="700" step="10" value="240">
+        </label>
+        <label class="range-control" for="gravity">
+          <span><b>引力常数 G</b><output id="gravity-value">14.0</output></span>
+          <input id="gravity" type="range" min="2" max="30" step="0.5" value="14">
+        </label>
+        <label class="range-control" for="time-step">
+          <span><b>时间步长</b><output id="time-step-value">0.12</output></span>
+          <input id="time-step" type="range" min="0.03" max="0.35" step="0.01" value="0.12">
+        </label>
+        <label class="range-control" for="softening">
+          <span><b>软化半径</b><output id="softening-value">4 px</output></span>
+          <input id="softening" type="range" min="1" max="18" step="1" value="4">
+        </label>
+      </section>
+
+      <section class="control-section" aria-labelledby="display-title">
+        <div class="section-heading">
+          <h2 id="display-title">观测方式</h2>
+          <span class="section-index">02</span>
+        </div>
+        <span class="field-label">画布工具</span>
+        <div class="segmented" id="tool-control" role="group" aria-label="画布工具">
+          <button type="button" data-value="launch" aria-pressed="true">发射天体</button>
+          <button type="button" data-value="probe" aria-pressed="false">引力探针</button>
+        </div>
+        <div class="switch-list">
+          <label class="switch-control" for="trails">
+            <input id="trails" type="checkbox" checked>
+            <span aria-hidden="true"></span><b>持续轨迹</b>
+          </label>
+          <label class="switch-control" for="vectors">
+            <input id="vectors" type="checkbox">
+            <span aria-hidden="true"></span><b>速度向量</b>
+          </label>
+        </div>
+        <p class="interaction-hint" id="interaction-hint">在画布拖拽，方向与长度决定新天体速度</p>
+      </section>
+
+      <footer class="panel-footer">
+        <span>NEWTON / 1687</span>
+        <span>PAIRWISE SOLVER</span>
+      </footer>
+    </aside>
+
+    <main class="simulation-stage">
+      <canvas id="space-canvas" aria-label="实时 N 体引力模拟画布"></canvas>
+      <header class="stage-header">
+        <div class="scene-title">
+          <span class="live-dot" aria-hidden="true"></span>
+          <div><span>实时积分</span><strong id="scene-name">原行星盘</strong></div>
+        </div>
+        <div class="metrics" aria-live="polite">
+          <div><span>天体</span><strong id="metric-count">240</strong></div>
+          <div><span>帧率</span><strong><span id="metric-fps">60</span><small> FPS</small></strong></div>
+          <div><span>计算</span><strong><span id="metric-pairs">28.7</span><small> K</small></strong></div>
+        </div>
+        <div class="stage-actions">
+          <button id="restart" type="button" title="重新生成当前场景"><span aria-hidden="true">↻</span><span class="action-label">重置</span></button>
+          <button id="pause" class="primary-action" type="button"><span id="pause-icon" aria-hidden="true">Ⅱ</span><span id="pause-label" class="action-label">暂停</span></button>
+        </div>
+      </header>
+      <div class="canvas-status" aria-hidden="true">
+        <span id="tool-indicator">发射模式</span><i></i><span id="elapsed-time">T + 0.0</span>
+      </div>
+      <div class="scale-mark" aria-hidden="true"><span></span><small>100 AU</small></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
