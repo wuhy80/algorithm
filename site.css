@@ -159,10 +159,39 @@ svg {
 }
 .hero-copy > p:not(.eyebrow) {
   max-width: 600px;
-  margin: 20px 0 28px;
+  margin: 20px 0 22px;
   color: #b9c8c4;
   font-size: 16px;
   line-height: 1.8;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+.hero-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  color: #d7e3df;
+  font-size: 12px;
+}
+.hero-actions a:hover {
+  border-color: #63c7d0;
+  color: #fff;
+}
+.hero-actions a.primary {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: #fff;
+}
+.hero-actions a.primary:hover {
+  background: #096e78;
 }
 .search-box {
   display: grid;

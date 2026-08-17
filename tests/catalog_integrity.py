@@ -21,6 +21,7 @@ LEARNING_GUIDE_HEADINGS = (
     "## 与其他算法的联系",
     "## 自测问题",
 )
+NON_ALGORITHM_PAGES = {"problems", "neural-network-tools"}
 
 
 class CatalogIntegrityTests(unittest.TestCase):
@@ -99,7 +100,9 @@ class CatalogIntegrityTests(unittest.TestCase):
         directories = {
             child.name
             for child in ROOT.iterdir()
-            if child.is_dir() and (child / "index.html").is_file()
+            if child.is_dir()
+            and child.name not in NON_ALGORITHM_PAGES
+            and (child / "index.html").is_file()
         }
         self.assertEqual(set(self.by_slug), directories)
 

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15211f">
+  <meta name="description" content="神经网络架构设计、模型检查、训练诊断与论文绘图工具导航。">
+  <link rel="icon" href="data:,">
+  <title>神经网络工具导航 · Algorithm Atlas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../" aria-label="返回算法可视化图谱">
+      <span class="brand-mark">AV</span>
+      <span><b>神经网络工具</b><small>NEURAL TOOLKIT</small></span>
+    </a>
+    <nav aria-label="站点导航">
+      <a href="../problems/"><i data-lucide="code-2" aria-hidden="true"></i>在线题库</a>
+      <a href="../"><i data-lucide="network" aria-hidden="true"></i>动画图谱</a>
+      <a href="https://github.com/wuhy80/algorithm" target="_blank" rel="noreferrer" aria-label="打开 GitHub"><i data-lucide="github" aria-hidden="true"></i></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">DESIGN / INSPECT / DIAGNOSE / PUBLISH</p>
+          <h1 id="page-title">把网络结构看清楚</h1>
+          <p>按实际任务挑工具：搭架构、读模型、追踪训练，或为论文输出清晰图示。</p>
+          <div class="hero-links">
+            <a class="primary" href="#tools"><i data-lucide="layout-grid" aria-hidden="true"></i>浏览工具</a>
+            <a href="../neural-network-forward-pass/"><i data-lucide="play" aria-hidden="true"></i>打开神经网络演示</a>
+          </div>
+        </div>
+        <div class="architecture" aria-label="神经网络层级计算示意">
+          <canvas id="architecture-canvas" role="img" aria-label="输入层、隐藏层与输出层之间的动态连接"></canvas>
+          <div class="architecture-labels" aria-hidden="true"><span>INPUT</span><span>FEATURES</span><span>OUTPUT</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools" class="tool-section" aria-labelledby="tool-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">CURATED TOOLKIT</p><h2 id="tool-title">按工作阶段选择</h2></div>
+        <p id="result-count" aria-live="polite">0 个工具</p>
+      </div>
+      <div class="filters" role="group" aria-label="工具筛选">
+        <label class="search" for="tool-search"><i data-lucide="search" aria-hidden="true"></i><span class="sr-only">搜索工具</span><input id="tool-search" type="search" autocomplete="off" placeholder="搜索名称、框架或用途"></label>
+        <div id="category-filters" class="category-filters"></div>
+      </div>
+      <div id="tool-groups" class="tool-groups"></div>
+      <div id="empty-state" class="empty-state" hidden><i data-lucide="search-x" aria-hidden="true"></i><strong>没有匹配工具</strong><button id="reset-filter" type="button">清除筛选</button></div>
+    </section>
+
+    <section class="source-note" aria-labelledby="source-title">
+      <div><p class="eyebrow">REFERENCE</p><h2 id="source-title">来源与维护原则</h2></div>
+      <p>本页重新核对并按使用场景整理工具，说明文字为本站原创。参考了 Ashish Patel 汇总的工具清单；外部项目的许可、兼容性和维护状态以各自官网为准。</p>
+      <a href="https://ashishpatel26.github.io/Tools-to-Design-or-Visualize-Architecture-of-Neural-Network/" target="_blank" rel="noreferrer">查看原始参考清单 <i data-lucide="external-link" aria-hidden="true"></i></a>
+    </section>
+  </main>
+
+  <footer><span>Algorithm Visualization Atlas · Neural Network Toolkit</span><a href="../">返回算法图谱 <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></footer>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

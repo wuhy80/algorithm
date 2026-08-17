@@ -20,7 +20,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Validate catalog and generated documentation
-        run: python tests/catalog_integrity.py
+        run: |
+          python tests/catalog_integrity.py
+          python tests/problem_solutions.py
+          node scripts/generate-problems.mjs --check
       - name: Check JavaScript syntax
         run: |
           node --check site.js
@@ -34,6 +37,11 @@ jobs:
           node --check scripts/enrich-learning-metadata.mjs
           node --check scripts/scaffold-neural-network-batch.mjs
           node --check scripts/neural-network-batch-app.js
+          node --check scripts/problem-batch-a.mjs
+          node --check scripts/generate-problems.mjs
+          node --check problems/app.js
+          node --check problems/python-worker.js
+          node --check neural-network-tools/app.js
 
   browser:
     runs-on: ubuntu-latest

@@ -1,0 +1,9 @@
+def solve(data):
+    pairs = {')':'(', ']':'[', '}':'{'}
+    stack = []
+    for char in data:
+        if char in '([{':
+            stack.append(char)
+        elif not stack or stack.pop() != pairs[char]:
+            return False
+    return not stack

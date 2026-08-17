@@ -10,6 +10,7 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
+PROBLEMS = json.loads((ROOT / "problems" / "problem-data.json").read_text(encoding="utf-8"))
 CORE_EXPECTED_RESULTS = {
     "dynamic-array": "8",
     "circular-buffer": "4",
@@ -253,6 +254,84 @@ class BrowserSmokeTests(unittest.TestCase):
                 page.locator("#search").fill("")
                 page.locator('[data-difficulty="高级"]').click()
                 self.assertEqual(expected_advanced, page.locator(".algorithm-row").count())
+                self.assertFalse(errors, errors)
+                page.close()
+
+    def test_problem_bank_filters_deep_links_and_layout(self):
+        ready_count = sum(problem["judgeReady"] for problem in PROBLEMS)
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(viewport=viewport):
+                page, errors = self.open_page("problems/", viewport)
+                self.assertEqual(len(PROBLEMS), page.locator("#problem-rows tr").count())
+                self.assertEqual(str(ready_count), page.locator("#bank-ready").inner_text())
+                self.assertLessEqual(self.layout_metrics(page)["overflow"], 1)
+
+                page.locator("#problem-search").fill("binary-search")
+                self.assertGreaterEqual(page.locator("#problem-rows tr").count(), 1)
+                page.locator('[data-open="binary-search"]').click()
+                self.assertIn("id=binary-search", page.url)
+                self.assertIn("二分查找", page.locator("#detail-title").inner_text())
+                self.assertTrue(page.locator("#detail-demo").get_attribute("href").endswith("/binary-search/"))
+
+                page.locator("#detail-favorite").click()
+                self.assertTrue(page.locator("#detail-favorite").evaluate("element => element.classList.contains('active')"))
+                page.reload(wait_until="load")
+                self.assertTrue(page.locator("#detail-favorite").evaluate("element => element.classList.contains('active')"))
+                if viewport["width"] < 760:
+                    page.locator('[data-pane="code"]').click()
+                    self.assertTrue(page.locator(".statement-pane").evaluate("element => getComputedStyle(element).display === 'none'"))
+                self.assertLessEqual(self.layout_metrics(page)["overflow"], 1)
+                self.assertFalse(errors, errors)
+                page.close()
+
+    def test_problem_bank_runs_python_in_worker(self):
+        page, errors = self.open_page("problems/?id=binary-search", {"width": 1280, "height": 800})
+        page.locator("#code-editor").fill(
+            "def solve(data):\n"
+            "    nums, target = data['nums'], data['target']\n"
+            "    left, right = 0, len(nums) - 1\n"
+            "    while left <= right:\n"
+            "        middle = (left + right) // 2\n"
+            "        if nums[middle] == target:\n"
+            "            return middle\n"
+            "        if nums[middle] < target:\n"
+            "            left = middle + 1\n"
+            "        else:\n"
+            "            right = middle - 1\n"
+            "    return -1\n"
+        )
+        page.locator("#submit-code").click()
+        page.locator("#python-status").filter(has_text="全部通过").wait_for(timeout=90000)
+        self.assertGreater(page.locator(".case-result.pass").count(), 0)
+        page.reload(wait_until="load")
+        page.locator("#back-to-list").click()
+        page.locator("#status-filter").select_option("solved")
+        self.assertEqual(1, page.locator('[data-open="binary-search"]').count())
+        self.assertFalse(errors, errors)
+        page.close()
+
+    def test_neural_toolkit_search_and_layout(self):
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(viewport=viewport):
+                page, errors = self.open_page("neural-network-tools/", viewport)
+                self.assertGreaterEqual(page.locator(".tool-card").count(), 12)
+                page.locator("#tool-search").fill("ONNX")
+                self.assertEqual(1, page.locator(".tool-card").count())
+                canvas_colors = page.evaluate(
+                    """() => {
+                        const canvas = document.querySelector('#architecture-canvas');
+                        const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+                        const colors = new Set();
+                        for (let i = 0; i < data.length && colors.size < 20; i += 80) {
+                            colors.add(`${data[i]},${data[i+1]},${data[i+2]},${data[i+3]}`);
+                        }
+                        return colors.size;
+                    }"""
+                )
+                self.assertGreaterEqual(canvas_colors, 4)
+                metrics = self.layout_metrics(page)
+                self.assertLessEqual(metrics["overflow"], 1, metrics)
+                self.assertFalse(metrics["clipped"], metrics)
                 self.assertFalse(errors, errors)
                 page.close()
 
