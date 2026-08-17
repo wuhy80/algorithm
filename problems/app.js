@@ -2,11 +2,14 @@
   'use strict';
 
   const problems = Array.isArray(window.PROBLEM_DATA) ? window.PROBLEM_DATA : [];
+  const leetcodeSnapshot = window.LEETCODE_INDEX && Array.isArray(window.LEETCODE_INDEX.questions) ? window.LEETCODE_INDEX : {meta:{},questions:[]};
+  const leetcodeProblems = leetcodeSnapshot.questions;
   const bySlug = new Map(problems.map((problem) => [problem.slug, problem]));
   const $ = (id) => document.getElementById(id);
   const storageKey = 'algorithm-problem-progress-v1';
   const draftKey = 'algorithm-problem-drafts-v1';
-  const state = { query: '', category: '', difficulty: '', stage: '', status: '', sort: 'id' };
+  const initialParams = new URLSearchParams(location.search);
+  const state = { source: initialParams.get('source') === 'leetcode' ? 'leetcode' : 'local', query: '', category: '', difficulty: '', stage: '', variant: '', status: '', sort: 'id', page: 1 };
   let progress = loadJson(storageKey);
   let drafts = loadJson(draftKey);
   let current = null;
@@ -30,18 +33,50 @@
   function icon(name) { return `<i data-lucide="${name}" aria-hidden="true"></i>`; }
   function refreshIcons() { if (window.lucide) window.lucide.createIcons({attrs:{width:16,height:16}}); }
 
+  function sourceItems() { return state.source === 'leetcode' ? leetcodeProblems : problems; }
+
+  function configureSource() {
+    const external = state.source === 'leetcode';
+    const categories = external
+      ? [...new Set(leetcodeProblems.flatMap((problem) => problem.tags))].sort((a,b)=>a.localeCompare(b,'zh-CN'))
+      : [...new Set(problems.map((problem) => problem.category))];
+    $('category-filter').innerHTML = `<option value="">${external?'全部标签':'全部分类'}</option>${categories.map((category) => `<option>${escapeHtml(category)}</option>`).join('')}`;
+    $('category-label').textContent = external ? '标签' : '分类';
+    $('stage-filter-wrap').hidden = external;
+    $('variant-filter-wrap').hidden = external;
+    $('status-filter').innerHTML = external
+      ? '<option value="">全部状态</option><option value="favorite">已收藏</option>'
+      : '<option value="">全部状态</option><option value="ready">可在线判题</option><option value="solved">已通过</option><option value="attempted">尝试过</option><option value="todo">未开始</option><option value="favorite">已收藏</option>';
+    $('problem-search').placeholder = external ? '搜索题号、中文标题、英文标题或标签' : '搜索名称、题意或标签';
+    $('source-note').textContent = external
+      ? `${leetcodeSnapshot.meta.notice || '外部索引仅提供元数据与原站链接'} 数据快照：${leetcodeSnapshot.meta.fetchedAt || '未知日期'}。`
+      : `本站 ${problems.length} 道训练题提供动画、学习指南和分批开放的 Python 判题。`;
+    document.querySelectorAll('[data-source]').forEach((button) => button.setAttribute('aria-selected', String(button.dataset.source === state.source)));
+  }
+
+  function selectSource(source, updateHistory = true) {
+    if (!['local','leetcode'].includes(source)) return;
+    state.source = source;
+    Object.assign(state, {query:'',category:'',difficulty:'',stage:'',variant:'',status:'',sort:'id',page:1});
+    ['problem-search','difficulty-filter','stage-filter','variant-filter'].forEach((id) => $(id).value = '');
+    $('sort-filter').value = 'id';
+    configureSource();
+    if (updateHistory) history.replaceState({},'',source === 'leetcode' ? '?source=leetcode' : location.pathname);
+    renderList();
+  }
+
   function configureFilters() {
-    const categories = [...new Set(problems.map((problem) => problem.category))];
-    $('category-filter').insertAdjacentHTML('beforeend', categories.map((category) => `<option>${escapeHtml(category)}</option>`).join(''));
-    const bindings = [['problem-search','query','input'],['category-filter','category','change'],['difficulty-filter','difficulty','change'],['stage-filter','stage','change'],['status-filter','status','change'],['sort-filter','sort','change']];
-    bindings.forEach(([id,key,event]) => $(id).addEventListener(event, () => { state[key] = $(id).value; renderList(); }));
+    configureSource();
+    document.querySelectorAll('[data-source]').forEach((button) => button.addEventListener('click', () => selectSource(button.dataset.source)));
+    const bindings = [['problem-search','query','input'],['category-filter','category','change'],['difficulty-filter','difficulty','change'],['stage-filter','stage','change'],['variant-filter','variant','change'],['status-filter','status','change'],['sort-filter','sort','change']];
+    bindings.forEach(([id,key,event]) => $(id).addEventListener(event, () => { state[key] = $(id).value; state.page = 1; renderList(); }));
     $('reset-filters').addEventListener('click', resetFilters);
     $('empty-reset').addEventListener('click', resetFilters);
   }
 
   function resetFilters() {
-    Object.assign(state, {query:'',category:'',difficulty:'',stage:'',status:'',sort:'id'});
-    ['problem-search','category-filter','difficulty-filter','stage-filter','status-filter'].forEach((id) => $(id).value = '');
+    Object.assign(state, {query:'',category:'',difficulty:'',stage:'',variant:'',status:'',sort:'id',page:1});
+    ['problem-search','category-filter','difficulty-filter','stage-filter','variant-filter','status-filter'].forEach((id) => $(id).value = '');
     $('sort-filter').value = 'id';
     renderList();
   }
@@ -49,28 +84,56 @@
   function filteredProblems() {
     const query = state.query.trim().toLocaleLowerCase('zh-CN');
     const ranks = {基础:1,进阶:2,高级:3};
+    if (state.source === 'leetcode') {
+      return leetcodeProblems.filter((problem) => {
+        const text = [problem.id,problem.title,problem.titleEn,problem.slug,...problem.tags].join(' ').toLocaleLowerCase('zh-CN');
+        return (!query || text.includes(query)) && (!state.category || problem.tags.includes(state.category)) && (!state.difficulty || problem.difficulty === state.difficulty) && (!state.status || (state.status === 'favorite' && progress[`lc:${problem.slug}`]?.favorite));
+      }).sort((a,b) => state.sort === 'title' ? a.title.localeCompare(b.title,'zh-CN') : state.sort === 'difficulty' ? ranks[a.difficulty]-ranks[b.difficulty] || a.id.localeCompare(b.id,'en',{numeric:true}) : a.id.localeCompare(b.id,'en',{numeric:true}));
+    }
     return problems.filter((problem) => {
-      const text = [problem.title,problem.slug,problem.summary,problem.statement,problem.category,...problem.tags].join(' ').toLocaleLowerCase('zh-CN');
+      const text = [problem.title,problem.slug,problem.baseSlug,problem.variantLabel,problem.summary,problem.statement,problem.category,...problem.tags].join(' ').toLocaleLowerCase('zh-CN');
       const status = statusOf(problem.slug);
-      return (!query || text.includes(query)) && (!state.category || problem.category === state.category) && (!state.difficulty || problem.difficulty === state.difficulty) && (!state.stage || problem.stage === Number(state.stage)) && (!state.status || (state.status === 'ready' ? problem.judgeReady : state.status === 'favorite' ? progress[problem.slug]?.favorite : status === state.status));
+      return (!query || text.includes(query)) && (!state.category || problem.category === state.category) && (!state.difficulty || problem.difficulty === state.difficulty) && (!state.stage || problem.stage === Number(state.stage)) && (!state.variant || problem.variant === state.variant) && (!state.status || (state.status === 'ready' ? problem.judgeReady : state.status === 'favorite' ? progress[problem.slug]?.favorite : status === state.status));
     }).sort((a,b) => state.sort === 'title' ? a.title.localeCompare(b.title,'zh-CN') : state.sort === 'difficulty' ? ranks[a.difficulty]-ranks[b.difficulty] || a.id-b.id : a.id-b.id);
   }
 
   function renderList() {
     const entries = filteredProblems();
+    const external = state.source === 'leetcode';
+    const pageSize = 100;
+    const pageCount = Math.max(1, Math.ceil(entries.length / pageSize));
+    state.page = Math.min(state.page, pageCount);
+    const visibleEntries = entries.slice((state.page - 1) * pageSize, state.page * pageSize);
     $('bank-total').textContent = problems.length;
+    $('bank-external').textContent = leetcodeProblems.length;
+    $('local-source-count').textContent = problems.length;
+    $('external-source-count').textContent = leetcodeProblems.length;
     $('bank-ready').textContent = problems.filter((problem) => problem.judgeReady).length;
     $('bank-solved').textContent = Object.values(progress).filter((item) => item.solved).length;
-    $('result-summary').textContent = `${entries.length} 道题目`;
-    $('active-filter').textContent = [state.category,state.difficulty,state.stage&&`阶段 ${state.stage}`,state.status,state.query&&`“${state.query}”`].filter(Boolean).join(' · ');
-    $('problem-rows').innerHTML = entries.map((problem) => {
+    $('result-summary').textContent = `${entries.length} 道${external?' LeetCode 索引':'本站训练题'} · 每页 ${pageSize} 道`;
+    const activeVariant = state.variant && problems.find((problem) => problem.variant === state.variant)?.variantLabel;
+    $('active-filter').textContent = [external?'LeetCode':'本站',state.category,state.difficulty,!external&&state.stage&&`阶段 ${state.stage}`,!external&&activeVariant,state.status,state.query&&`“${state.query}”`].filter(Boolean).join(' · ');
+    $('problem-rows').innerHTML = visibleEntries.map((problem) => {
+      if (external) {
+        const favoriteKey = `lc:${problem.slug}`;
+        const favorite = Boolean(progress[favoriteKey]?.favorite);
+        return `<tr>
+          <td><span class="status-icon external" aria-label="外部题目">${icon('external-link')}</span></td>
+          <td>LC ${escapeHtml(problem.id)}</td>
+          <td><a class="problem-link" href="${problem.url}" target="_blank" rel="noreferrer">${escapeHtml(problem.title)}${icon('external-link')}</a><div class="row-subtitle"><span>${escapeHtml(problem.titleEn)}</span><span class="${problem.premium?'premium':'ready'}">${problem.premium?'会员题':'免费题'}</span></div></td>
+          <td>${problem.tags.slice(0,2).map(escapeHtml).join(' · ') || '未分类'}</td>
+          <td><span class="difficulty ${difficultyClass(problem.difficulty)}">${problem.difficulty}</span></td>
+          <td>LEETCODE</td>
+          <td><button class="favorite-button ${favorite?'active':''}" type="button" data-favorite="${favoriteKey}" aria-label="${favorite?'取消收藏':'收藏'}">${icon('bookmark')}</button></td>
+        </tr>`;
+      }
       const status = statusOf(problem.slug);
       const statusIcon = status === 'solved' ? 'circle-check' : status === 'attempted' ? 'circle-dot' : 'circle';
       const favorite = Boolean(progress[problem.slug]?.favorite);
       return `<tr data-slug="${problem.slug}">
         <td><span class="status-icon ${status}" aria-label="${status === 'solved' ? '已通过' : status === 'attempted' ? '尝试过' : '未开始'}">${icon(statusIcon)}</span></td>
         <td>${String(problem.id).padStart(3,'0')}</td>
-        <td><a class="problem-link" href="?id=${problem.slug}" data-open="${problem.slug}">${escapeHtml(problem.title)}</a><div class="row-subtitle"><span>${problem.tags.slice(0,2).map(escapeHtml).join(' · ')}</span><span class="${problem.judgeReady?'ready':'pending'}">${problem.judgeReady?'Python 可运行':'讲解已收录'}</span></div></td>
+        <td><a class="problem-link" href="?id=${problem.slug}" data-open="${problem.slug}">${escapeHtml(problem.title)}</a><div class="row-subtitle"><span class="variant-label">${escapeHtml(problem.variantLabel)}</span><span>${problem.tags.slice(0,2).map(escapeHtml).join(' · ')}</span><span class="${problem.judgeReady?'ready':'pending'}">${problem.judgeReady?'Python 可运行':'讲解已收录'}</span></div></td>
         <td>${escapeHtml(problem.category)}</td>
         <td><span class="difficulty ${difficultyClass(problem.difficulty)}">${problem.difficulty}</span></td>
         <td>STAGE ${problem.stage}</td>
@@ -81,13 +144,17 @@
     document.querySelector('.table-wrap').hidden = entries.length === 0;
     document.querySelectorAll('[data-open]').forEach((link) => link.addEventListener('click', (event) => { event.preventDefault(); openProblem(link.dataset.open); }));
     document.querySelectorAll('[data-favorite]').forEach((button) => button.addEventListener('click', () => toggleFavorite(button.dataset.favorite)));
+    $('pagination').hidden = pageCount <= 1 || entries.length === 0;
+    $('page-info').textContent = `第 ${state.page} / ${pageCount} 页`;
+    $('page-prev').disabled = state.page <= 1;
+    $('page-next').disabled = state.page >= pageCount;
     refreshIcons();
   }
 
-  function toggleFavorite(slug) {
-    progress[slug] = {...progress[slug], favorite:!progress[slug]?.favorite};
+  function toggleFavorite(key) {
+    progress[key] = {...progress[key], favorite:!progress[key]?.favorite};
     saveProgress();
-    if (current?.slug === slug) updateFavoriteButton();
+    if (current?.slug === key) updateFavoriteButton();
     renderList();
   }
 
@@ -107,7 +174,8 @@
     $('list-view').hidden = true; $('detail-view').hidden = false;
     $('detail-id').textContent = `#${String(problem.id).padStart(3,'0')}`;
     $('detail-title').textContent = problem.title;
-    $('detail-meta').innerHTML = `<span class="difficulty ${difficultyClass(problem.difficulty)}">${problem.difficulty}</span><span>${escapeHtml(problem.category)}</span><span>STAGE ${problem.stage}</span><span>${problem.judgeReady?'PYTHON READY':'EXPLANATION READY'}</span>`;
+    $('detail-meta').innerHTML = `<span class="difficulty ${difficultyClass(problem.difficulty)}">${problem.difficulty}</span><span>${escapeHtml(problem.variantLabel)}</span><span>${escapeHtml(problem.category)}</span><span>STAGE ${problem.stage}</span><span>${problem.judgeReady?'PYTHON READY':'EXPLANATION READY'}</span>`;
+    $('detail-guide').href = `../guides/?slug=${encodeURIComponent(problem.baseSlug)}`;
     $('detail-demo').href = problem.demo; $('detail-source').href = problem.source;
     renderStatement(problem); renderExplanation(problem);
     $('code-editor').value = drafts[problem.slug] || problem.starterCode;
@@ -122,7 +190,8 @@
 
   function showList(replace = false) {
     current = null;
-    if (replace) history.replaceState({},'',location.pathname); else history.pushState({},'',location.pathname);
+    const target = state.source === 'leetcode' ? '?source=leetcode' : location.pathname;
+    if (replace) history.replaceState({},'',target); else history.pushState({},'',target);
     $('detail-view').hidden = true; $('list-view').hidden = false; renderList(); window.scrollTo(0,0);
   }
 
@@ -223,12 +292,14 @@
   $('show-reference').addEventListener('click',showReference);
   $('run-code').addEventListener('click',()=>execute(false));
   $('submit-code').addEventListener('click',()=>execute(true));
+  $('page-prev').addEventListener('click',()=>{if(state.page>1){state.page-=1;renderList();document.querySelector('.problem-bank').scrollIntoView({behavior:'smooth'});}});
+  $('page-next').addEventListener('click',()=>{state.page+=1;renderList();document.querySelector('.problem-bank').scrollIntoView({behavior:'smooth'});});
   $('code-editor').addEventListener('input',()=>{if(current){drafts[current.slug]=$('code-editor').value;saveDrafts();}});
   $('code-editor').addEventListener('keydown',(event)=>{if(event.key==='Tab'){event.preventDefault();const editor=event.currentTarget,start=editor.selectionStart,end=editor.selectionEnd;editor.setRangeText('    ',start,end,'end');}});
   document.querySelectorAll('[data-content-tab]').forEach((button)=>button.addEventListener('click',()=>setContentTab(button.dataset.contentTab)));
   document.querySelectorAll('[data-pane]').forEach((button)=>button.addEventListener('click',()=>setMobilePane(button.dataset.pane)));
-  addEventListener('popstate',()=>{const slug=new URLSearchParams(location.search).get('id');if(slug)openProblem(slug,true);else showList(true);});
+  addEventListener('popstate',()=>{const params=new URLSearchParams(location.search),slug=params.get('id');if(slug)openProblem(slug,true);else{selectSource(params.get('source')==='leetcode'?'leetcode':'local',false);}});
   const initialSlug = new URLSearchParams(location.search).get('id');
-  if (initialSlug && bySlug.has(initialSlug)) openProblem(initialSlug,true); else { history.replaceState({},'',location.pathname); renderList(); }
+  if (initialSlug && bySlug.has(initialSlug)) openProblem(initialSlug,true); else { history.replaceState({},'',state.source==='leetcode'?'?source=leetcode':location.pathname); renderList(); }
   refreshIcons();
 })();

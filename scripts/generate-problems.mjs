@@ -53,10 +53,82 @@ const profiles = {
   },
 };
 
+const variantDefinitions = [
+  {
+    key: 'core',
+    suffix: '',
+    label: '核心实现',
+    title: (entry) => entry.name,
+    statement: (entry, baseStatement) => baseStatement,
+    summary: (entry) => entry.summary,
+    constraints: [],
+    mental: (profile) => profile.mental,
+    steps: (profile) => profile.steps,
+    pitfalls: [],
+    difficultyOffset: 0,
+  },
+  {
+    key: 'state',
+    suffix: '--state',
+    label: '状态诊断',
+    title: (entry) => `${entry.name}：状态诊断`,
+    statement: (entry, baseStatement) => `${baseStatement}\n\n本题重点检查状态定义与更新顺序。请先明确每个变量在循环或递归入口处的含义，再完成 solve(data)，使结果满足原问题契约。`,
+    summary: (entry) => `从状态含义、更新顺序和终止条件三个角度诊断 ${entry.name}。`,
+    constraints: ['写代码前列出关键状态在一次迭代前后的含义。', '更新状态时不得使用已经失效的旧边界或旧标记。'],
+    mental: (profile) => `先把实现当成状态机逐步检查：${profile.mental}`,
+    steps: (profile) => ['列出关键变量在步骤开始时的精确定义', ...profile.steps.slice(1, 3), '用终止状态反推返回值是否满足契约'],
+    pitfalls: ['只盯最终答案，没有检查中间状态何时第一次失效。'],
+    difficultyOffset: 0,
+  },
+  {
+    key: 'edge',
+    suffix: '--edge',
+    label: '边界强化',
+    title: (entry) => `${entry.name}：边界强化`,
+    statement: (entry, baseStatement) => `${baseStatement}\n\n本题使用相同输入输出契约，但会重点覆盖空输入、最小规模、重复元素、极端顺序或退化结构。请实现能够稳定处理这些边界的 solve(data)。`,
+    summary: (entry) => `通过最小规模、退化结构和极端输入强化 ${entry.name} 的边界处理。`,
+    constraints: ['显式处理空输入或该算法允许的最小输入。', '检查重复值、退化结构与最大合法边界，不依赖偶然的数据分布。'],
+    mental: (profile) => `先确定最小合法状态，再扩展到一般情况：${profile.mental}`,
+    steps: (profile) => ['列出空输入、单元素和退化结构的预期结果', ...profile.steps.slice(0, 2), '用极端顺序与重复值验证终止条件'],
+    pitfalls: ['一般样例可以通过，但空输入、重复值或退化结构触发越界。'],
+    difficultyOffset: 1,
+  },
+  {
+    key: 'applied',
+    suffix: '--applied',
+    label: '应用建模',
+    title: (entry) => `${entry.name}：应用建模`,
+    statement: (entry, baseStatement) => `${baseStatement}\n\n请把输入中的业务对象还原为该算法真正需要的状态、关系或序列，再调用同一套核心过程完成 solve(data)。评分同时关注建模是否保持原问题语义以及结果是否满足输入输出契约。`,
+    summary: (entry) => `把具体输入抽象为 ${entry.name} 的标准模型，并完成端到端求解。`,
+    constraints: ['先区分业务字段与算法真正需要的状态，避免把展示信息带入核心过程。', '建模转换不得改变元素关系、顺序约束或可达性。'],
+    mental: (profile) => `先完成“现实对象 → 算法状态”的翻译，再套用核心不变量：${profile.mental}`,
+    steps: (profile) => ['提取输入中影响答案的对象、关系与约束', '把它们转换为算法使用的标准状态', ...profile.steps.slice(1, 3)],
+    pitfalls: ['模型转换遗漏约束，导致核心算法正确但解决了另一个问题。'],
+    difficultyOffset: 1,
+  },
+];
+
+const difficultyLevels = ['基础', '进阶', '高级'];
+
+function variantSlug(baseSlug, variant) {
+  return `${baseSlug}${variant.suffix}`;
+}
+
+function adjustedDifficulty(difficulty, offset) {
+  const index = difficultyLevels.indexOf(difficulty);
+  return index === -1 ? difficulty : difficultyLevels[Math.min(index + offset, difficultyLevels.length - 1)];
+}
+
 function loadIds() {
   const existing = fs.existsSync(idPath) ? JSON.parse(fs.readFileSync(idPath, 'utf8')) : {};
   let next = Math.max(0, ...Object.values(existing)) + 1;
   for (const entry of catalog) if (!existing[entry.slug]) existing[entry.slug] = next++;
+  for (const entry of catalog) {
+    for (const variant of variantDefinitions.slice(1)) {
+      const slug = variantSlug(entry.slug, variant);
+      if (!existing[slug]) existing[slug] = next++;
+    }
+  }
   return existing;
 }
 
@@ -78,48 +150,60 @@ for (const slug of Object.keys(problemBatchA)) {
   if (!catalogSlugs.has(slug)) throw new Error(`Unknown problem override: ${slug}`);
 }
 
-const starterCode = (entry) => `def solve(data):\n    \"\"\"${entry.name}。\"\"\"\n    # 在这里实现算法\n    raise NotImplementedError\n`;
+const starterCode = (entry, variant) => `def solve(data):\n    \"\"\"${entry.name} · ${variant.label}。\"\"\"\n    # 在这里实现算法\n    raise NotImplementedError\n`;
 
 const problems = catalog
-  .map((entry) => {
+  .flatMap((entry) => {
     const override = problemBatchA[entry.slug];
     const profile = profiles[entry.category] || profiles.default;
     const examples = override?.examples || [];
     const tests = override ? [...examples, ...override.tests] : [];
-    return {
-      id: ids[entry.slug],
-      slug: entry.slug,
-      title: entry.name,
-      category: entry.category,
-      difficulty: entry.difficulty,
-      stage: entry.stage,
-      tags: entry.tags,
-      prerequisites: entry.prerequisites,
-      summary: entry.summary,
-      statement: override?.statement || entry.problem,
-      input: override?.input || '本题的可执行输入契约将在对应 Python 批次中补充。',
-      output: override?.output || '返回能够验证该算法核心过程的 JSON 可序列化结果。',
-      constraints: override?.constraints || ['先根据演示中的最小样例确认状态定义和边界。'],
-      examples,
-      tests,
-      explanation: {
-        mental: profile.mental,
-        invariant: override?.insights?.[0] || profile.invariant,
-        insights: override?.insights || [profile.mental],
-        steps: profile.steps,
-        pitfalls: override?.pitfalls || profile.pitfalls,
-      },
-      complexity: entry.complexity,
-      starterCode: starterCode(entry),
-      judgeReady: Boolean(override),
-      solutionPath: `../${entry.slug}/solution.py`,
-      demo: entry.demo,
-      source: entry.source,
-    };
+    const baseStatement = override?.statement || entry.problem;
+    const baseConstraints = override?.constraints || ['先根据演示中的最小样例确认状态定义和边界。'];
+    const basePitfalls = override?.pitfalls || profile.pitfalls;
+    const invariant = override?.insights?.[0] || profile.invariant;
+
+    return variantDefinitions.map((variant) => {
+      const slug = variantSlug(entry.slug, variant);
+      return {
+        id: ids[slug],
+        slug,
+        baseSlug: entry.slug,
+        variant: variant.key,
+        variantLabel: variant.label,
+        title: variant.title(entry),
+        category: entry.category,
+        difficulty: adjustedDifficulty(entry.difficulty, variant.difficultyOffset),
+        stage: entry.stage,
+        tags: [...entry.tags, variant.label],
+        prerequisites: entry.prerequisites,
+        summary: variant.summary(entry),
+        statement: variant.statement(entry, baseStatement),
+        input: override?.input || '本题的可执行输入契约将在对应 Python 批次中补充。',
+        output: override?.output || '返回能够验证该算法核心过程的 JSON 可序列化结果。',
+        constraints: [...baseConstraints, ...variant.constraints],
+        examples,
+        tests,
+        explanation: {
+          mental: variant.mental(profile),
+          invariant,
+          insights: [...(override?.insights || [profile.mental]), variant.summary(entry)],
+          steps: variant.steps(profile),
+          pitfalls: [...basePitfalls, ...variant.pitfalls],
+        },
+        complexity: entry.complexity,
+        starterCode: starterCode(entry, variant),
+        judgeReady: Boolean(override),
+        solutionPath: `../${entry.slug}/solution.py`,
+        demo: entry.demo,
+        source: entry.source,
+      };
+    });
   })
   .sort((a, b) => a.id - b.id);
 
 if (new Set(problems.map((item) => item.id)).size !== problems.length) throw new Error('Duplicate problem id');
+if (problems.length < 1000) throw new Error(`Problem bank must contain at least 1000 entries, received ${problems.length}`);
 
 if (!checkOnly) {
   for (const [slug, problem] of Object.entries(problemBatchA)) {
@@ -129,6 +213,6 @@ if (!checkOnly) {
 
 writeGenerated(idPath, JSON.stringify(ids, null, 2));
 writeGenerated(path.join(outputDirectory, 'problem-data.json'), JSON.stringify(problems, null, 2));
-writeGenerated(path.join(outputDirectory, 'problem-data.js'), `// Generated by scripts/generate-problems.mjs.\nwindow.PROBLEM_DATA = ${JSON.stringify(problems, null, 2)};`);
+writeGenerated(path.join(outputDirectory, 'problem-data.js'), `// Generated by scripts/generate-problems.mjs.\nwindow.PROBLEM_DATA = ${JSON.stringify(problems)};`);
 
 console.log(`${checkOnly ? 'Verified' : 'Generated'} ${problems.length} problems; ${problems.filter((item) => item.judgeReady).length} are judge-ready`);

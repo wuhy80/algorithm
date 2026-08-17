@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**递归与调用栈 Recursion Call Stack** 属于“选择、递归与撤销”这一类问题。先不要急着背实现：它的核心任务是：理解递归函数如何把未完成状态保存在调用栈，并在基例后反向合并结果。
+**递归与调用栈 Recursion Call Stack** 解释函数如何通过栈帧保存参数、局部变量和返回位置，并在基例后逐层恢复执行。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-生成全部候选再检查会把大量明显非法的前缀也扩展到底。约束应尽可能早地用于剪枝。
+递归代码看起来像函数调用自身，实际运行依赖每次调用的独立栈帧。理解入栈、暂停、返回和出栈，才能分析递归深度与空间成本。
 
-用阶乘逐层展示函数入栈、基例命中和返回值出栈。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+递归不等于回溯：只有显式做选择并恢复共享状态时才属于回溯；普通递归可以只是分解计算。
 
 ## 心智模型
 
-回溯就是在决策树上做 DFS。代码骨架永远围绕三件事：做选择、进入下一层、撤销选择。难点是定义路径和可选列表。
+每个栈帧是一份暂停的函数执行上下文。子调用返回后，调用者从保存的返回位置继续，并使用返回值完成剩余语句。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 进入递归函数时，path 是一个合法前缀；choices 恰好是当前仍可用的选择；返回前共享状态恢复原样。
+> 栈顶是当前正在执行的调用；其下每个帧都暂停在一次尚未返回的子调用处，帧内参数和局部变量彼此隔离。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **递归与调用栈 Recursion Call Stack** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 定义 path、choices 和结束条件
-2. 遍历当前可选决策。在本算法中，对应演示动作是：用阶乘逐层展示函数入栈、基例命中和返回值出栈
-3. 做选择并同步约束状态
-4. 递归后撤销所有本层修改
+1. 调用函数时创建栈帧，保存参数、局部变量和返回地址。
+2. 遇到递归调用时暂停当前帧，把子调用帧压到栈顶。
+3. 命中基例后产生返回值并弹出当前帧。
+4. 恢复调用者帧，从返回地址继续，直到最外层调用结束。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,11 +44,12 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-backtrack(path, choices):
-    if is_complete(path): emit(path); return
-    for choice in choices:
-        if not valid(path, choice): continue
-        make(choice); backtrack(path, next_choices); undo(choice)
+factorial(n):
+    if n <= 1: return 1
+    child = factorial(n - 1)
+    return n * child
+
+# 每次调用拥有独立的 n、child 和返回位置
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -69,30 +70,30 @@ backtrack(path, choices):
 
 ## 常见错误
 
-- 忘记撤销一个辅助数组或计数器
-- 把结果保存为 path 引用，之后被继续修改
-- 剪枝条件虽然快但不保证安全，误删正确答案
+- 缺少可达基例，递归深度持续增长直到栈溢出。
+- 把不同调用帧的局部变量误认为同一份共享状态。
+- 只分析时间递推式，忽略最大同时存活帧数决定空间复杂度。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：需要枚举排列、组合、棋盘布局或满足约束的全部 / 任一解。
+适合：理解递归执行、分析调用深度，以及把递归程序改写为显式栈。
 
-不适合：状态高度重叠且只需最优值，动态规划通常更合适。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：递归深度可能超过运行时栈限制，或语言环境不支持可靠尾调用优化；应改用迭代与显式栈。
 
 ## 与其他算法的联系
 
 - 先修内容：[栈 Stack](https://github.com/wuhy80/algorithm/tree/main/stack/)
 - 直接后续：[二叉树前序遍历 Preorder Traversal](https://github.com/wuhy80/algorithm/tree/main/preorder-traversal/)、[二叉树中序遍历 Inorder Traversal](https://github.com/wuhy80/algorithm/tree/main/inorder-traversal/)、[二叉树后序遍历 Postorder Traversal](https://github.com/wuhy80/algorithm/tree/main/postorder-traversal/)、[斐波那契记忆化 Fibonacci Memoization](https://github.com/wuhy80/algorithm/tree/main/fibonacci-memoization/)
-- 同类比较：[汉诺塔 Tower of Hanoi](https://github.com/wuhy80/algorithm/tree/main/tower-of-hanoi/)、[骑士巡游 Knight's Tour](https://github.com/wuhy80/algorithm/tree/main/knights-tour/)、[Minimax 与 Alpha-Beta 剪枝](https://github.com/wuhy80/algorithm/tree/main/minimax-alpha-beta/)、[N 皇后 N-Queens](https://github.com/wuhy80/algorithm/tree/main/n-queens/)
+- 同类比较：[栈 Stack](https://github.com/wuhy80/algorithm/tree/main/stack/)、[汉诺塔](https://github.com/wuhy80/algorithm/tree/main/tower-of-hanoi/)、[斐波那契记忆化](https://github.com/wuhy80/algorithm/tree/main/fibonacci-memoization/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **递归与调用栈 Recursion Call Stack** 在每一步维护的状态？
-- 如果删除“进入递归函数时，path 是一个合法前缀”这个条件，能构造一个最小反例吗？
+- 子调用执行期间，调用者的哪些状态必须保存在栈帧中？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 

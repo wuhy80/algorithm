@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**Aho-Corasick 多模式匹配** 属于“后缀、自动机与全文索引”这一类问题。先不要急着背实现：它的核心任务是：Trie 插入、失败指针建立以及一次文本扫描中的多模式命中。为文本建立后缀或自动机索引，使大量子串、重复和词典序查询能够共享结构。
+**Aho-Corasick 多模式匹配** 把全部模式插入 Trie，再用失败指针连接最长可用后缀，使一次文本扫描能够同时报告所有模式命中。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-为每个查询枚举所有子串需要 O(n²) 存储甚至更高时间。索引结构共享重复前缀和后缀。
+分别运行 k 次单模式匹配会重复扫描文本。Aho-Corasick 共享模式前缀，并把失配后的回退信息预先编码在自动机中。
 
-Trie 插入、失败指针建立以及一次文本扫描中的多模式命中。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+失败指针不表示“匹配失败后清零”，而是跳到当前字符串的最长真后缀，且该后缀同时是某个模式前缀。
 
 ## 心智模型
 
-把所有子串问题转化为“后缀的公共前缀”或“自动机上的路径”。昂贵的结构只构建一次，之后复用大量查询。
+Trie 边负责继续匹配，失败指针负责在当前字符无法继续时保留仍有用的后缀。节点输出既包含本节点结束的模式，也包含失败链上结束的模式。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@ Trie 插入、失败指针建立以及一次文本扫描中的多模式命中。
 
 ## 核心不变量
 
-> 每个状态、节点或排序位置代表一组定义明确的子串；转移保持字符扩展语义，链接保持最长真后缀关系。
+> 扫描到文本位置 i 后，当前节点表示文本前缀的最长后缀，且该后缀是 Trie 前缀；节点输出完整包含在 i 处结束的所有模式。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **Aho-Corasick 多模式匹配** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 确定索引表示的是前缀、后缀还是等价子串集合
-2. 按字符或倍增长度增量构建结构。在本算法中，对应演示动作是：Trie 插入、失败指针建立以及一次文本扫描中的多模式命中
-3. 维护链接、排名或区间边界
-4. 把查询转成路径、区间或公共前缀操作
+1. 把每个模式插入 Trie，并在终点记录模式编号。
+2. 按 BFS 建立失败指针；子节点失败位置来自父节点失败状态沿同一字符的转移。
+3. 把失败节点的输出合并到当前节点，保留后缀模式命中。
+4. 扫描文本；无字符边时沿失败指针回退，有转移后进入下一状态并报告全部输出。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,12 +44,26 @@ Trie 插入、失败指针建立以及一次文本扫描中的多模式命中。
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-index = build_index(text)
-state = index.start
-for char in query:
-    state = index.transition(state, char)
-    if state is missing: return no_match
-return decode_answer(state)
+for pattern in patterns:
+    insert_into_trie(pattern)
+
+queue = children(root)
+while queue not empty:
+    node = queue.pop()
+    for (char, child) in node.children:
+        fallback = node.fail
+        while fallback != root and char not in fallback.children:
+            fallback = fallback.fail
+        child.fail = transition_or_root(fallback, char)
+        child.output += child.fail.output
+        queue.push(child)
+
+state = root
+for (i, char) in text:
+    while state != root and char not in state.children:
+        state = state.fail
+    state = transition_or_root(state, char)
+    emit_all(state.output, i)
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -64,36 +78,36 @@ return decode_answer(state)
 
 ## 复杂度怎么分析
 
-**结论：构建 O(模式总长×字母转移代价)，匹配 O(文本长+匹配数)。**
+**结论：构建 O(模式总长×字母转移代价)，匹配 O(文本长+匹配数)。稀疏转移下可记为构建 O(L)、匹配 O(n+z)。**
 
 不要只背大 O。分析时分三步：先数一共有多少个状态或元素，再数每个状态被处理多少次，最后把排序、堆操作、哈希查询、递归深度或额外表格单独计入。若算法具有摊还或期望复杂度，还要说明“总成本如何分摊”或“随机性假设是什么”。
 
 ## 常见错误
 
-- 终止符与普通字符顺序处理不一致
-- 状态克隆 / 后缀链接更新不完整
-- 构建复杂度高，却只做一次简单查询
+- 只报告当前 Trie 节点的终点，漏掉失败链上的较短后缀模式。
+- 失败指针按 DFS 或未完成父状态时计算，得到错误回退位置。
+- 每次文本失配都回到根，丢失可复用后缀并破坏线性扫描。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：同一文本上有大量子串、重复、词典序或全文检索查询。
+适合：固定模式词典上的敏感词、病毒签名、词法扫描和批量关键词匹配。
 
-不适合：文本很短且查询很少。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：只有一个短模式或模式集合频繁变化；KMP 或朴素匹配可能更简单，动态词典则需要额外维护。
 
 ## 与其他算法的联系
 
 - 先修内容：[Trie 前缀树](https://github.com/wuhy80/algorithm/tree/main/trie/)、[KMP 字符串匹配](https://github.com/wuhy80/algorithm/tree/main/kmp-search/)
 - 直接后续：暂无强制关联项。
-- 同类比较：[后缀树 Suffix Tree](https://github.com/wuhy80/algorithm/tree/main/suffix-tree/)、[后缀数组与 LCP](https://github.com/wuhy80/algorithm/tree/main/suffix-array-lcp/)、[后缀自动机 Suffix Automaton](https://github.com/wuhy80/algorithm/tree/main/suffix-automaton/)、[Booth 最小表示法](https://github.com/wuhy80/algorithm/tree/main/booth-minimum-rotation/)
+- 同类比较：[Trie 前缀树](https://github.com/wuhy80/algorithm/tree/main/trie/)、[KMP 字符串匹配](https://github.com/wuhy80/algorithm/tree/main/kmp-search/)、[朴素字符串匹配](https://github.com/wuhy80/algorithm/tree/main/naive-string-search/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **Aho-Corasick 多模式匹配** 在每一步维护的状态？
-- 如果删除“每个状态、节点或排序位置代表一组定义明确的子串”这个条件，能构造一个最小反例吗？
+- 模式集合含 `he` 与 `she` 时，扫描到 `she` 末尾为何必须报告两个模式？失败指针提供了什么信息？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 

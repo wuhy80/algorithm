@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**Link-Cut Tree** 属于“递归子树与层级关系”这一类问题。先不要急着背实现：它的核心任务是：在动态森林中以对数摊还时间支持连接、断边和路径查询。
+**Link-Cut Tree** 属于动态森林数据结构。它用若干 Splay 维护首选路径，以摊还 O(log n) 支持 `link`、`cut`、换根和路径聚合。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-把层级数据摊平成数组会丢失父子关系，很多查询需要反复扫描。树把递归结构直接编码在连接关系里。
+静态树分解无法高效处理边的持续增删。Link-Cut Tree 通过 `access` 动态改变首选边，把任意根到节点路径暴露成一个辅助 Splay。
 
-通过 Access、Makeroot 与 Splay 动态维护首选路径和路径聚合值。。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+辅助树结构会变化，但它表示的原森林连接关系不能因此改变；必须区分辅助树父指针与原树路径语义。
 
 ## 心智模型
 
-树的关键是每个节点都把同类问题交给若干子树。先明确函数对“一棵以 node 为根的树”返回什么。
+`access(x)` 依次把 x 到原树根的路径改成首选路径；`makeroot(x)` 暴露该路径后翻转方向，使 x 成为表示树根。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 递归处理 node 时，其参数完整描述当前子树；返回时该子树的答案已经完成，且不会依赖尚未处理的兄弟子树。
+> 每棵辅助 Splay 的中序顺序对应一段原树路径；聚合值与左右孩子一致，翻转标记下推前后表示同一条无向路径。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **Link-Cut Tree** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 定义节点、孩子和递归函数的返回值
-2. 处理空节点或叶子节点基例。在本算法中，对应演示动作是：通过 Access、Makeroot 与 Splay 动态维护首选路径和路径聚合值。
-3. 递归取得各子树结果
-4. 在当前节点合并并返回
+1. 用 Splay 的旋转、下推和上拉维护辅助树及路径摘要。
+2. `access(x)` 从 x 向上逐段改接右孩子，最后把 x 旋到辅助树根。
+3. `makeroot(x)` 在 access 后翻转整条暴露路径。
+4. `link/cut` 修改表示树连接；路径查询先 makeroot(u)，再 access(v) 读取 v 的摘要。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,11 +44,19 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-solve(node):
-    if node is null: return base
-    child_results = [solve(child) for child in node.children]
-    answer = combine(node, child_results)
-    return answer
+access(x):
+    last = null
+    for y = x; y != null; y = y.parent:
+        splay(y)
+        y.right = last
+        pull(y)
+        last = y
+    splay(x)
+
+path_query(u, v):
+    makeroot(u)
+    access(v)
+    return aggregate[v]
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -69,32 +77,39 @@ solve(node):
 
 ## 常见错误
 
-- 递归函数的定义在不同层发生变化
-- 只处理左右孩子却忽略空节点
-- 树输入其实含环，递归无法终止
+- 旋转前没有沿祖先路径下推翻转标记，导致左右方向错误。
+- `access` 改右孩子后忘记 `pull`，路径聚合值过期。
+- `link` 前不检查两点是否已连通，给森林引入环；`cut` 未验证目标边确实存在。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：数据天然是层级结构，答案可由子树结果合并。
+适合：动态森林中的连边、断边、换根、连通性与任意两点路径聚合查询。
 
-不适合：关系是一般图且存在多父节点或环，除非额外维护 visited。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：一般图动态连通性，或只需静态树查询的场景；实现复杂度和常数都较高。
 
 ## 与其他算法的联系
 
 - 先修内容：[伸展树 Splay Tree](https://github.com/wuhy80/algorithm/tree/main/splay-tree/)、[重链剖分 Heavy-Light Decomposition](https://github.com/wuhy80/algorithm/tree/main/heavy-light-decomposition/)
 - 直接后续：暂无强制关联项。
-- 同类比较：[最近公共祖先 LCA](https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/)、[笛卡尔树 Cartesian Tree](https://github.com/wuhy80/algorithm/tree/main/cartesian-tree/)、[二叉搜索树 Binary Search Tree](https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/)、[Trie 前缀树](https://github.com/wuhy80/algorithm/tree/main/trie/)
+- 同类比较：[Euler Tour Tree](https://github.com/wuhy80/algorithm/tree/main/euler-tour-tree/)、[重链剖分](https://github.com/wuhy80/algorithm/tree/main/heavy-light-decomposition/)、[伸展树 Splay Tree](https://github.com/wuhy80/algorithm/tree/main/splay-tree/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **Link-Cut Tree** 在每一步维护的状态？
-- 如果删除“递归处理 node 时，其参数完整描述当前子树”这个条件，能构造一个最小反例吗？
+- `access` 完成后，为什么 x 到表示树根的路径会集中到一个辅助树中？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
+
+## 实现判定细节
+
+- Link-Cut Tree 维护的是首选路径组成的辅助 Splay，辅助树父子关系不等于原森林中的真实父子关系。
+- `access(x)` 反复把从 `x` 到根的路径改成首选路径；`makeroot(x)` 还要翻转路径方向，懒标记下传顺序不能遗漏。
+- `link(x,y)` 前必须确认两点不连通，`cut(x,y)` 前必须把路径暴露并验证二者确实由一条真实边直接相连。
+- 路径聚合字段在旋转后立即 `pushUp`，翻转标记则在访问孩子前 `pushDown`；这两个时机是最常见错误来源。
 
 ## 文件与运行
 

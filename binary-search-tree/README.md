@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**二叉搜索树 Binary Search Tree** 属于“递归子树与层级关系”这一类问题。先不要急着背实现：它的核心任务是：插入与查找路径逐层下降，删除后树结构重新连接。表达层级关系，并让一个节点的问题能够由若干子树的结果递归合并。
+**二叉搜索树 Binary Search Tree** 属于动态有序集合。每次比较键后只进入一侧子树，插入、查找和删除都沿一条根到叶路径进行。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-把层级数据摊平成数组会丢失父子关系，很多查询需要反复扫描。树把递归结构直接编码在连接关系里。
+有序数组查询快但中间插入昂贵。BST 用指针结构保存键序，在树形状较好时兼顾动态更新和有序查询。
 
-插入与查找路径逐层下降，删除后树结构重新连接。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+树高决定操作成本；普通 BST 不自动平衡，有序输入可能让它退化成链表。
 
 ## 心智模型
 
-树的关键是每个节点都把同类问题交给若干子树。先明确函数对“一棵以 node 为根的树”返回什么。
+在节点 u 比较目标键：更小只可能在左子树，更大只可能在右子树，相等则命中。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 递归处理 node 时，其参数完整描述当前子树；返回时该子树的答案已经完成，且不会依赖尚未处理的兄弟子树。
+> 对每个节点，左子树全部键小于节点键，右子树全部键大于节点键；中序遍历得到有序序列。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **二叉搜索树 Binary Search Tree** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 定义节点、孩子和递归函数的返回值
-2. 处理空节点或叶子节点基例。在本算法中，对应演示动作是：插入与查找路径逐层下降，删除后树结构重新连接
-3. 递归取得各子树结果
-4. 在当前节点合并并返回
+1. 查找与插入按键比较沿左/右孩子下降。
+2. 空位置创建新节点；相等键按约定更新、计数或拒绝。
+3. 删除叶或单孩子节点时直接用孩子替换。
+4. 删除双孩子节点时用中序后继/前驱替换，再删除对应节点。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,11 +44,16 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-solve(node):
-    if node is null: return base
-    child_results = [solve(child) for child in node.children]
-    answer = combine(node, child_results)
-    return answer
+search(node, key):
+    while node and node.key != key:
+        node = node.left if key < node.key else node.right
+    return node
+
+insert(node, key):
+    if node is null: return new Node(key)
+    if key < node.key: node.left = insert(node.left, key)
+    else if key > node.key: node.right = insert(node.right, key)
+    return node
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -69,30 +74,30 @@ solve(node):
 
 ## 常见错误
 
-- 递归函数的定义在不同层发生变化
-- 只处理左右孩子却忽略空节点
-- 树输入其实含环，递归无法终止
+- 删除双孩子节点后没有继续删除后继副本，留下重复键。
+- 没有定义重复键策略，插入与查找语义不一致。
+- 把平均 O(log n) 当成保证，忽略树退化为 O(n)。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：数据天然是层级结构，答案可由子树结果合并。
+适合：动态有序集合、范围遍历，以及学习 AVL、红黑树等平衡结构的基础。
 
-不适合：关系是一般图且存在多父节点或环，除非额外维护 visited。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：必须保证最坏 O(log n) 的场景，应使用平衡搜索树；只做等值查询可考虑哈希表。
 
 ## 与其他算法的联系
 
 - 先修内容：无硬性先修要求，可以直接从本页的最小示例开始。
 - 直接后续：[区间树 Interval Tree](https://github.com/wuhy80/algorithm/tree/main/interval-tree/)、[伸展树 Splay Tree](https://github.com/wuhy80/algorithm/tree/main/splay-tree/)、[AVL 平衡树](https://github.com/wuhy80/algorithm/tree/main/avl-tree/)、[B 树 B-Tree](https://github.com/wuhy80/algorithm/tree/main/b-tree/)
-- 同类比较：[最近公共祖先 LCA](https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/)、[笛卡尔树 Cartesian Tree](https://github.com/wuhy80/algorithm/tree/main/cartesian-tree/)、[Trie 前缀树](https://github.com/wuhy80/algorithm/tree/main/trie/)、[点分治 Centroid Decomposition](https://github.com/wuhy80/algorithm/tree/main/centroid-decomposition/)
+- 同类比较：[AVL 平衡树](https://github.com/wuhy80/algorithm/tree/main/avl-tree/)、[红黑树](https://github.com/wuhy80/algorithm/tree/main/red-black-tree/)、[二叉树中序遍历](https://github.com/wuhy80/algorithm/tree/main/inorder-traversal/)、[哈希表](https://github.com/wuhy80/algorithm/tree/main/hash-table/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **二叉搜索树 Binary Search Tree** 在每一步维护的状态？
-- 如果删除“递归处理 node 时，其参数完整描述当前子树”这个条件，能构造一个最小反例吗？
+- 删除有两个孩子的节点时，为什么可以用中序后继替换而不破坏键序？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 

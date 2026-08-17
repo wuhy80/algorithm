@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**Wavelet Matrix** 属于“区间分解与可合并摘要”这一类问题。先不要急着背实现：它的核心任务是：在静态整数序列上高效完成区间第 K 小、频次和秩查询。
+**Wavelet Matrix** 按数值二进制位逐层稳定划分静态序列，并用每层位向量的 rank 把原区间映射到下一层，从而回答区间第 K 小等查询。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-直接查询 O(n)，直接区间更新也可能 O(n)。树形分解、分块或前缀结构在预处理、查询、更新之间做权衡。
+每次复制并排序查询子数组代价高。Wavelet Matrix 一次构建后，按最高位到最低位逐层决定答案位，每层只做常数次 rank 计算。
 
-逐位稳定划分数列并映射查询区间，演示范围第 K 小的下降过程。。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+稳定划分至关重要：同一位组内必须保留上一层顺序，才能把半开区间 `[l,r)` 正确映射到下一层。
 
 ## 心智模型
 
-不要为每次查询重扫整个区间。预先为标准区间保存摘要，把任意查询拆成少量标准块再合并。
+每层把 0 位元素稳定放在前半、1 位元素放在后半，并记录零位前缀计数。查询时先数当前区间有多少个 0，再决定第 K 小落在哪一组。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 每个节点或块保存的摘要准确对应其覆盖区间；父摘要等于孩子摘要的 combine；懒标记代表尚未下推但已经作用于整段的更新。
+> 进入某一位层时，`[l,r)` 恰好表示原查询元素中拥有已选高位前缀的子序列，k 始终是该子序列内从 1 开始的目标秩。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **Wavelet Matrix** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 定义区间摘要以及 combine 是否满足结合律
-2. 构建标准区间或块的摘要。在本算法中，对应演示动作是：逐位稳定划分数列并映射查询区间，演示范围第 K 小的下降过程。
-3. 查询时选择完全覆盖的块并合并
-4. 更新时只修改受影响路径并重算祖先
+1. 从最高有效位到最低位，为当前顺序建立零位前缀计数。
+2. 按该位把元素稳定划分为零组和一组，并记录零组总长度。
+3. 查询第 K 小：若区间零位数不少于 k，则映射到零组。
+4. 否则令 k 减去零位数、设置答案当前位，并把区间映射到一组。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,10 +44,21 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-query(node, left, right):
-    if node.range inside query: return node.summary
-    push_lazy_if_needed(node)
-    return combine(query(left_child), query(right_child))
+for bit from highest down to 0:
+    zero_prefix = build_zero_rank(current_order, bit)
+    current_order = stable_zeros_then_ones(current_order, bit)
+
+range_kth(left, right, k):
+    answer = 0
+    for level from highest down to 0:
+        zeros = zero_rank(level, right) - zero_rank(level, left)
+        if k <= zeros:
+            left, right = map_to_zero_group(left, right)
+        else:
+            k -= zeros
+            answer |= 1 << level.bit
+            left, right = map_to_one_group(left, right)
+    return answer
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -62,36 +73,36 @@ query(node, left, right):
 
 ## 复杂度怎么分析
 
-**结论：O(log σ) 每次查询**
+**结论：构建 O(n log σ)，O(log σ) 每次查询，位向量空间 O(n log σ)。**
 
 不要只背大 O。分析时分三步：先数一共有多少个状态或元素，再数每个状态被处理多少次，最后把排序、堆操作、哈希查询、递归深度或额外表格单独计入。若算法具有摊还或期望复杂度，还要说明“总成本如何分摊”或“随机性假设是什么”。
 
 ## 常见错误
 
-- 区间端点一个用闭区间、另一个用半开区间
-- combine 不满足需要的代数性质
-- 懒标记组合顺序错误
+- 位层划分不稳定，导致下一层区间不再对应原查询子序列。
+- 一组映射时忘记加零组总长度，或把 1-based 的 k 当成 0-based。
+- 未处理负数编码、位宽和半开区间约定；本演示输入会规范为非负整数。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：同一数据上有大量区间查询，或查询与更新交替出现。
+适合：静态整数序列上的大量区间第 K 小、排名、频次和前驱后继查询。
 
-不适合：只有一次查询，预处理成本反而更高。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：频繁点更新或只有少量查询；动态顺序统计树、可持久化线段树或直接选择可能更合适。
 
 ## 与其他算法的联系
 
 - 先修内容：[归并排序 Merge Sort](https://github.com/wuhy80/algorithm/tree/main/merge-sort/)、[平方根分解 Sqrt Decomposition](https://github.com/wuhy80/algorithm/tree/main/sqrt-decomposition/)
 - 直接后续：暂无强制关联项。
-- 同类比较：[差分数组 Difference Array](https://github.com/wuhy80/algorithm/tree/main/difference-array/)、[前缀和 Prefix Sum](https://github.com/wuhy80/algorithm/tree/main/prefix-sum/)、[可持久化线段树](https://github.com/wuhy80/algorithm/tree/main/persistent-segment-tree/)、[懒标记线段树](https://github.com/wuhy80/algorithm/tree/main/lazy-segment-tree/)
+- 同类比较：[可持久化线段树](https://github.com/wuhy80/algorithm/tree/main/persistent-segment-tree/)、[顺序统计树](https://github.com/wuhy80/algorithm/tree/main/order-statistic-tree/)、[莫队算法](https://github.com/wuhy80/algorithm/tree/main/mo-algorithm/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **Wavelet Matrix** 在每一步维护的状态？
-- 如果删除“每个节点或块保存的摘要准确对应其覆盖区间”这个条件，能构造一个最小反例吗？
+- 当当前区间含 z 个零位且 k>z 时，为什么要令 `k-=z` 并把区间映射到一组？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 

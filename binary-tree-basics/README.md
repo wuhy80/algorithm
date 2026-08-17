@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**二叉树基础 Binary Tree Basics** 属于“递归子树与层级关系”这一类问题。先不要急着背实现：它的核心任务是：用每个节点最多两个孩子的层次结构表达搜索空间、层级数据和递归分治结构。
+**二叉树基础 Binary Tree Basics** 介绍每个节点至多有左右两个孩子的层级结构，以及层序数组与节点关系的映射。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-把层级数据摊平成数组会丢失父子关系，很多查询需要反复扫描。树把递归结构直接编码在连接关系里。
+理解根、父子、叶子、深度和高度，是后续遍历、搜索树和树形动态规划的共同前提。
 
-按层序数组构造二叉树并展示父子关系与节点定位。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+层序数组是否允许空占位，会影响下标公式；构建时必须先明确编码约定。
 
 ## 心智模型
 
-树的关键是每个节点都把同类问题交给若干子树。先明确函数对“一棵以 node 为根的树”返回什么。
+从根开始，每个非空节点通过 left/right 引用连接到至多两棵互不重叠的子树。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 递归处理 node 时，其参数完整描述当前子树；返回时该子树的答案已经完成，且不会依赖尚未处理的兄弟子树。
+> 除根外每个节点恰有一个父节点；左右孩子引用不会形成环，同一节点不会被两个父节点共享。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **二叉树基础 Binary Tree Basics** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 定义节点、孩子和递归函数的返回值
-2. 处理空节点或叶子节点基例。在本算法中，对应演示动作是：按层序数组构造二叉树并展示父子关系与节点定位
-3. 递归取得各子树结果
-4. 在当前节点合并并返回
+1. 读取层序数组并按约定识别空位置。
+2. 为每个非空元素创建节点。
+3. 按下标或队列顺序连接左右孩子。
+4. 从根检查节点数、高度、叶子与父子关系。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,11 +44,11 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-solve(node):
-    if node is null: return base
-    child_results = [solve(child) for child in node.children]
-    answer = combine(node, child_results)
-    return answer
+nodes = create nodes for non-null array entries
+for index i:
+    nodes[i].left = node at left-child position if present
+    nodes[i].right = node at right-child position if present
+root = nodes[0]
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -69,30 +69,30 @@ solve(node):
 
 ## 常见错误
 
-- 递归函数的定义在不同层发生变化
-- 只处理左右孩子却忽略空节点
-- 树输入其实含环，递归无法终止
+- 混用“完全二叉树下标”与“跳过 null 的紧凑层序”两种编码。
+- 给同一节点连接多个父节点，构造出的不再是树。
+- 把节点深度与以该节点为根的高度混为一谈。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：数据天然是层级结构，答案可由子树结果合并。
+适合：学习树术语、层序构建和后续各种二叉树算法的输入模型。
 
-不适合：关系是一般图且存在多父节点或环，除非额外维护 visited。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：存在多父节点或环的一般关系网络，应使用图结构表示。
 
 ## 与其他算法的联系
 
 - 先修内容：无硬性先修要求，可以直接从本页的最小示例开始。
 - 直接后续：[多叉树 N-ary Tree](https://github.com/wuhy80/algorithm/tree/main/n-ary-tree/)、[二叉树前序遍历 Preorder Traversal](https://github.com/wuhy80/algorithm/tree/main/preorder-traversal/)、[二叉树中序遍历 Inorder Traversal](https://github.com/wuhy80/algorithm/tree/main/inorder-traversal/)、[二叉树后序遍历 Postorder Traversal](https://github.com/wuhy80/algorithm/tree/main/postorder-traversal/)
-- 同类比较：[最近公共祖先 LCA](https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/)、[笛卡尔树 Cartesian Tree](https://github.com/wuhy80/algorithm/tree/main/cartesian-tree/)、[二叉搜索树 Binary Search Tree](https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/)、[Trie 前缀树](https://github.com/wuhy80/algorithm/tree/main/trie/)
+- 同类比较：[多叉树](https://github.com/wuhy80/algorithm/tree/main/n-ary-tree/)、[二叉搜索树](https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/)、[层序遍历](https://github.com/wuhy80/algorithm/tree/main/level-order-traversal/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **二叉树基础 Binary Tree Basics** 在每一步维护的状态？
-- 如果删除“递归处理 node 时，其参数完整描述当前子树”这个条件，能构造一个最小反例吗？
+- 含 null 占位的层序数组和紧凑层序序列，在孩子定位上有什么差别？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 

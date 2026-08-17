@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**Trie 前缀树** 属于“递归子树与层级关系”这一类问题。先不要急着背实现：它的核心任务是：字符路径共享、单词终点、插入、查找、删除及前缀判断。表达层级关系，并让一个节点的问题能够由若干子树的结果递归合并。
+**Trie 前缀树** 属于按字符前缀索引的数据结构。公共前缀共享同一段根路径，查询成本取决于键长而不是键的数量。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-把层级数据摊平成数组会丢失父子关系，很多查询需要反复扫描。树把递归结构直接编码在连接关系里。
+逐个字符串比较会重复检查相同前缀。Trie 把每个不同前缀只存一次，并在节点上记录是否有单词在此结束。
 
-字符路径共享、单词终点、插入、查找、删除及前缀判断。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+“路径存在”只说明前缀存在，必须结合终点标记才能判断完整单词存在。
 
 ## 心智模型
 
-树的关键是每个节点都把同类问题交给若干子树。先明确函数对“一棵以 node 为根的树”返回什么。
+从根沿字符边走过 `c1...ck` 后所在节点，唯一代表这个长度为 k 的前缀。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 递归处理 node 时，其参数完整描述当前子树；返回时该子树的答案已经完成，且不会依赖尚未处理的兄弟子树。
+> 根到任一节点的边标签拼接唯一确定一个前缀；终点标记准确表示该前缀本身是否是一条已插入键。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **Trie 前缀树** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 定义节点、孩子和递归函数的返回值
-2. 处理空节点或叶子节点基例。在本算法中，对应演示动作是：字符路径共享、单词终点、插入、查找、删除及前缀判断
-3. 递归取得各子树结果
-4. 在当前节点合并并返回
+1. 从根开始逐字符查找对应孩子。
+2. 插入时为缺失字符创建节点，结束后设置终点标记。
+3. 完整查询要求路径存在且终点标记为真；前缀查询只要求路径存在。
+4. 删除时清除终点，并仅回收不再被其他键共享的空路径。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,11 +44,17 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-solve(node):
-    if node is null: return base
-    child_results = [solve(child) for child in node.children]
-    answer = combine(node, child_results)
-    return answer
+insert(word):
+    node = root
+    for char in word:
+        if char not in node.children:
+            node.children[char] = new Node()
+        node = node.children[char]
+    node.is_terminal = true
+
+contains(word):
+    node = follow_characters(word)
+    return node exists and node.is_terminal
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -69,30 +75,30 @@ solve(node):
 
 ## 常见错误
 
-- 递归函数的定义在不同层发生变化
-- 只处理左右孩子却忽略空节点
-- 树输入其实含环，递归无法终止
+- 把“路径存在”直接当作“完整单词存在”，忽略终点标记。
+- 删除一个短词时连同共享后续路径一起移除，破坏更长键。
+- 字符规范化规则在插入和查询阶段不一致。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：数据天然是层级结构，答案可由子树结果合并。
+适合：大量字符串的前缀查询、自动补全、词典匹配和按字符共享存储。
 
-不适合：关系是一般图且存在多父节点或环，除非额外维护 visited。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：只做少量完整键查询且内存敏感，哈希表通常更紧凑；任意子串查询需要其他索引。
 
 ## 与其他算法的联系
 
 - 先修内容：无硬性先修要求，可以直接从本页的最小示例开始。
 - 直接后续：[后缀自动机 Suffix Automaton](https://github.com/wuhy80/algorithm/tree/main/suffix-automaton/)、[回文树 Eertree](https://github.com/wuhy80/algorithm/tree/main/palindromic-tree/)、[Aho-Corasick 多模式匹配](https://github.com/wuhy80/algorithm/tree/main/aho-corasick/)、[LZW 压缩](https://github.com/wuhy80/algorithm/tree/main/lzw/)
-- 同类比较：[最近公共祖先 LCA](https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/)、[笛卡尔树 Cartesian Tree](https://github.com/wuhy80/algorithm/tree/main/cartesian-tree/)、[二叉搜索树 Binary Search Tree](https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/)、[点分治 Centroid Decomposition](https://github.com/wuhy80/algorithm/tree/main/centroid-decomposition/)
+- 同类比较：[Patricia / Radix Tree](https://github.com/wuhy80/algorithm/tree/main/radix-tree/)、[持久化 Trie](https://github.com/wuhy80/algorithm/tree/main/persistent-trie/)、[Aho-Corasick](https://github.com/wuhy80/algorithm/tree/main/aho-corasick/)、[哈希表](https://github.com/wuhy80/algorithm/tree/main/hash-table/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **Trie 前缀树** 在每一步维护的状态？
-- 如果删除“递归处理 node 时，其参数完整描述当前子树”这个条件，能构造一个最小反例吗？
+- 为什么 `car` 的路径存在不能证明单词 `car` 已插入？删除共享前缀时应检查哪些状态？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 

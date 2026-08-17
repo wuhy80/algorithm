@@ -3,6 +3,8 @@
 一个面向算法与数据结构学习的交互式可视化集合。当前包含 **254** 个独立演示，每个算法单独存放在自己的目录中，可直接在 GitHub Pages 运行。
 
 - [打开可视化目录](https://wuhy80.github.io/algorithm/)
+- [打开 Pages 学习指南](https://wuhy80.github.io/algorithm/guides/)
+- [打开在线题库](https://wuhy80.github.io/algorithm/problems/)
 - 算法名称链接到对应 GitHub 源码目录
 - “打开演示”链接直接进入对应 Pages 地址
 - 每个目录的 README 都提供问题驱动的详细学习指南、伪代码、复杂度推导和自测问题
@@ -16,10 +18,25 @@
 | 3. 进阶算法与工程结构 | 进入高级数据结构、几何、数论及 CNN、RNN、注意力等专用架构 | 46 |
 | 4. 专项高级算法 | 研究复杂匹配、树分解、自动机、生成模型与动态模拟 | 36 |
 
+### 跨分类推荐路线
+
+下列路线按依赖关系组织，不要求把同一分类全部学完后再进入下一类：
+
+| 方向 | 建议顺序 |
+| --- | --- |
+| 线性结构 | [静态数组](https://github.com/wuhy80/algorithm/tree/main/static-array/) → [数组操作](https://github.com/wuhy80/algorithm/tree/main/array-operations/) → [动态数组](https://github.com/wuhy80/algorithm/tree/main/dynamic-array/) / [链表](https://github.com/wuhy80/algorithm/tree/main/linked-list/) → [栈](https://github.com/wuhy80/algorithm/tree/main/stack/) / [队列](https://github.com/wuhy80/algorithm/tree/main/queue/) / [双端队列](https://github.com/wuhy80/algorithm/tree/main/deque/) → [哈希表](https://github.com/wuhy80/algorithm/tree/main/hash-table/) |
+| 查找与排序 | [线性查找](https://github.com/wuhy80/algorithm/tree/main/linear-search/) → [二分查找](https://github.com/wuhy80/algorithm/tree/main/binary-search/) → [插入排序](https://github.com/wuhy80/algorithm/tree/main/insertion-sort/) → [归并排序](https://github.com/wuhy80/algorithm/tree/main/merge-sort/) / [快速排序](https://github.com/wuhy80/algorithm/tree/main/quick-sort/) → [快速选择](https://github.com/wuhy80/algorithm/tree/main/quickselect/) |
+| 递归与树 | [递归与调用栈](https://github.com/wuhy80/algorithm/tree/main/recursion-call-stack/) → [二叉树基础](https://github.com/wuhy80/algorithm/tree/main/binary-tree-basics/) → [前序](https://github.com/wuhy80/algorithm/tree/main/preorder-traversal/) / [中序](https://github.com/wuhy80/algorithm/tree/main/inorder-traversal/) / [后序](https://github.com/wuhy80/algorithm/tree/main/postorder-traversal/) / [层序](https://github.com/wuhy80/algorithm/tree/main/level-order-traversal/) → [二叉搜索树](https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/) → [LCA](https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/) |
+| 字符串 | [朴素匹配](https://github.com/wuhy80/algorithm/tree/main/naive-string-search/) → [KMP](https://github.com/wuhy80/algorithm/tree/main/kmp-search/) / [Z 算法](https://github.com/wuhy80/algorithm/tree/main/z-algorithm/) / [Rabin-Karp](https://github.com/wuhy80/algorithm/tree/main/rabin-karp/) → [Trie](https://github.com/wuhy80/algorithm/tree/main/trie/) → [Aho-Corasick](https://github.com/wuhy80/algorithm/tree/main/aho-corasick/) → [后缀数组与 LCP](https://github.com/wuhy80/algorithm/tree/main/suffix-array-lcp/) / [后缀自动机](https://github.com/wuhy80/algorithm/tree/main/suffix-automaton/) |
+| 动态规划 | [斐波那契记忆化](https://github.com/wuhy80/algorithm/tree/main/fibonacci-memoization/) → [爬楼梯](https://github.com/wuhy80/algorithm/tree/main/climbing-stairs/) / [网格路径](https://github.com/wuhy80/algorithm/tree/main/grid-path-dp/) → [背包](https://github.com/wuhy80/algorithm/tree/main/knapsack-dp/) → [LCS](https://github.com/wuhy80/algorithm/tree/main/longest-common-subsequence/) / [编辑距离](https://github.com/wuhy80/algorithm/tree/main/edit-distance/) / [LIS](https://github.com/wuhy80/algorithm/tree/main/longest-increasing-subsequence/) → [树形 DP](https://github.com/wuhy80/algorithm/tree/main/tree-dp/) / [数位 DP](https://github.com/wuhy80/algorithm/tree/main/digit-dp/) |
+| 区间查询 | [前缀和](https://github.com/wuhy80/algorithm/tree/main/prefix-sum/) → [差分数组](https://github.com/wuhy80/algorithm/tree/main/difference-array/) → [树状数组](https://github.com/wuhy80/algorithm/tree/main/fenwick-tree/) / [平方根分解](https://github.com/wuhy80/algorithm/tree/main/sqrt-decomposition/) → [线段树](https://github.com/wuhy80/algorithm/tree/main/segment-tree/) → [懒标记线段树](https://github.com/wuhy80/algorithm/tree/main/lazy-segment-tree/) → [莫队](https://github.com/wuhy80/algorithm/tree/main/mo-algorithm/) / [Wavelet Matrix](https://github.com/wuhy80/algorithm/tree/main/wavelet-matrix/) |
+| 数论与线性代数 | [欧几里得算法](https://github.com/wuhy80/algorithm/tree/main/euclidean-algorithm/) → [扩展欧几里得](https://github.com/wuhy80/algorithm/tree/main/extended-euclidean/) → [快速模幂](https://github.com/wuhy80/algorithm/tree/main/modular-exponentiation/) → [埃氏筛](https://github.com/wuhy80/algorithm/tree/main/sieve-of-eratosthenes/) / [Miller-Rabin](https://github.com/wuhy80/algorithm/tree/main/miller-rabin/) → [矩阵快速幂](https://github.com/wuhy80/algorithm/tree/main/matrix-exponentiation/) / [高斯消元](https://github.com/wuhy80/algorithm/tree/main/gaussian-elimination/) → [FFT](https://github.com/wuhy80/algorithm/tree/main/fft/) / [NTT](https://github.com/wuhy80/algorithm/tree/main/ntt/) |
+| 神经网络 | [激活函数](https://github.com/wuhy80/algorithm/tree/main/activation-functions/) → [感知机](https://github.com/wuhy80/algorithm/tree/main/perceptron-classifier/) → [前向传播](https://github.com/wuhy80/algorithm/tree/main/neural-network-forward-pass/) → [反向传播](https://github.com/wuhy80/algorithm/tree/main/backpropagation/) → [优化器](https://github.com/wuhy80/algorithm/tree/main/optimizer-comparison/) → [CNN](https://github.com/wuhy80/algorithm/tree/main/convolutional-neural-network/) / [RNN](https://github.com/wuhy80/algorithm/tree/main/recurrent-neural-network/) / [自注意力](https://github.com/wuhy80/algorithm/tree/main/transformer-self-attention/) |
+
 ## 目录统计
 
 - 查找、排序与算法技巧：32 项
-- 图算法、网络流与回溯：46 项
+- 图算法、树与网络流：46 项
 - 回溯、博弈与约束求解：15 项
 - 字符串算法：19 项
 - 动态规划与序列：22 项
@@ -70,7 +87,25 @@
 | [频率统计 Frequency Counting](https://github.com/wuhy80/algorithm/tree/main/frequency-counting/) | 逐项更新哈希计数表并高亮当前最高频元素 | 基础 | [集合与映射 ADT Set / Map](https://github.com/wuhy80/algorithm/tree/main/set-map-adt/) | [打开演示](https://wuhy80.github.io/algorithm/frequency-counting/) |
 | [矩阵遍历 Matrix Traversal](https://github.com/wuhy80/algorithm/tree/main/matrix-traversal/) | 支持按行、按列和螺旋三种顺序逐格访问矩阵 | 基础 | [二维数组与矩阵 2D Array](https://github.com/wuhy80/algorithm/tree/main/matrix-2d-array/) | [打开演示](https://wuhy80.github.io/algorithm/matrix-traversal/) |
 
-## 图算法、网络流与回溯
+## 图算法、树与网络流
+
+### 推荐学习路线
+
+图算法不适合按下表顺序逐项学习。先掌握表示与遍历，再沿问题类型选择一条分支：
+
+| 分支 | 建议顺序 |
+| --- | --- |
+| 图基础 | [图的表示](https://github.com/wuhy80/algorithm/tree/main/graph-representations/) → [BFS](https://github.com/wuhy80/algorithm/tree/main/bfs/) / [DFS](https://github.com/wuhy80/algorithm/tree/main/dfs/) → [连通分量](https://github.com/wuhy80/algorithm/tree/main/connected-components/) → [无向环检测](https://github.com/wuhy80/algorithm/tree/main/undirected-cycle-detection/) / [有向环检测](https://github.com/wuhy80/algorithm/tree/main/directed-cycle-detection/) → [拓扑排序](https://github.com/wuhy80/algorithm/tree/main/topological-sort/) |
+| 最短路径 | [BFS](https://github.com/wuhy80/algorithm/tree/main/bfs/) → [0-1 BFS](https://github.com/wuhy80/algorithm/tree/main/zero-one-bfs/) → [Dijkstra](https://github.com/wuhy80/algorithm/tree/main/dijkstra/) → [Bellman-Ford](https://github.com/wuhy80/algorithm/tree/main/bellman-ford/) / [DAG 最短路径](https://github.com/wuhy80/algorithm/tree/main/dag-shortest-path/) → [Floyd-Warshall](https://github.com/wuhy80/algorithm/tree/main/floyd-warshall/) / [Johnson](https://github.com/wuhy80/algorithm/tree/main/johnson-algorithm/) |
+| 连通结构 | [并查集](https://github.com/wuhy80/algorithm/tree/main/union-find/) → [割点与桥](https://github.com/wuhy80/algorithm/tree/main/bridges-articulation/) → [双连通分量](https://github.com/wuhy80/algorithm/tree/main/biconnected-components/)；[Kosaraju](https://github.com/wuhy80/algorithm/tree/main/kosaraju-scc/) / [Tarjan SCC](https://github.com/wuhy80/algorithm/tree/main/tarjan-scc/) → [2-SAT](https://github.com/wuhy80/algorithm/tree/main/two-sat/) |
+| 最小生成树 | [并查集](https://github.com/wuhy80/algorithm/tree/main/union-find/) → [Kruskal](https://github.com/wuhy80/algorithm/tree/main/kruskal-mst/) / [Prim](https://github.com/wuhy80/algorithm/tree/main/prim-mst/) → [Borůvka](https://github.com/wuhy80/algorithm/tree/main/boruvka-mst/) → [Chu-Liu/Edmonds](https://github.com/wuhy80/algorithm/tree/main/chu-liu-edmonds/) |
+| 匹配与指派 | [二分图最大匹配](https://github.com/wuhy80/algorithm/tree/main/bipartite-matching/) → [Hopcroft-Karp](https://github.com/wuhy80/algorithm/tree/main/hopcroft-karp/) → [匈牙利算法](https://github.com/wuhy80/algorithm/tree/main/hungarian-algorithm/) → [Blossom](https://github.com/wuhy80/algorithm/tree/main/blossom-matching/) |
+| 网络流与割 | [Edmonds-Karp](https://github.com/wuhy80/algorithm/tree/main/edmonds-karp/) → [Dinic](https://github.com/wuhy80/algorithm/tree/main/dinic/) → [Push-Relabel](https://github.com/wuhy80/algorithm/tree/main/push-relabel/) → [最小费用最大流](https://github.com/wuhy80/algorithm/tree/main/min-cost-max-flow/) / [有上下界网络流](https://github.com/wuhy80/algorithm/tree/main/lower-bound-flow/) → [Stoer-Wagner](https://github.com/wuhy80/algorithm/tree/main/stoer-wagner-min-cut/) → [Gomory-Hu](https://github.com/wuhy80/algorithm/tree/main/gomory-hu-tree/) |
+| 树上问题 | [树的直径](https://github.com/wuhy80/algorithm/tree/main/tree-diameter/) → [最近公共祖先](https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/) → [AHU 树同构](https://github.com/wuhy80/algorithm/tree/main/tree-isomorphism-ahu/)；更复杂的动态树与树分解见[高级查询与树分解](#高级查询与树分解) |
+
+> 范围说明：Tarjan 与 Kosaraju 已覆盖强连通分量，但目前没有单独的“缩点 DAG”演示；[Euler Tour Tree](https://github.com/wuhy80/algorithm/tree/main/euler-tour-tree/) 是动态森林结构，不等同于静态 DFS 欧拉序。
+
+### 完整索引
 
 | 算法 / 数据结构 | 动画表现 | 难度 | 先修内容 | 演示 |
 | --- | --- | --- | --- | --- |

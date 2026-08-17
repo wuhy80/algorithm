@@ -21,7 +21,7 @@ LEARNING_GUIDE_HEADINGS = (
     "## 与其他算法的联系",
     "## 自测问题",
 )
-NON_ALGORITHM_PAGES = {"problems", "neural-network-tools"}
+NON_ALGORITHM_PAGES = {"problems", "guides", "neural-network-tools"}
 
 
 class CatalogIntegrityTests(unittest.TestCase):

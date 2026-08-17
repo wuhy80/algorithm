@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**莫队算法 Mo’s Algorithm** 属于“区间分解与可合并摘要”这一类问题。先不要急着背实现：它的核心任务是：在可快速增删元素时批量回答静态数组的离线区间查询。
+**莫队算法 Mo’s Algorithm** 把静态数组的离线区间查询按分块顺序重排，使相邻查询窗口只移动少量边界，并用 O(1) 增删维护答案。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-直接查询 O(n)，直接区间更新也可能 O(n)。树形分解、分块或前缀结构在预处理、查询、更新之间做权衡。
+逐个扫描每个查询区间最坏需要 O(nq)。莫队不预计算区间摘要，而是改变查询处理顺序，复用当前活动窗口。
 
-分块重排离线区间查询，展示左右指针增删元素和答案维护。。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+本演示维护区间不同值数量：频率从 0 变 1 时 distinct 增加，从 1 变 0 时 distinct 减少。
 
 ## 心智模型
 
-不要为每次查询重扫整个区间。预先为标准区间保存摘要，把任意查询拆成少量标准块再合并。
+把查询看成平面上的点 `(L,R)`。先按 L 所在块排序，再让相邻块中的 R 方向交替，减少左右指针的总路程。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 每个节点或块保存的摘要准确对应其覆盖区间；父摘要等于孩子摘要的 combine；懒标记代表尚未下推但已经作用于整段的更新。
+> 在任何指针移动后，频率表精确统计当前闭区间 `[left,right]`；distinct 等于频率大于 0 的值的数量，答案写回查询原始编号。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **莫队算法 Mo’s Algorithm** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 定义区间摘要以及 combine 是否满足结合律
-2. 构建标准区间或块的摘要。在本算法中，对应演示动作是：分块重排离线区间查询，展示左右指针增删元素和答案维护。
-3. 查询时选择完全覆盖的块并合并
-4. 更新时只修改受影响路径并重算祖先
+1. 给每个查询保存原始编号，块长取约 `sqrt(n)`。
+2. 按左端点块排序；同一块内按右端点排序，可用奇偶块交替方向。
+3. 对每个排序后的查询，移动 left 和 right，每跨过一个元素就调用 add 或 remove。
+4. 窗口与目标区间一致后记录当前答案，最后按原始编号输出。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,10 +44,14 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-query(node, left, right):
-    if node.range inside query: return node.summary
-    push_lazy_if_needed(node)
-    return combine(query(left_child), query(right_child))
+sort queries by (left / block_size, alternating right)
+left = 0; right = -1
+for query in sorted_queries:
+    while left > query.left:  add(--left)
+    while right < query.right: add(++right)
+    while left < query.left:  remove(left++)
+    while right > query.right: remove(right--)
+    answers[query.id] = current_answer
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -68,30 +72,30 @@ query(node, left, right):
 
 ## 常见错误
 
-- 区间端点一个用闭区间、另一个用半开区间
-- combine 不满足需要的代数性质
-- 懒标记组合顺序错误
+- 移动指针的先后顺序与 add/remove 索引不匹配，加入或删除了窗口外元素。
+- 频率降到 0 时没有更新不同值计数，或保留负频率。
+- 按重排后的顺序输出答案，忘记用查询原始编号还原。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：同一数据上有大量区间查询，或查询与更新交替出现。
+适合：静态数组上的大量离线查询，且答案难以合并但能快速加入和删除一个元素。
 
-不适合：只有一次查询，预处理成本反而更高。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：必须在线回答、普通版本中夹杂数组修改，或前缀和/线段树已能更快回答的可合并查询。
 
 ## 与其他算法的联系
 
 - 先修内容：[平方根分解 Sqrt Decomposition](https://github.com/wuhy80/algorithm/tree/main/sqrt-decomposition/)
 - 直接后续：暂无强制关联项。
-- 同类比较：[差分数组 Difference Array](https://github.com/wuhy80/algorithm/tree/main/difference-array/)、[前缀和 Prefix Sum](https://github.com/wuhy80/algorithm/tree/main/prefix-sum/)、[可持久化线段树](https://github.com/wuhy80/algorithm/tree/main/persistent-segment-tree/)、[懒标记线段树](https://github.com/wuhy80/algorithm/tree/main/lazy-segment-tree/)
+- 同类比较：[平方根分解](https://github.com/wuhy80/algorithm/tree/main/sqrt-decomposition/)、[Wavelet Matrix](https://github.com/wuhy80/algorithm/tree/main/wavelet-matrix/)、[线段树](https://github.com/wuhy80/algorithm/tree/main/segment-tree/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **莫队算法 Mo’s Algorithm** 在每一步维护的状态？
-- 如果删除“每个节点或块保存的摘要准确对应其覆盖区间”这个条件，能构造一个最小反例吗？
+- 维护不同值数量时，加入和删除一个值分别在什么频率变化下修改 distinct？为什么答案必须按原编号写回？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 

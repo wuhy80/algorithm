@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**匈牙利算法 Hungarian** 属于“交替路与匹配增广”这一类问题。先不要急着背实现：它的核心任务是：成本矩阵行列归约、零元素覆盖与最优一一指派。选择互不共享端点的边完成配对或指派，并通过增广重新安排局部选择。
+**匈牙利算法 Hungarian** 在二分图的一一指派中维护行列势能和零约化成本边，通过逐个增广得到总成本最小的完美匹配。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-看到一条可用边就立即配对会阻塞后续选择。交替路允许重新安排已有匹配。
+普通最大匹配只关心配对数量，不能区分不同完美匹配的总成本。匈牙利算法把匹配增广与对偶势能结合，使搜索始终沿当前可达到的最低约化成本推进。
 
-成本矩阵行列归约、零元素覆盖与最优一一指派。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+本演示使用 O(n³) 的势能实现，而不是手工版的“行列归约、用最少直线覆盖零”流程；两者表达的是同一指派问题。
 
 ## 心智模型
 
-匹配要求每个端点至多属于一条已选边。增广路通过“未匹配边、已匹配边”交替出现，一次翻转让匹配数增加 1。
+`u[i]` 与 `v[j]` 是工人和任务的对偶势能，`cost[i][j]-u[i]-v[j]` 是约化成本。零约化成本边组成当前可增广的等价子图。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 当前边集始终是合法匹配；沿增广路翻转后，中间节点仍恰好匹配一次，两个端点从未匹配变为匹配。
+> 所有约化成本始终非负；当前匹配始终合法，已匹配边满足零约化成本，沿 `way` 回溯增广后匹配数恰好增加 1。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **匈牙利算法 Hungarian** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 维护每个节点当前匹配对象
-2. 从未匹配节点搜索交替路。在本算法中，对应演示动作是：成本矩阵行列归约、零元素覆盖与最优一一指派
-3. 找到未匹配终点后回溯翻转边状态
-4. 重复直到不存在增广路
+1. 逐个加入工人，从虚拟任务 0 开始搜索增广路。
+2. 对每个未访问任务维护可到达它的最小约化成本 `minv` 和前驱 `way`。
+3. 取最小松弛量 delta 更新势能，使至少一条新边约化成本降为 0。
+4. 到达未匹配任务后沿 way 回溯改配；处理完全部工人即得到最优一一指派。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,10 +44,21 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-for free_vertex in left_side:
-    clear_search_marks()
-    if find_augmenting_path(free_vertex):
-        matching_size += 1
+for worker in 1 .. n:
+    match[0] = worker
+    job = 0
+    minv[*] = infinity
+    used[*] = false
+    repeat:
+        used[job] = true
+        current_worker = match[job]
+        relax every unused next_job using
+            cost[current_worker][next_job] - u[current_worker] - v[next_job]
+        delta, next_job = minimum minv among unused jobs
+        update u, v and minv by delta
+        job = next_job
+    until match[job] == 0
+    augment matching backward through way
 return matching
 ```
 
@@ -69,30 +80,30 @@ return matching
 
 ## 常见错误
 
-- 一次搜索中 visited 的作用域错误
-- 翻转路径时只更新一侧匹配
-- 把一般图匹配当作二分图匹配处理
+- 势能更新符号写反，产生负约化成本并破坏对偶可行性。
+- 用最大匹配的 DFS 模板替代带权增广，只保证匹配数而不保证最低成本。
+- 非方阵未补虚拟行列，或求最大收益时忘记转换目标。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：人员任务分配、配对、指派和可行对应关系。
+适合：人员到任务、机器到工件等完整成本矩阵上的最小成本一一指派。
 
-不适合：一个节点可以分配多个单位，需要流模型或 b-matching。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：一般图匹配、多容量分配或带复杂网络约束；应使用 Blossom、b-matching 或最小费用流。
 
 ## 与其他算法的联系
 
-- 先修内容：[二分图最大匹配](https://github.com/wuhy80/algorithm/tree/main/bipartite-matching/)
+- 先修内容：[二分图最大匹配](https://github.com/wuhy80/algorithm/tree/main/bipartite-matching/)、[最小费用最大流](https://github.com/wuhy80/algorithm/tree/main/min-cost-max-flow/)
 - 直接后续：暂无强制关联项。
-- 同类比较：[Blossom 一般图匹配](https://github.com/wuhy80/algorithm/tree/main/blossom-matching/)、[Hopcroft-Karp 匹配](https://github.com/wuhy80/algorithm/tree/main/hopcroft-karp/)、[稳定婚姻匹配 Gale-Shapley](https://github.com/wuhy80/algorithm/tree/main/stable-marriage/)
+- 同类比较：[二分图最大匹配](https://github.com/wuhy80/algorithm/tree/main/bipartite-matching/)、[Hopcroft-Karp](https://github.com/wuhy80/algorithm/tree/main/hopcroft-karp/)、[最小费用最大流](https://github.com/wuhy80/algorithm/tree/main/min-cost-max-flow/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **匈牙利算法 Hungarian** 在每一步维护的状态？
-- 如果删除“当前边集始终是合法匹配”这个条件，能构造一个最小反例吗？
+- 为什么更新势能后至少会出现一条新的零约化成本边？普通最大匹配为何不能保证最低成本？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 

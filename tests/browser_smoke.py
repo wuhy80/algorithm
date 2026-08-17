@@ -11,6 +11,7 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
 PROBLEMS = json.loads((ROOT / "problems" / "problem-data.json").read_text(encoding="utf-8"))
+LEETCODE = json.loads((ROOT / "problems" / "leetcode-index.json").read_text(encoding="utf-8"))
 CORE_EXPECTED_RESULTS = {
     "dynamic-array": "8",
     "circular-buffer": "4",
@@ -234,6 +235,12 @@ class BrowserSmokeTests(unittest.TestCase):
             with self.subTest(viewport=viewport):
                 page, errors = self.open_page("", viewport)
                 self.assertEqual(len(CATALOG), page.locator(".algorithm-row").count())
+                self.assertEqual(len(CATALOG) * 3, page.locator(".algorithm-row .row-actions a").count())
+                first_slug = CATALOG[0]["slug"]
+                self.assertEqual(
+                    1,
+                    page.locator(f'.algorithm-row .row-actions a[href="guides/?slug={first_slug}"]').count(),
+                )
                 self.assertEqual(str(len(CATALOG)), page.locator("#total-count").inner_text())
                 self.assertEqual(str(len({entry["category"] for entry in CATALOG})), page.locator("#category-count").inner_text())
                 metrics = self.layout_metrics(page)
@@ -257,21 +264,69 @@ class BrowserSmokeTests(unittest.TestCase):
                 self.assertFalse(errors, errors)
                 page.close()
 
+    def test_learning_guides_render_search_and_fit_both_viewports(self):
+        entry = next(item for item in CATALOG if item["slug"] == "bridges-articulation")
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(viewport=viewport):
+                page, errors = self.open_page("guides/?slug=bridges-articulation", viewport)
+                page.locator("#guide-content h2").first.wait_for()
+                self.assertEqual(entry["name"], page.locator("#topic-title").inner_text())
+                self.assertEqual(len(CATALOG), page.locator("#guide-list [data-slug]").count())
+                self.assertGreaterEqual(page.locator("#guide-content h2").count(), 4)
+                self.assertTrue(page.locator("#topic-problems").get_attribute("href").endswith("/problems/?id=bridges-articulation"))
+                self.assertTrue(page.locator("#topic-demo").get_attribute("href").endswith("/bridges-articulation/"))
+                self.assertEqual(0, page.locator(".guide-error").count())
+
+                if viewport["width"] < 820:
+                    page.locator("#open-sidebar").click()
+                    self.assertTrue(page.locator("body").evaluate("element => element.classList.contains('sidebar-open')"))
+                    self.assertTrue(page.locator("#sidebar-backdrop").is_visible())
+                    page.wait_for_timeout(250)
+
+                metrics = self.layout_metrics(page)
+                self.assertLessEqual(metrics["overflow"], 1, metrics)
+                self.assertFalse(metrics["clipped"], metrics)
+                page.locator("#guide-search").fill("boruvka")
+                self.assertEqual(1, page.locator("#guide-list [data-slug]").count())
+                page.locator('[data-slug="boruvka-mst"]').click()
+                page.locator("#guide-content h2").first.wait_for()
+                self.assertIn("slug=boruvka-mst", page.url)
+                self.assertFalse(page.locator("body").evaluate("element => element.classList.contains('sidebar-open')"))
+                self.assertFalse(errors, errors)
+                page.close()
+
     def test_problem_bank_filters_deep_links_and_layout(self):
         ready_count = sum(problem["judgeReady"] for problem in PROBLEMS)
         for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
             with self.subTest(viewport=viewport):
                 page, errors = self.open_page("problems/", viewport)
-                self.assertEqual(len(PROBLEMS), page.locator("#problem-rows tr").count())
+                self.assertEqual(min(100, len(PROBLEMS)), page.locator("#problem-rows tr").count())
+                self.assertEqual(str(len(PROBLEMS)), page.locator("#bank-total").inner_text())
+                self.assertEqual(str(len(LEETCODE["questions"])), page.locator("#bank-external").inner_text())
                 self.assertEqual(str(ready_count), page.locator("#bank-ready").inner_text())
+                self.assertTrue(page.locator("#pagination").is_visible())
                 self.assertLessEqual(self.layout_metrics(page)["overflow"], 1)
 
+                page.locator('[data-source="leetcode"]').click()
+                self.assertEqual(min(100, len(LEETCODE["questions"])), page.locator("#problem-rows tr").count())
+                self.assertTrue(page.locator("#variant-filter-wrap").is_hidden())
+                page.locator("#problem-search").fill("two-sum")
+                self.assertGreaterEqual(page.locator('a[href="https://leetcode.cn/problems/two-sum/"]').count(), 1)
+
+                page.locator('[data-source="local"]').click()
+                page.locator("#variant-filter").select_option("edge")
+                self.assertIn("254 道本站训练题", page.locator("#result-summary").inner_text())
+                self.assertEqual(100, page.locator("#problem-rows tr").count())
+                page.locator("#reset-filters").click()
                 page.locator("#problem-search").fill("binary-search")
-                self.assertGreaterEqual(page.locator("#problem-rows tr").count(), 1)
+                self.assertGreaterEqual(page.locator("#problem-rows tr").count(), 4)
+                for slug in ("binary-search", "binary-search--state", "binary-search--edge", "binary-search--applied"):
+                    self.assertEqual(1, page.locator(f'[data-open="{slug}"]').count())
                 page.locator('[data-open="binary-search"]').click()
                 self.assertIn("id=binary-search", page.url)
                 self.assertIn("二分查找", page.locator("#detail-title").inner_text())
                 self.assertTrue(page.locator("#detail-demo").get_attribute("href").endswith("/binary-search/"))
+                self.assertTrue(page.locator("#detail-guide").get_attribute("href").endswith("/guides/?slug=binary-search"))
 
                 page.locator("#detail-favorite").click()
                 self.assertTrue(page.locator("#detail-favorite").evaluate("element => element.classList.contains('active')"))

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16201e">
+  <meta name="description" content="算法可视化图谱学习指南：按主题阅读核心不变量、伪代码、复杂度与常见错误。">
+  <link rel="icon" href="data:,">
+  <title>学习指南 · Algorithm Atlas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="guide-header">
+    <a class="brand" href="../" aria-label="返回算法可视化图谱">
+      <span class="brand-mark">AV</span>
+      <span><b>学习指南</b><small>LEARNING GUIDE</small></span>
+    </a>
+    <nav aria-label="站点导航">
+      <a href="../"><i data-lucide="network" aria-hidden="true"></i>动画图谱</a>
+      <a href="../problems/"><i data-lucide="code-2" aria-hidden="true"></i>在线题库</a>
+      <a href="https://github.com/wuhy80/algorithm" target="_blank" rel="noreferrer" aria-label="打开 GitHub"><i data-lucide="github" aria-hidden="true"></i></a>
+    </nav>
+  </header>
+
+  <div class="guide-layout">
+    <aside id="guide-sidebar" class="guide-sidebar" aria-label="学习指南目录">
+      <div class="sidebar-toolbar">
+        <label class="guide-search" for="guide-search">
+          <i data-lucide="search" aria-hidden="true"></i>
+          <span class="sr-only">搜索指南</span>
+          <input id="guide-search" type="search" autocomplete="off" placeholder="搜索算法或标签">
+        </label>
+        <label class="category-filter" for="guide-category">
+          <span class="sr-only">筛选主题</span>
+          <select id="guide-category"><option value="">全部主题</option></select>
+        </label>
+      </div>
+      <div class="guide-count"><span id="guide-count">0 个专题</span><button id="close-sidebar" type="button" aria-label="关闭目录"><i data-lucide="x" aria-hidden="true"></i></button></div>
+      <nav id="guide-list" class="guide-list"></nav>
+    </aside>
+
+    <main class="guide-main">
+      <header class="topic-header">
+        <button id="open-sidebar" class="icon-button" type="button" aria-label="打开指南目录" data-tooltip="指南目录"><i data-lucide="menu" aria-hidden="true"></i></button>
+        <div class="topic-heading">
+          <span id="topic-position">GUIDE</span>
+          <h1 id="topic-title">正在加载</h1>
+          <p id="topic-meta"></p>
+        </div>
+        <div class="topic-actions">
+          <a id="topic-problems" href="../problems/"><i data-lucide="code-2" aria-hidden="true"></i>练习</a>
+          <a id="topic-demo" href="#"><i data-lucide="play" aria-hidden="true"></i>动画</a>
+          <a id="topic-source" href="#" target="_blank" rel="noreferrer"><i data-lucide="github" aria-hidden="true"></i>源码</a>
+        </div>
+      </header>
+      <article id="guide-content" class="guide-content" aria-live="polite"><p class="loading">正在加载学习指南...</p></article>
+    </main>
+  </div>
+
+  <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+  <script src="../catalog-data.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

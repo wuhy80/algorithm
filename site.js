@@ -107,7 +107,7 @@
         <div class="algorithm-name">${sourceLink(entry)}<div class="meta-line"><span class="difficulty ${difficultyClass(entry.difficulty)}">${entry.difficulty}</span><span class="stage-label">STAGE ${entry.stage}</span><span>${entry.tags.slice(0, 2).join(" · ")}</span></div></div>
         <p class="summary">${entry.summary}</p>
         <div class="prerequisite"><b>先修内容</b>${prerequisiteLinks(entry)}</div>
-        <div class="row-actions"><a href="${entry.source}" target="_blank" rel="noreferrer"><i data-lucide="code-2" aria-hidden="true"></i>源码</a><a class="demo" href="${entry.demo}"><i data-lucide="play" aria-hidden="true"></i>打开演示</a></div>
+        <div class="row-actions"><a href="${entry.source}" target="_blank" rel="noreferrer"><i data-lucide="code-2" aria-hidden="true"></i>源码</a><a href="guides/?slug=${encodeURIComponent(entry.slug)}"><i data-lucide="book-open" aria-hidden="true"></i>指南</a><a class="demo" href="${entry.demo}"><i data-lucide="play" aria-hidden="true"></i>演示</a></div>
       </article>`,
         )
         .join("")}</div>

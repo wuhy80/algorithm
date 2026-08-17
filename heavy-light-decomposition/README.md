@@ -4,19 +4,19 @@
 
 ## 先抓住一句话
 
-**重链剖分 Heavy-Light Decomposition** 属于“递归子树与层级关系”这一类问题。先不要急着背实现：它的核心任务是：把树路径查询转化为对数数量的序列区间查询。
+**重链剖分 Heavy-Light Decomposition** 属于静态树路径分解。它按最大子树选择重边，把任意树路径拆成 O(log n) 个连续序列区间。
 
 学习时只盯住两件事：**当前状态表示什么**，以及**这一步为什么可以排除其他可能**。演示中的颜色、指针、队列、区间或节点变化，都是这两个问题的可视化表达。
 
 ## 为什么需要它
 
-把层级数据摊平成数组会丢失父子关系，很多查询需要反复扫描。树把递归结构直接编码在连接关系里。
+树路径不是数组连续区间，无法直接交给线段树。重链剖分为节点安排位置，使同一重链连续，并控制跨轻边次数。
 
-按最大子树划分重链，并把树上路径拆成少量连续区间求和。。这句话里的动作不是界面效果，而是算法正确性的关键过程。把它拆开看，可以得到“输入约束 → 状态变化 → 不变量仍成立 → 答案范围缩小”这条主线。
+从一个节点经过轻边向下，子树规模至少减半，因此任意根路径最多跨 O(log n) 条轻边。
 
 ## 心智模型
 
-树的关键是每个节点都把同类问题交给若干子树。先明确函数对“一棵以 node 为根的树”返回什么。
+每个节点记录父亲、深度、子树大小、重儿子、所在链头和在线性序列中的位置。
 
 面对新题时，不要先问“该套哪个模板”，先问：
 
@@ -26,16 +26,16 @@
 
 ## 核心不变量
 
-> 递归处理 node 时，其参数完整描述当前子树；返回时该子树的答案已经完成，且不会依赖尚未处理的兄弟子树。
+> 同一条重链上的节点位置连续且按深度排列；不同链之间只通过轻边连接，沿根路径跨链次数为 O(log n)。
 
 所谓不变量，就是算法每一步开始和结束时都必须为真的事实。调试 **重链剖分 Heavy-Light Decomposition** 时，最有效的方法不是盯着最终答案，而是在每次单步后检查这条不变量。只要某一帧不再满足它，错误通常就在上一帧的边界更新、状态转移或数据结构维护中。
 
 ## 算法步骤
 
-1. 定义节点、孩子和递归函数的返回值
-2. 处理空节点或叶子节点基例。在本算法中，对应演示动作是：按最大子树划分重链，并把树上路径拆成少量连续区间求和。
-3. 递归取得各子树结果
-4. 在当前节点合并并返回
+1. 第一遍 DFS 计算父亲、深度、子树大小和最大子树孩子。
+2. 第二遍 DFS 优先访问重儿子，分配链头与连续位置。
+3. 查询 u-v 时，链头不同就处理较深链头到当前节点的区间，并跳到链头父亲。
+4. 两点进入同链后处理最后一个连续区间。
 
 演示把这些步骤保存为一系列状态快照。先单步执行，确认自己能预测下一帧，再使用连续播放。若只看动画而不预测，容易记住颜色变化，却没有真正掌握决策依据。
 
@@ -44,11 +44,12 @@
 下面的伪代码刻意忽略页面绘制和工程细节，只保留这类算法最值得迁移的骨架：
 
 ```text
-solve(node):
-    if node is null: return base
-    child_results = [solve(child) for child in node.children]
-    answer = combine(node, child_results)
-    return answer
+while head[u] != head[v]:
+    if depth[head[u]] < depth[head[v]]: swap(u, v)
+    combine_query(position[head[u]], position[u])
+    u = parent[head[u]]
+if depth[u] > depth[v]: swap(u, v)
+combine_query(position[u], position[v])
 ```
 
 把伪代码映射到本目录的 `app.js` 时，可以按“解析输入 → 初始化状态 → 生成每一步 → 更新指标 → Canvas 绘制”的顺序阅读。算法逻辑负责决定状态，绘图逻辑只负责把状态呈现出来，两者不要混在一起理解。
@@ -69,30 +70,30 @@ solve(node):
 
 ## 常见错误
 
-- 递归函数的定义在不同层发生变化
-- 只处理左右孩子却忽略空节点
-- 树输入其实含环，递归无法终止
+- 第二遍没有优先遍历重儿子，导致同一重链位置不连续。
+- 比较节点深度而不是链头深度，错误选择要向上跳的链。
+- 边权查询与点权查询的最后区间端点没有区分。
 - 只用默认样例验证，没有测试空结构、单元素、重复值、断开输入或最大边界。
 - 把演示中的视觉位置当作算法状态；真正应该验证的是数据、索引、距离、计数或引用关系。
 
 ## 什么时候使用
 
-适合：数据天然是层级结构，答案可由子树结果合并。
+适合：静态树上的路径/子树更新与查询，可配合线段树或树状数组维护摘要。
 
-不适合：关系是一般图且存在多父节点或环，除非额外维护 visited。选择算法时应同时考虑输入规模、数据是否动态变化、是否需要恢复具体方案，以及最坏情况是否可以接受。
+不适合：频繁 link/cut 改变树结构的场景，应使用 Link-Cut Tree 等动态树。
 
 ## 与其他算法的联系
 
 - 先修内容：[最近公共祖先 LCA](https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/)、[线段树 Segment Tree](https://github.com/wuhy80/algorithm/tree/main/segment-tree/)
 - 直接后续：[Link-Cut Tree](https://github.com/wuhy80/algorithm/tree/main/link-cut-tree/)
-- 同类比较：[笛卡尔树 Cartesian Tree](https://github.com/wuhy80/algorithm/tree/main/cartesian-tree/)、[二叉搜索树 Binary Search Tree](https://github.com/wuhy80/algorithm/tree/main/binary-search-tree/)、[Trie 前缀树](https://github.com/wuhy80/algorithm/tree/main/trie/)、[点分治 Centroid Decomposition](https://github.com/wuhy80/algorithm/tree/main/centroid-decomposition/)
+- 同类比较：[最近公共祖先](https://github.com/wuhy80/algorithm/tree/main/lowest-common-ancestor/)、[线段树](https://github.com/wuhy80/algorithm/tree/main/segment-tree/)、[Link-Cut Tree](https://github.com/wuhy80/algorithm/tree/main/link-cut-tree/)、[点分治](https://github.com/wuhy80/algorithm/tree/main/centroid-decomposition/)
 
 学习顺序建议是：先用先修算法理解基础状态，再比较同类算法在“前提、维护信息、复杂度、是否可恢复答案”上的差异，最后进入把本算法作为组件的后续主题。
 
 ## 自测问题
 
 - 不看代码，你能否用一句话说清 **重链剖分 Heavy-Light Decomposition** 在每一步维护的状态？
-- 如果删除“递归处理 node 时，其参数完整描述当前子树”这个条件，能构造一个最小反例吗？
+- 为什么根到任意节点的路径只会跨 O(log n) 条轻边？
 - 把演示输入缩小到 3 到 6 个元素，能否在纸上预测下一帧再点击“单步”？
 - 当前复杂度的主导项来自哪里？换一种底层数据结构后会怎样变化？
 
