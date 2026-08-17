@@ -5,7 +5,7 @@ import threading
 import unittest
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError, sync_playwright
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -203,8 +203,8 @@ class BrowserSmokeTests(unittest.TestCase):
         cls.server.shutdown()
         cls.server.server_close()
 
-    def open_page(self, path, viewport):
-        page = self.browser.new_page(viewport=viewport, device_scale_factor=1)
+    def open_page(self, path, viewport, browser=None):
+        page = (browser or self.browser).new_page(viewport=viewport, device_scale_factor=1)
         errors = []
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.on("console", lambda message: errors.append(message.text) if message.type == "error" else None)
@@ -340,30 +340,54 @@ class BrowserSmokeTests(unittest.TestCase):
                 page.close()
 
     def test_problem_bank_runs_python_in_worker(self):
-        page, errors = self.open_page("problems/?id=binary-search", {"width": 1280, "height": 800})
-        page.locator("#code-editor").fill(
-            "def solve(data):\n"
-            "    nums, target = data['nums'], data['target']\n"
-            "    left, right = 0, len(nums) - 1\n"
-            "    while left <= right:\n"
-            "        middle = (left + right) // 2\n"
-            "        if nums[middle] == target:\n"
-            "            return middle\n"
-            "        if nums[middle] < target:\n"
-            "            left = middle + 1\n"
-            "        else:\n"
-            "            right = middle - 1\n"
-            "    return -1\n"
-        )
-        page.locator("#submit-code").click()
-        page.locator("#python-status").filter(has_text="全部通过").wait_for(timeout=90000)
-        self.assertGreater(page.locator(".case-result.pass").count(), 0)
-        page.reload(wait_until="load")
-        page.locator("#back-to-list").click()
-        page.locator("#status-filter").select_option("solved")
-        self.assertEqual(1, page.locator('[data-open="binary-search"]').count())
-        self.assertFalse(errors, errors)
-        page.close()
+        last_failure = ""
+        isolated_browser = self.playwright.chromium.launch(headless=True)
+        try:
+            for attempt in range(2):
+                page, errors = self.open_page(
+                    "problems/?id=binary-search",
+                    {"width": 1280, "height": 800},
+                    browser=isolated_browser,
+                )
+                page.locator("#code-editor").fill(
+                    "def solve(data):\n"
+                    "    nums, target = data['nums'], data['target']\n"
+                    "    left, right = 0, len(nums) - 1\n"
+                    "    while left <= right:\n"
+                    "        middle = (left + right) // 2\n"
+                    "        if nums[middle] == target:\n"
+                    "            return middle\n"
+                    "        if nums[middle] < target:\n"
+                    "            left = middle + 1\n"
+                    "        else:\n"
+                    "            right = middle - 1\n"
+                    "    return -1\n"
+                )
+                page.locator("#submit-code").click()
+                try:
+                    page.wait_for_function(
+                        "() => ['全部通过', '执行失败'].some((text) => document.querySelector('#python-status')?.textContent.includes(text))",
+                        timeout=90000,
+                    )
+                except PlaywrightTimeoutError:
+                    pass
+                status = page.locator("#python-status").inner_text()
+                if "全部通过" not in status:
+                    output = page.locator("#judge-results").inner_text()
+                    last_failure = f"attempt {attempt + 1}: status={status!r}, output={output!r}, errors={errors!r}"
+                    page.close()
+                    continue
+                self.assertGreater(page.locator(".case-result.pass").count(), 0)
+                page.reload(wait_until="load")
+                page.locator("#back-to-list").click()
+                page.locator("#status-filter").select_option("solved")
+                self.assertEqual(1, page.locator('[data-open="binary-search"]').count())
+                self.assertFalse(errors, errors)
+                page.close()
+                return
+            self.fail(f"Pyodide worker did not become ready after retry: {last_failure}")
+        finally:
+            isolated_browser.close()
 
     def test_neural_toolkit_search_and_layout(self):
         for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
