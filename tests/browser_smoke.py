@@ -437,6 +437,43 @@ class BrowserSmokeTests(unittest.TestCase):
         context.close()
         self.assertFalse(failures, "\n".join(failures))
 
+    def test_industrial_ai_labs_are_interactive_and_fit_both_viewports(self):
+        labs = (
+            ("remaining-useful-life", "#noise", "#confidence-value"),
+            ("yield-forecast", "#downtime", "#forecast-value"),
+            ("anomaly-detection", "#threshold", "#anomaly-count"),
+            ("maintenance-decision", "#failure-probability", "#minimum-cost-value"),
+        )
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(page="industrial-ai", viewport=viewport["width"]):
+                page, errors = self.open_page("industrial-ai/", viewport)
+                self.assertEqual(4, page.locator(".topic-card").count())
+                self.assertEqual(4, page.locator(".topic-card h3 a[href^='https://github.com/']").count())
+                self.assertEqual(4, page.locator(".topic-card .button.primary").count())
+                metrics = self.layout_metrics(page)
+                self.assertLessEqual(metrics["overflow"], 1, metrics)
+                self.assertFalse(metrics["clipped"], metrics)
+                self.assertFalse(errors, errors)
+                page.close()
+
+            for slug, control, metric in labs:
+                with self.subTest(slug=slug, viewport=viewport["width"]):
+                    page, errors = self.open_page(f"industrial-ai/{slug}/", viewport)
+                    before = page.locator(metric).inner_text()
+                    page.locator(control).evaluate(
+                        """element => {
+                            element.value = element.max;
+                            element.dispatchEvent(new Event('input', { bubbles: true }));
+                        }"""
+                    )
+                    page.wait_for_timeout(40)
+                    self.assertNotEqual(before, page.locator(metric).inner_text())
+                    metrics = self.layout_metrics(page)
+                    self.assertLessEqual(metrics["overflow"], 1, metrics)
+                    self.assertFalse(metrics["clipped"], metrics)
+                    self.assertFalse(errors, errors)
+                    page.close()
+
     def test_octree_webgl_scene_is_drawn_on_desktop_and_mobile(self):
         for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
             with self.subTest(viewport=viewport):

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="工业维护决策演示：比较立即维护、继续运行和降载运行的期望成本。">
+  <title>维护决策优化 · 工业大模型实验室</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="topic-page">
+  <header class="topic-header">
+    <a class="topic-brand" href="../" aria-label="返回工业大模型实验室">
+      <span class="topic-mark">IA</span>
+      <span><b>工业大模型实验室</b><small>INDUSTRIAL AI LAB</small></span>
+    </a>
+    <nav aria-label="专题导航">
+      <a href="../">专题首页</a>
+      <a href="../remaining-useful-life/">RUL</a>
+      <a href="../yield-forecast/">产量预测</a>
+      <a href="../anomaly-detection/">异常检测</a>
+      <a href="../../problems/">在线题库</a>
+    </nav>
+  </header>
+
+  <main class="lab-main">
+    <a class="back-link" href="../">← 返回工业大模型专题</a>
+    <section class="lab-title">
+      <p class="eyebrow">DECISION / COST-SENSITIVE OPTIMIZATION</p>
+      <h1>预测之后，应该采取什么动作？</h1>
+      <p>把故障概率和业务成本放在同一张决策表里。拖动参数，观察立即维护、继续运行与降载运行的期望成本如何变化，理解“预测”与“决策”之间的边界。</p>
+    </section>
+
+    <div class="lab-layout">
+      <section class="plot-panel" aria-labelledby="chart-title">
+        <h2 id="chart-title">三种动作的期望成本（万元）</h2>
+        <canvas id="cost-chart" class="chart-canvas" role="img" aria-label="三种维护动作期望成本柱状图"></canvas>
+        <div class="legend" aria-hidden="true">
+          <span><i class="immediate"></i>立即维护</span>
+          <span><i class="continue"></i>继续运行</span>
+          <span><i class="derated"></i>降载运行</span>
+        </div>
+        <div class="metric-strip">
+          <div class="metric"><small>推荐动作</small><b id="recommendation-value">--</b></div>
+          <div class="metric"><small>最低期望成本</small><b id="minimum-cost-value">--</b></div>
+          <div class="metric"><small>相对节省</small><b id="saving-value">--</b></div>
+        </div>
+        <div class="controls" aria-label="决策参数">
+          <div class="control-row"><label for="failure-probability">故障概率</label><input id="failure-probability" type="range" min="0.05" max="0.95" step="0.01" value="0.22"><output id="failure-probability-output" for="failure-probability">22%</output></div>
+          <div class="control-row"><label for="downtime-loss">停机损失</label><input id="downtime-loss" type="range" min="5" max="200" step="1" value="80"><output id="downtime-loss-output" for="downtime-loss">80</output></div>
+          <div class="control-row"><label for="repair-cost">维修成本</label><input id="repair-cost" type="range" min="5" max="150" step="1" value="32"><output id="repair-cost-output" for="repair-cost">32</output></div>
+          <div class="control-row"><label for="emergency-penalty">紧急维修惩罚</label><input id="emergency-penalty" type="range" min="0" max="200" step="1" value="40"><output id="emergency-penalty-output" for="emergency-penalty">40</output></div>
+          <div class="control-row"><label for="derating-cost">降载成本</label><input id="derating-cost" type="range" min="0" max="100" step="1" value="18"><output id="derating-cost-output" for="derating-cost">18</output></div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section>
+          <h2>先看成本模型</h2>
+          <p>故障概率 p 表示当前窗口内发生故障的可能性。演示假设计划维护会产生 25% 的停机损失，降载可把故障冲击降低 55%。真实系统应由工艺、安全和财务团队共同校准这些系数。</p>
+        </section>
+        <section>
+          <h3>三种动作怎么算</h3>
+          <ul>
+            <li><strong>立即维护</strong> = 维修成本 + 25% × 停机损失</li>
+            <li><strong>继续运行</strong> = p ×（停机损失 + 紧急维修惩罚）</li>
+            <li><strong>降载运行</strong> = 降载成本 + p × 45% ×（停机损失 + 紧急维修惩罚）</li>
+          </ul>
+        </section>
+        <section>
+          <div class="status-line" id="status-line"><span>当前推荐</span><strong id="action-value">--</strong></div>
+          <p class="status-note">柱子越短表示期望成本越低。推荐只反映成本目标，安全联锁、法规和产线约束始终拥有更高优先级。</p>
+        </section>
+        <section>
+          <h3>从基线升级到工业大模型</h3>
+          <p>生产系统可以让时序编码器同时读取传感器、工单和班次上下文，用分位数预测得到故障概率区间，再把动作约束交给规则引擎和人工审批。</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="topic-footer"><span>Maintenance Decision · Industrial AI Lab</span><a href="../">专题首页</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>

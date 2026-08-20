@@ -1,0 +1,8 @@
+.lab-title { max-width: 820px; }
+#yield-chart { background: #fbfdfc; }
+.legend i.target { background: var(--coral); }
+.legend i.downtime { background: #9baea8; border-radius: 2px; }
+.status-note { margin-top: 10px !important; }
+@media (max-width: 620px) {
+  .control-row { grid-template-columns: 108px minmax(0, 1fr) 50px; }
+}

@@ -5,9 +5,14 @@
 - [打开可视化目录](https://wuhy80.github.io/algorithm/)
 - [打开 Pages 学习指南](https://wuhy80.github.io/algorithm/guides/)
 - [打开在线题库](https://wuhy80.github.io/algorithm/problems/)
+- [打开工业大模型专题](https://wuhy80.github.io/algorithm/industrial-ai/)
 - 算法名称链接到对应 GitHub 源码目录
 - “打开演示”链接直接进入对应 Pages 地址
 - 每个目录的 README 都提供问题驱动的详细学习指南、伪代码、复杂度推导和自测问题
+
+## 工业大模型专题
+
+industrial-ai/ 是面向设备运维与生产计划的独立专题，包含剩余使用寿命、产量预测、异常检测和维护决策四个可调参数演示。页面使用透明基线帮助理解数据链路，目录内同时提供 Python 参考实现、建模假设、风险边界和升级到 TCN、TFT、PatchTST 及时序基础模型的路径。
 
 ## 学习路径
 

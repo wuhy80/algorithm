@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102420">
+  <meta name="description" content="面向预测性维护、产量预测、异常检测与维护决策的工业大模型专题。">
+  <link rel="icon" href="data:,">
+  <title>工业大模型实验室 · Algorithm Atlas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topic-header">
+    <a class="topic-brand" href="../" aria-label="返回算法可视化图谱">
+      <span class="topic-mark">IA</span>
+      <span><b>工业大模型实验室</b><small>INDUSTRIAL AI LAB</small></span>
+    </a>
+    <nav aria-label="专题导航">
+      <a href="../problems/">在线题库</a>
+      <a href="../guides/">学习指南</a>
+      <a href="../neural-network-tools/">神经工具</a>
+      <a href="https://github.com/wuhy80/algorithm" target="_blank" rel="noreferrer">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="topic-hero" aria-labelledby="hero-title">
+      <div class="topic-hero-copy">
+        <p class="eyebrow">SENSE / PREDICT / EXPLAIN / ACT</p>
+        <h1 id="hero-title">工业大模型实验室</h1>
+        <p>把设备传感器、工艺上下文和维护记录连接成可解释的预测链路：先看懂状态，再预测故障、产量和质量，最后把预测转成可执行的维护动作。</p>
+        <div class="topic-actions">
+          <a class="button primary" href="#labs">浏览工业任务</a>
+          <a class="button" href="README.md">阅读专题说明</a>
+        </div>
+        <div class="topic-stats" aria-label="专题覆盖范围">
+          <span><b>4</b><small>可交互实验</small></span>
+          <span><b>5</b><small>核心任务</small></span>
+          <span><b>4</b><small>升级方向</small></span>
+        </div>
+      </div>
+      <div class="workflow-panel">
+        <canvas id="workflow-canvas" role="img" aria-label="传感器、时序编码器、预测输出与维护决策之间的工业智能链路"></canvas>
+        <div class="workflow-labels" aria-hidden="true"><span>SENSORS</span><span>TIME-SERIES ENCODER</span><span>DECISION</span></div>
+      </div>
+    </section>
+
+    <section id="labs" class="page-shell section-block" aria-labelledby="labs-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">INDUSTRIAL TASKS</p><h2 id="labs-title">从预测到动作</h2></div>
+        <p class="section-note">每个实验都给出状态、假设、风险和下一步动作</p>
+      </div>
+      <div class="topic-grid">
+        <article class="topic-card">
+          <span class="topic-index">01 / RUL</span>
+          <h3><a href="https://github.com/wuhy80/algorithm/tree/main/industrial-ai/remaining-useful-life" target="_blank" rel="noreferrer">预测故障时间</a></h3>
+          <p>从温度、振动和电流的退化轨迹估计剩余使用寿命，观察告警阈值、预测区间与风险等级如何变化。</p>
+          <div class="topic-tags"><span>预测性维护</span><span>退化建模</span></div>
+          <a class="button primary" href="remaining-useful-life/">打开 RUL 演示</a>
+        </article>
+        <article class="topic-card">
+          <span class="topic-index">02 / YIELD</span>
+          <h3><a href="https://github.com/wuhy80/algorithm/tree/main/industrial-ai/yield-forecast" target="_blank" rel="noreferrer">产量与交付预测</a></h3>
+          <p>结合历史产量、班次节奏和计划停机，查看未来产量区间与目标缺口，并理解时序模型如何接入工艺变量。</p>
+          <div class="topic-tags"><span>需求预测</span><span>产能计划</span></div>
+          <a class="button primary" href="yield-forecast/">打开产量演示</a>
+        </article>
+        <article class="topic-card">
+          <span class="topic-index">03 / ANOMALY</span>
+          <h3><a href="https://github.com/wuhy80/algorithm/tree/main/industrial-ai/anomaly-detection" target="_blank" rel="noreferrer">异常检测</a></h3>
+          <p>用滑动窗口和残差阈值定位传感器异常，再对比工业大模型中的重构误差、上下文窗口和多变量告警。</p>
+          <div class="topic-tags"><span>状态监测</span><span>告警治理</span></div>
+          <a class="button primary" href="anomaly-detection/">打开异常演示</a>
+        </article>
+        <article class="topic-card">
+          <span class="topic-index">04 / ACTION</span>
+          <h3><a href="https://github.com/wuhy80/algorithm/tree/main/industrial-ai/maintenance-decision" target="_blank" rel="noreferrer">维护决策优化</a></h3>
+          <p>把故障概率、停机损失、维修成本和降载代价放在同一张决策表中，比较立即维护、继续运行和降载运行。</p>
+          <div class="topic-tags"><span>成本敏感</span><span>人机协同</span></div>
+          <a class="button primary" href="maintenance-decision/">打开决策演示</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="page-shell section-block" aria-labelledby="architecture-title">
+      <div class="section-heading"><div><p class="eyebrow">MODEL BLUEPRINT</p><h2 id="architecture-title">工业大模型的四层架构</h2></div></div>
+      <div class="architecture-list">
+        <div><b>数据层</b><span>传感器时序、工单、工艺参数、环境和班次上下文</span></div>
+        <div><b>表征层</b><span>TCN、Transformer、PatchTST 或时序基础模型编码窗口状态</span></div>
+        <div><b>任务层</b><span>RUL、产量、质量、异常、根因和维护建议多任务预测</span></div>
+        <div><b>治理层</b><span>置信区间、漂移监测、人工确认、审计记录和回滚策略</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="topic-footer"><span>Algorithm Visualization Atlas · Industrial AI Lab</span><a href="../">返回算法图谱</a></footer>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

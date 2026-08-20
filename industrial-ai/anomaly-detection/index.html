@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="工业时序异常检测可视化实验：滚动统计、z-score 与多传感器告警">
+  <title>异常检测 | 工业大模型实验室</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="topic-page anomaly-page">
+  <header class="topic-header">
+    <a class="topic-brand" href="../">
+      <span class="topic-mark">IA</span>
+      <span><b>工业大模型实验室</b><small>INDUSTRIAL AI LAB</small></span>
+    </a>
+    <nav aria-label="专题导航">
+      <a href="../">专题首页</a>
+      <a href="../remaining-useful-life/">剩余寿命</a>
+      <a href="../yield-forecast/">产量预测</a>
+      <a href="../maintenance-decision/">维护决策</a>
+      <a href="../../problems/">在线题库</a>
+    </nav>
+  </header>
+
+  <main class="lab-main">
+    <a class="back-link" href="../">← 返回工业 AI 专题</a>
+    <section class="lab-title">
+      <p class="eyebrow">ANOMALY DETECTION / CONDITION MONITORING</p>
+      <h1>在噪声中找到真正的异常</h1>
+      <p>把振动与温度看作一条持续到来的时间序列，用滚动均值和标准差估计当前工况，再用 z-score 衡量“偏离正常有多远”。拖动参数，观察告警点如何变化。</p>
+    </section>
+
+    <div class="lab-layout">
+      <section class="plot-panel" aria-labelledby="chart-title">
+        <div class="panel-heading">
+          <h2 id="chart-title">多传感器信号与异常分数</h2>
+          <span class="chart-note">合成数据 · 可复现实验</span>
+        </div>
+        <canvas id="anomaly-chart" class="chart-canvas" role="img" aria-label="振动、温度和滚动 z-score 异常检测图"></canvas>
+        <div class="legend" aria-label="图例">
+          <span><i class="vibration"></i>振动 RMS</span>
+          <span><i class="temperature"></i>温度（归一化）</span>
+          <span><i class="score"></i>异常分数</span>
+          <span><i class="alert"></i>告警点</span>
+        </div>
+        <div class="metric-strip">
+          <div class="metric"><small>当前异常分数</small><b id="score-value">--</b></div>
+          <div class="metric"><small>检测到的异常</small><b id="anomaly-count">--</b></div>
+          <div class="metric"><small>最大偏离</small><b id="max-score">--</b></div>
+        </div>
+        <div class="controls" aria-label="检测参数">
+          <div class="control-row"><label for="window">滚动窗口</label><input id="window" type="range" min="6" max="30" step="1" value="14"><output id="window-output" for="window">14 点</output></div>
+          <div class="control-row"><label for="threshold">z-score 阈值</label><input id="threshold" type="range" min="1.5" max="4" step="0.1" value="2.4"><output id="threshold-output" for="threshold">2.4</output></div>
+          <div class="control-row"><label for="intensity">异常强度</label><input id="intensity" type="range" min="0" max="2" step="0.1" value="1"><output id="intensity-output" for="intensity">1.0×</output></div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section>
+          <h2>先理解检测分数</h2>
+          <p>窗口内的均值和标准差代表“最近的正常工况”。当前值距均值越远，z-score 越大；超过阈值才触发告警。窗口太短会对噪声敏感，太长又会掩盖工况切换。</p>
+        </section>
+        <section>
+          <h3>异常不只一种</h3>
+          <ul>
+            <li><b>点异常：</b>单个采样突然偏离，例如轴承冲击。</li>
+            <li><b>上下文异常：</b>绝对值不大，但在夜班或低负载下不合理。</li>
+            <li><b>漂移：</b>均值缓慢移动，往往需要趋势和变点检测。</li>
+          </ul>
+        </section>
+        <section>
+          <div class="status-line" id="status-line"><span>当前判断</span><strong id="status-value">正常工况</strong></div>
+          <p class="status-help">演示使用透明的单变量基线。生产中还需要告警去重、上下文特征、模型版本和人工确认。</p>
+        </section>
+        <section class="formula-block">
+          <h3>核心公式</h3>
+          <p><code>zₜ = |xₜ - μₜ| / (σₜ + ε)</code></p>
+          <p>振动和温度分别标准化后取较大值，避免量纲影响告警。</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="topic-footer"><span>异常检测 · Industrial AI Lab</span><a href="../">专题首页</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>

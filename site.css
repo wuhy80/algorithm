@@ -291,6 +291,62 @@ svg {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
+.industrial-feature {
+  background: #eaf3f0;
+  border-bottom: 1px solid var(--line);
+}
+.industrial-feature-inner {
+  display: grid;
+  grid-template-columns: minmax(240px, .8fr) minmax(0, 1.2fr);
+  gap: 34px;
+  align-items: center;
+  padding-top: 46px;
+  padding-bottom: 46px;
+}
+.industrial-feature-copy h2 {
+  max-width: 430px;
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.25;
+  font-weight: 600;
+}
+.industrial-feature-copy > p:not(.eyebrow) {
+  max-width: 490px;
+  margin: 13px 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+.industrial-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #176b6e;
+  font-size: 12px;
+  font-weight: 600;
+}
+.industrial-cta:hover { color: var(--teal); }
+.industrial-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.industrial-feature-grid a {
+  min-width: 0;
+  min-height: 106px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #c9ddd6;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, .68);
+  transition: border-color .2s ease, transform .2s ease;
+}
+.industrial-feature-grid a:hover { border-color: var(--teal); transform: translateY(-2px); }
+.industrial-feature-grid span { color: var(--teal); font: 600 10px/1.2 ui-monospace, Consolas, monospace; }
+.industrial-feature-grid b { margin-top: 12px; font-size: 16px; font-weight: 600; }
+.industrial-feature-grid small { color: var(--muted); font-size: 11px; }
 .section-inner {
   max-width: 1240px;
   margin: 0 auto;
@@ -726,6 +782,7 @@ svg {
   .track-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .industrial-feature-inner { grid-template-columns: 1fr; gap: 24px; }
   .track:nth-child(2) {
     border-right: 0;
   }
@@ -779,6 +836,9 @@ svg {
     margin: 0;
     padding: 32px 20px;
   }
+  .industrial-feature-inner { padding-top: 34px; padding-bottom: 34px; }
+  .industrial-feature-copy h2 { font-size: 24px; }
+  .industrial-feature-grid { grid-template-columns: 1fr; }
   .track-list {
     grid-template-columns: 1fr;
   }

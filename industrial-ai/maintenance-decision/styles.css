@@ -1,0 +1,7 @@
+.lab-title { max-width: 820px; }
+#cost-chart { background: #fbfdfc; }
+.legend i.immediate { background: #d56c59; }
+.legend i.continue { background: #5f9ad6; }
+.legend i.derated { background: #e3a34b; }
+.status-note { margin-top: 10px !important; }
+.cost-formula { color: var(--muted); font: 500 11px/1.7 ui-monospace, Consolas, monospace; }

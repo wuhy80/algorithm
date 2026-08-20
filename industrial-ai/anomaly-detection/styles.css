@@ -1,0 +1,15 @@
+.anomaly-page .lab-title { max-width: 810px; }
+.anomaly-page #anomaly-chart { background: #fbfdfc; }
+.panel-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.panel-heading h2 { margin-bottom: 14px; }
+.chart-note { color: var(--muted); font: 500 10px/1 ui-monospace, Consolas, monospace; white-space: nowrap; }
+.legend i.vibration { background: var(--teal); }
+.legend i.temperature { background: var(--amber); }
+.legend i.score { background: var(--blue); }
+.legend i.alert { background: var(--coral); }
+.formula-block code { color: var(--teal); font: 600 12px/1.4 ui-monospace, Consolas, monospace; }
+.status-help { margin-top: 10px !important; }
+@media (max-width: 620px) {
+  .panel-heading { align-items: flex-start; flex-direction: column; gap: 0; }
+  .chart-note { margin: -7px 0 10px; }
+}

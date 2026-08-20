@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="工业产量预测可视化：用季节性、趋势和计划停机修正预测未来产出。">
+  <title>产量与交付预测 · 工业大模型实验室</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="topic-page">
+  <header class="topic-header">
+    <a class="topic-brand" href="../" aria-label="返回工业大模型专题首页">
+      <span class="topic-mark">IA</span>
+      <span><b>工业大模型实验室</b><small>INDUSTRIAL AI LAB</small></span>
+    </a>
+    <nav aria-label="专题导航">
+      <a href="../">专题首页</a>
+      <a href="../remaining-useful-life/">剩余寿命</a>
+      <a href="../anomaly-detection/">异常检测</a>
+      <a href="../maintenance-decision/">维护决策</a>
+      <a href="../../problems/">在线题库</a>
+    </nav>
+  </header>
+
+  <main class="lab-main">
+    <a class="back-link" href="../">← 返回工业大模型专题</a>
+    <section class="lab-title">
+      <p class="eyebrow">YIELD / CAPACITY PLANNING</p>
+      <h1>预测未来能交付多少产量</h1>
+      <p>把历史产量的趋势和班次节奏作为基线，再把计划停机作为外生变量，观察未来产量、目标缺口和预测置信度如何变化。</p>
+    </section>
+
+    <div class="lab-layout">
+      <section class="plot-panel" aria-labelledby="chart-title">
+        <h2 id="chart-title">历史产量与预测窗口</h2>
+        <canvas id="yield-chart" class="chart-canvas" role="img" aria-label="历史产量、预测产量、目标产量以及计划停机影响区间"></canvas>
+        <div class="legend" aria-label="图例">
+          <span><i></i>历史产量</span>
+          <span><i class="forecast"></i>预测产量</span>
+          <span><i class="target"></i>目标产量</span>
+          <span><i class="downtime"></i>计划停机影响</span>
+        </div>
+        <div class="metric-strip">
+          <div class="metric"><small>预测平均产量</small><b id="forecast-value">--</b></div>
+          <div class="metric"><small>目标缺口 / 班</small><b id="gap-value">--</b></div>
+          <div class="metric"><small>预测置信度</small><b id="confidence-value">--</b></div>
+        </div>
+        <div class="controls">
+          <div class="control-row"><label for="downtime">计划停机时长</label><input id="downtime" type="range" min="0" max="32" step="1" value="6"><output id="downtime-output" for="downtime">6 小时</output></div>
+          <div class="control-row"><label for="target">目标产量 / 班</label><input id="target" type="range" min="70" max="130" step="1" value="100"><output id="target-output" for="target">100 件</output></div>
+          <div class="control-row"><label for="horizon">预测步数</label><input id="horizon" type="range" min="6" max="24" step="1" value="14"><output id="horizon-output" for="horizon">14 班</output></div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section>
+          <h2>先区分两个问题</h2>
+          <p>产量预测回答“当前产线在给定工况下能产出多少”；需求预测回答“市场需要多少”。排产需要把两者与库存、交期和设备能力一起约束。</p>
+        </section>
+        <section>
+          <h3>模型怎样得到预测</h3>
+          <ul>
+            <li>从最近窗口提取趋势、班次季节性和波动水平。</li>
+            <li>把计划停机转成可用工时比例，修正每个未来班次。</li>
+            <li>用历史残差估计一个简化的置信度，生产系统应校准预测区间。</li>
+          </ul>
+        </section>
+        <section>
+          <div class="status-line"><span>当前排产提示</span><strong id="action-value">目标可达</strong></div>
+          <p class="status-note">演示只展示透明基线，不能替代质量放行、设备联锁和计划审批。</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="topic-footer"><span>YIELD · Industrial AI Lab</span><a href="../">专题首页</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>
