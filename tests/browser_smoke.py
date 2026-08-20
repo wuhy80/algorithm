@@ -475,6 +475,43 @@ class BrowserSmokeTests(unittest.TestCase):
                     self.assertFalse(errors, errors)
                     page.close()
 
+    def test_water_dosing_robot_animation_and_tank_state(self):
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(viewport=viewport["width"]):
+                page, errors = self.open_page(
+                    "industrial-ai/water-treatment-dosing/",
+                    viewport,
+                )
+                page.wait_for_timeout(120)
+                before = page.locator("#water-state-value").inner_text()
+                page.locator("#robot-dose-ratio").evaluate(
+                    """element => {
+                        element.value = element.min;
+                        element.dispatchEvent(new Event('input', { bubbles: true }));
+                    }"""
+                )
+                page.wait_for_timeout(80)
+                self.assertNotEqual(before, page.locator("#water-state-value").inner_text())
+                pixels = page.locator("#process-canvas").evaluate(
+                    """canvas => {
+                        const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+                        const colors = new Set();
+                        let opaque = 0;
+                        for (let index = 0; index < data.length; index += 256) {
+                            colors.add(`${data[index]},${data[index + 1]},${data[index + 2]},${data[index + 3]}`);
+                            if (data[index + 3] > 0) opaque += 1;
+                        }
+                        return { colors: colors.size, opaque };
+                    }"""
+                )
+                self.assertGreaterEqual(pixels["colors"], 10, pixels)
+                self.assertGreater(pixels["opaque"], 100, pixels)
+                metrics = self.layout_metrics(page)
+                self.assertLessEqual(metrics["overflow"], 1, metrics)
+                self.assertFalse(metrics["clipped"], metrics)
+                self.assertFalse(errors, errors)
+                page.close()
+
     def test_octree_webgl_scene_is_drawn_on_desktop_and_mobile(self):
         for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
             with self.subTest(viewport=viewport):

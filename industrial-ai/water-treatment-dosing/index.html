@@ -34,7 +34,14 @@
 
     <div class="lab-layout">
       <section class="plot-panel" aria-labelledby="chart-title">
-        <h2 id="chart-title">浊度—推荐剂量响应曲线</h2>
+        <h2 id="chart-title">加药机器人与混凝池实时状态</h2>
+        <canvas id="process-canvas" class="process-canvas" role="img" aria-label="加药机器人向下方混凝池投加药剂，池内展示进水、搅拌、絮凝、沉降和出水状态"></canvas>
+        <div class="process-readouts" aria-live="polite">
+          <span><small>机器人实际投加</small><b id="robot-dose-value">--</b></span>
+          <span><small>池内反应状态</small><b id="water-state-value">--</b></span>
+          <span><small>模拟出水浊度</small><b id="outlet-value">--</b></span>
+        </div>
+        <div class="response-heading"><h3>浊度—推荐剂量响应曲线</h3><span>模型依据</span></div>
         <canvas id="dosing-chart" class="chart-canvas" role="img" aria-label="不同原水浊度下的混凝剂推荐剂量、预测区间和当前工况点"></canvas>
         <div class="legend" aria-label="图例">
           <span><i class="dose-line"></i>推荐剂量</span>
@@ -43,7 +50,7 @@
         </div>
         <div class="metric-strip">
           <div class="metric"><small>推荐投加量</small><b id="dose-value">--</b></div>
-          <div class="metric"><small>干药耗量</small><b id="chemical-value">--</b></div>
+          <div class="metric"><small>当前干药耗量</small><b id="chemical-value">--</b></div>
           <div class="metric"><small>模型置信度</small><b id="confidence-value">--</b></div>
         </div>
         <div class="controls" aria-label="加药预测参数">
@@ -52,6 +59,7 @@
           <div class="control-row"><label for="water-ph">原水 pH</label><input id="water-ph" type="range" min="5.5" max="9" step="0.1" value="7.2"><output id="water-ph-output" for="water-ph">7.2</output></div>
           <div class="control-row"><label for="temperature">水温</label><input id="temperature" type="range" min="2" max="32" step="1" value="14"><output id="temperature-output" for="temperature">14°C</output></div>
           <div class="control-row"><label for="target-turbidity">目标出水浊度</label><input id="target-turbidity" type="range" min="0.2" max="2" step="0.1" value="1"><output id="target-turbidity-output" for="target-turbidity">1.0 NTU</output></div>
+          <div class="control-row"><label for="robot-dose-ratio">机器人执行比例</label><input id="robot-dose-ratio" type="range" min="60" max="140" step="5" value="100"><output id="robot-dose-ratio-output" for="robot-dose-ratio">100%</output></div>
         </div>
       </section>
 
@@ -76,7 +84,7 @@
         </section>
         <section>
           <div class="status-line" id="status-line"><span>当前建议</span><strong id="action-value">等待计算</strong></div>
-          <p class="safety-note">演示结果不能直接下发加药泵。现场必须经过烧杯试验、本厂数据校准、工艺上下限和人工确认。</p>
+          <p class="safety-note">动画用于展示控制逻辑，不代表真实反应动力学。现场必须经过烧杯试验、本厂数据校准、工艺上下限和人工确认。</p>
         </section>
       </aside>
     </div>
