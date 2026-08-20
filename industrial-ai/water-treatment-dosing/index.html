@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="自来水厂混凝剂加药预测：根据原水浊度、流量、pH、温度和出水目标估计推荐剂量。">
+  <title>自来水厂加药预测 · 工业大模型实验室</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="topic-page dosing-page">
+  <header class="topic-header">
+    <a class="topic-brand" href="../" aria-label="返回工业大模型实验室">
+      <span class="topic-mark">IA</span>
+      <span><b>工业大模型实验室</b><small>INDUSTRIAL AI LAB</small></span>
+    </a>
+    <nav aria-label="专题导航">
+      <a href="../">专题首页</a>
+      <a href="../remaining-useful-life/">剩余寿命</a>
+      <a href="../yield-forecast/">产量预测</a>
+      <a href="../anomaly-detection/">异常检测</a>
+      <a href="../maintenance-decision/">维护决策</a>
+      <a href="../../problems/">在线题库</a>
+    </nav>
+  </header>
+
+  <main class="lab-main">
+    <a class="back-link" href="../">← 返回工业大模型专题</a>
+    <section class="lab-title">
+      <p class="eyebrow">WATER TREATMENT / COAGULANT DOSING</p>
+      <h1>原水变化时，混凝剂应该投多少？</h1>
+      <p>把原水浊度作为基准负荷，再用流量、pH、温度和目标出水浊度修正剂量。拖动参数，观察推荐投加量、小时药耗和预测区间如何变化。</p>
+    </section>
+
+    <div class="lab-layout">
+      <section class="plot-panel" aria-labelledby="chart-title">
+        <h2 id="chart-title">浊度—推荐剂量响应曲线</h2>
+        <canvas id="dosing-chart" class="chart-canvas" role="img" aria-label="不同原水浊度下的混凝剂推荐剂量、预测区间和当前工况点"></canvas>
+        <div class="legend" aria-label="图例">
+          <span><i class="dose-line"></i>推荐剂量</span>
+          <span><i class="dose-band"></i>预测区间</span>
+          <span><i class="current-point"></i>当前工况</span>
+        </div>
+        <div class="metric-strip">
+          <div class="metric"><small>推荐投加量</small><b id="dose-value">--</b></div>
+          <div class="metric"><small>干药耗量</small><b id="chemical-value">--</b></div>
+          <div class="metric"><small>模型置信度</small><b id="confidence-value">--</b></div>
+        </div>
+        <div class="controls" aria-label="加药预测参数">
+          <div class="control-row"><label for="raw-turbidity">原水浊度</label><input id="raw-turbidity" type="range" min="1" max="180" step="1" value="35"><output id="raw-turbidity-output" for="raw-turbidity">35 NTU</output></div>
+          <div class="control-row"><label for="plant-flow">处理流量</label><input id="plant-flow" type="range" min="400" max="5000" step="100" value="1800"><output id="plant-flow-output" for="plant-flow">1800 m³/h</output></div>
+          <div class="control-row"><label for="water-ph">原水 pH</label><input id="water-ph" type="range" min="5.5" max="9" step="0.1" value="7.2"><output id="water-ph-output" for="water-ph">7.2</output></div>
+          <div class="control-row"><label for="temperature">水温</label><input id="temperature" type="range" min="2" max="32" step="1" value="14"><output id="temperature-output" for="temperature">14°C</output></div>
+          <div class="control-row"><label for="target-turbidity">目标出水浊度</label><input id="target-turbidity" type="range" min="0.2" max="2" step="0.1" value="1"><output id="target-turbidity-output" for="target-turbidity">1.0 NTU</output></div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section>
+          <h2>先拆开剂量来源</h2>
+          <p>模型先由浊度得到基准剂量，再逐层叠加 pH、低温和出水目标修正。流量不改变 mg/L 浓度，但会改变每小时总药耗。</p>
+          <div class="factor-list" aria-label="剂量修正分解">
+            <span><small>浊度基准</small><b id="base-factor">--</b></span>
+            <span><small>pH 修正</small><b id="ph-factor">--</b></span>
+            <span><small>温度修正</small><b id="temperature-factor">--</b></span>
+            <span><small>目标修正</small><b id="target-factor">--</b></span>
+          </div>
+        </section>
+        <section>
+          <h3>生产模型怎样升级</h3>
+          <ul>
+            <li>接入在线浊度、UV254、碱度、温度、流量和历史泵频。</li>
+            <li>用梯度提升树或时序模型学习非线性与原水突变。</li>
+            <li>同时约束出水浊度、余铝、药耗和排泥负荷。</li>
+          </ul>
+        </section>
+        <section>
+          <div class="status-line" id="status-line"><span>当前建议</span><strong id="action-value">等待计算</strong></div>
+          <p class="safety-note">演示结果不能直接下发加药泵。现场必须经过烧杯试验、本厂数据校准、工艺上下限和人工确认。</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="topic-footer"><span>Water Treatment Dosing · Industrial AI Lab</span><a href="../">专题首页</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>

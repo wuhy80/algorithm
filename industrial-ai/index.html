@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102420">
-  <meta name="description" content="面向预测性维护、产量预测、异常检测与维护决策的工业大模型专题。">
+  <meta name="description" content="面向预测性维护、产量预测、异常检测、工艺加药与维护决策的工业大模型专题。">
   <link rel="icon" href="data:,">
   <title>工业大模型实验室 · Algorithm Atlas</title>
   <link rel="stylesheet" href="styles.css">
@@ -28,14 +28,14 @@
       <div class="topic-hero-copy">
         <p class="eyebrow">SENSE / PREDICT / EXPLAIN / ACT</p>
         <h1 id="hero-title">工业大模型实验室</h1>
-        <p>把设备传感器、工艺上下文和维护记录连接成可解释的预测链路：先看懂状态，再预测故障、产量和质量，最后把预测转成可执行的维护动作。</p>
+        <p>把设备传感器、工艺上下文和维护记录连接成可解释的预测链路：先看懂状态，再预测故障、产量和质量，最后把预测转成可执行的工艺与维护动作。</p>
         <div class="topic-actions">
           <a class="button primary" href="#labs">浏览工业任务</a>
           <a class="button" href="README.md">阅读专题说明</a>
         </div>
         <div class="topic-stats" aria-label="专题覆盖范围">
-          <span><b>4</b><small>可交互实验</small></span>
-          <span><b>5</b><small>核心任务</small></span>
+          <span><b>5</b><small>可交互实验</small></span>
+          <span><b>6</b><small>核心任务</small></span>
           <span><b>4</b><small>升级方向</small></span>
         </div>
       </div>
@@ -79,6 +79,13 @@
           <div class="topic-tags"><span>成本敏感</span><span>人机协同</span></div>
           <a class="button primary" href="maintenance-decision/">打开决策演示</a>
         </article>
+        <article class="topic-card">
+          <span class="topic-index">05 / DOSING</span>
+          <h3><a href="https://github.com/wuhy80/algorithm/tree/main/industrial-ai/water-treatment-dosing" target="_blank" rel="noreferrer">自来水厂加药预测</a></h3>
+          <p>根据原水浊度、流量、pH、水温和出水目标预测混凝剂投加量，分解工况修正并估计小时药耗与风险区间。</p>
+          <div class="topic-tags"><span>水处理工艺</span><span>质量预测</span></div>
+          <a class="button primary" href="water-treatment-dosing/">打开加药演示</a>
+        </article>
       </div>
     </section>
 
@@ -87,7 +94,7 @@
       <div class="architecture-list">
         <div><b>数据层</b><span>传感器时序、工单、工艺参数、环境和班次上下文</span></div>
         <div><b>表征层</b><span>TCN、Transformer、PatchTST 或时序基础模型编码窗口状态</span></div>
-        <div><b>任务层</b><span>RUL、产量、质量、异常、根因和维护建议多任务预测</span></div>
+        <div><b>任务层</b><span>RUL、产量、质量、异常、工艺加药、根因和维护建议多任务预测</span></div>
         <div><b>治理层</b><span>置信区间、漂移监测、人工确认、审计记录和回滚策略</span></div>
       </div>
     </section>

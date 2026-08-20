@@ -1,0 +1,14 @@
+.dosing-page .lab-title { max-width: 850px; }
+#dosing-chart { background: #fbfdfc; }
+.legend i.dose-line { background: var(--teal); }
+.legend i.dose-band { border-radius: 2px; background: rgba(227, 163, 75, .55); }
+.legend i.current-point { background: var(--coral); }
+.factor-list { margin-top: 14px; border-top: 1px solid var(--line); }
+.factor-list span { min-height: 39px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-bottom: 1px solid var(--line); }
+.factor-list small { color: var(--muted); font-size: 11px; }
+.factor-list b { color: var(--teal); font: 600 11px/1 ui-monospace, Consolas, monospace; }
+.safety-note { margin-top: 10px !important; }
+.dosing-page .control-row { grid-template-columns: minmax(110px, .5fr) minmax(0, 1fr) 78px; }
+@media (max-width: 620px) {
+  .dosing-page .control-row { grid-template-columns: 100px minmax(0, 1fr) 68px; }
+}

@@ -443,13 +443,14 @@ class BrowserSmokeTests(unittest.TestCase):
             ("yield-forecast", "#downtime", "#forecast-value"),
             ("anomaly-detection", "#threshold", "#anomaly-count"),
             ("maintenance-decision", "#failure-probability", "#minimum-cost-value"),
+            ("water-treatment-dosing", "#raw-turbidity", "#dose-value"),
         )
         for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
             with self.subTest(page="industrial-ai", viewport=viewport["width"]):
                 page, errors = self.open_page("industrial-ai/", viewport)
-                self.assertEqual(4, page.locator(".topic-card").count())
-                self.assertEqual(4, page.locator(".topic-card h3 a[href^='https://github.com/']").count())
-                self.assertEqual(4, page.locator(".topic-card .button.primary").count())
+                self.assertEqual(5, page.locator(".topic-card").count())
+                self.assertEqual(5, page.locator(".topic-card h3 a[href^='https://github.com/']").count())
+                self.assertEqual(5, page.locator(".topic-card .button.primary").count())
                 metrics = self.layout_metrics(page)
                 self.assertLessEqual(metrics["overflow"], 1, metrics)
                 self.assertFalse(metrics["clipped"], metrics)

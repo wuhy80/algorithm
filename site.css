@@ -344,6 +344,7 @@ svg {
   transition: border-color .2s ease, transform .2s ease;
 }
 .industrial-feature-grid a:hover { border-color: var(--teal); transform: translateY(-2px); }
+.industrial-feature-grid a:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .industrial-feature-grid span { color: var(--teal); font: 600 10px/1.2 ui-monospace, Consolas, monospace; }
 .industrial-feature-grid b { margin-top: 12px; font-size: 16px; font-weight: 600; }
 .industrial-feature-grid small { color: var(--muted); font-size: 11px; }
@@ -839,6 +840,7 @@ svg {
   .industrial-feature-inner { padding-top: 34px; padding-bottom: 34px; }
   .industrial-feature-copy h2 { font-size: 24px; }
   .industrial-feature-grid { grid-template-columns: 1fr; }
+  .industrial-feature-grid a:last-child:nth-child(odd) { grid-column: auto; }
   .track-list {
     grid-template-columns: 1fr;
   }
