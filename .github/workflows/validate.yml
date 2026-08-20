@@ -40,6 +40,7 @@ jobs:
           node --check scripts/scaffold-neural-network-batch.mjs
           node --check scripts/neural-network-batch-app.js
           node --check scripts/problem-batch-a.mjs
+          node --check scripts/problem-batch-b.mjs
           node --check scripts/generate-problems.mjs
           node --check scripts/generate-readme.mjs
           node --check scripts/sync-leetcode-index.mjs
