@@ -1,12 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { problemBatchA } from './problem-batch-a.mjs';
+import { problemBatchB } from './problem-batch-b.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const catalog = JSON.parse(fs.readFileSync(path.join(root, 'catalog.json'), 'utf8'));
 const outputDirectory = path.join(root, 'problems');
 const idPath = path.join(import.meta.dirname, 'problem-ids.json');
 const checkOnly = process.argv.includes('--check');
+const problemOverrides = { ...problemBatchA, ...problemBatchB };
 
 const profiles = {
   '查找、排序与算法技巧': {
@@ -146,7 +148,7 @@ function writeGenerated(file, content) {
 
 const ids = loadIds();
 const catalogSlugs = new Set(catalog.map((entry) => entry.slug));
-for (const slug of Object.keys(problemBatchA)) {
+for (const slug of Object.keys(problemOverrides)) {
   if (!catalogSlugs.has(slug)) throw new Error(`Unknown problem override: ${slug}`);
 }
 
@@ -154,7 +156,7 @@ const starterCode = (entry, variant) => `def solve(data):\n    \"\"\"${entry.nam
 
 const problems = catalog
   .flatMap((entry) => {
-    const override = problemBatchA[entry.slug];
+    const override = problemOverrides[entry.slug];
     const profile = profiles[entry.category] || profiles.default;
     const examples = override?.examples || [];
     const tests = override ? [...examples, ...override.tests] : [];
@@ -206,7 +208,7 @@ if (new Set(problems.map((item) => item.id)).size !== problems.length) throw new
 if (problems.length < 1000) throw new Error(`Problem bank must contain at least 1000 entries, received ${problems.length}`);
 
 if (!checkOnly) {
-  for (const [slug, problem] of Object.entries(problemBatchA)) {
+  for (const [slug, problem] of Object.entries(problemOverrides)) {
     writeGenerated(path.join(root, slug, 'solution.py'), problem.solution);
   }
 }
