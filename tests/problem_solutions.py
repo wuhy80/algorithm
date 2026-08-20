@@ -41,8 +41,8 @@ class ProblemSolutionTests(unittest.TestCase):
 
     def test_every_ready_reference_solution_passes_all_cases(self):
         ready = [problem for problem in PROBLEMS if problem["judgeReady"]]
-        self.assertEqual(288, len(ready))
-        self.assertEqual(72, len({problem["baseSlug"] for problem in ready}))
+        self.assertEqual(364, len(ready))
+        self.assertEqual(91, len({problem["baseSlug"] for problem in ready}))
         solutions = {}
         for problem in ready:
             with self.subTest(slug=problem["slug"]):
