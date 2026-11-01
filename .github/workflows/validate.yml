@@ -44,6 +44,11 @@ jobs:
           node --check scripts/problem-batch-b.mjs
           node --check scripts/problem-batch-c.mjs
           node --check scripts/problem-batch-d.mjs
+          node --check scripts/problem-batch-e.mjs
+          node --check scripts/problem-batch-e-strings.mjs
+          node --check scripts/problem-batch-e-numbers.mjs
+          node --check scripts/problem-batch-e-compression.mjs
+          node --check scripts/problem-batch-e-geometry.mjs
           node --check scripts/generate-problems.mjs
           node --check scripts/generate-readme.mjs
           node --check scripts/sync-leetcode-index.mjs
