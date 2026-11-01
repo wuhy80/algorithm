@@ -16,7 +16,7 @@
   color: var(--muted);
   background: transparent;
   border: 1px solid var(--line);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .source-switch button:first-child {
@@ -37,13 +37,13 @@
 
 .source-switch button b {
   margin-left: 5px;
-  font: 500 10px/1 ui-monospace, Consolas, monospace;
+  font: 500 11px/1 "Cascadia Code", "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Consolas, "SF Mono", Menlo, monospace;
 }
 
 .source-switch p {
   margin: 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
   text-align: right;
 }
 
@@ -96,7 +96,7 @@
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .pagination button:disabled {
@@ -107,7 +107,7 @@
 .pagination span {
   min-width: 82px;
   color: var(--muted);
-  font: 500 10px/1 ui-monospace, Consolas, monospace;
+  font: 500 11px/1 "Cascadia Code", "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Consolas, "SF Mono", Menlo, monospace;
   text-align: center;
 }
 

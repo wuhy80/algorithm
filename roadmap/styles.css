@@ -15,7 +15,7 @@
   --green: #3b8c63;
   --violet: #725ca8;
   --shadow: 0 10px 28px rgba(20, 35, 31, 0.08);
-  --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --mono: "Cascadia Code", "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Consolas, "SF Mono", Menlo, monospace;
 }
 
 * {
@@ -30,7 +30,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: Inter, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+  font-family: "Cascadia Code", "JetBrains Mono", "Fira Code", ui-monospace, Consolas, "SF Mono", Menlo, "Microsoft YaHei", monospace;
 }
 
 a {
@@ -100,12 +100,12 @@ button {
   border: 1px solid var(--teal);
   border-radius: 5px;
   color: var(--teal);
-  font: 600 10px/1 var(--mono);
+  font: 600 11px/1 var(--mono);
 }
 
 .brand b {
   display: block;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -113,7 +113,7 @@ button {
   display: block;
   margin-top: 2px;
   color: var(--muted);
-  font: 500 8px/1.2 var(--mono);
+  font: 500 9px/1.2 var(--mono);
 }
 
 .site-header nav {
@@ -127,7 +127,7 @@ button {
   align-items: center;
   gap: 6px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -159,7 +159,7 @@ svg {
 .kicker {
   margin: 0 0 8px;
   color: var(--teal);
-  font: 600 10px/1 var(--mono);
+  font: 600 11px/1 var(--mono);
   letter-spacing: 0.18em;
 }
 
@@ -172,7 +172,7 @@ svg {
 .hero-sub {
   margin: 0;
   color: var(--muted);
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.85;
   max-width: 62ch;
 }
@@ -196,13 +196,13 @@ svg {
   display: inline-flex;
   align-items: baseline;
   gap: 4px;
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--muted);
 }
 
 .progress-label b {
   color: var(--teal);
-  font: 700 21px/1 var(--mono);
+  font: 700 22px/1 var(--mono);
 }
 
 .ghost-btn {
@@ -214,7 +214,7 @@ svg {
   border-radius: 8px;
   background: var(--surface);
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   transition: color 0.15s, border-color 0.15s;
 }
 
@@ -251,7 +251,7 @@ svg {
   gap: 14px;
   margin-top: 12px;
   color: var(--muted);
-  font-size: 11.5px;
+  font-size: 12.5px;
 }
 
 .legend span {
@@ -298,7 +298,7 @@ i.dot.diff-3 {
   border-radius: 50%;
   background: var(--green);
   color: #fff;
-  font: 600 10px/16px var(--mono);
+  font: 600 11px/16px var(--mono);
   text-align: center;
 }
 
@@ -346,12 +346,12 @@ i.dot.diff-3 {
   outline: none;
   background: transparent;
   color: var(--ink);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .search-hint {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -423,13 +423,13 @@ i.dot.diff-3 {
 .stage-en {
   display: block;
   color: var(--muted);
-  font: 600 8.5px/1.2 var(--mono);
+  font: 600 9.5px/1.2 var(--mono);
   letter-spacing: 0.14em;
 }
 
 .stage-title h2 {
   margin: 2px 0 0;
-  font-size: 14.5px;
+  font-size: 15.5px;
   line-height: 1.3;
 }
 
@@ -439,19 +439,19 @@ i.dot.diff-3 {
   gap: 2px;
   margin-left: auto;
   color: var(--muted);
-  font-size: 10.5px;
+  font-size: 11.5px;
   white-space: nowrap;
 }
 
 .stage-count b {
   color: var(--stage-accent);
-  font: 700 15px/1 var(--mono);
+  font: 700 16px/1 var(--mono);
 }
 
 .stage-blurb {
   margin: -6px 4px 0;
   color: var(--muted);
-  font-size: 11.5px;
+  font-size: 12.5px;
   line-height: 1.6;
 }
 
@@ -475,14 +475,14 @@ i.dot.diff-3 {
 }
 
 .group-name {
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-weight: 600;
 }
 
 .group-count {
   margin-left: auto;
   color: var(--muted);
-  font: 500 10px/1 var(--mono);
+  font: 500 11px/1 var(--mono);
 }
 
 .group-body {
@@ -510,7 +510,7 @@ i.dot.diff-3 {
   border-radius: 9px;
   color: var(--ink);
   text-align: left;
-  font-size: 12.5px;
+  font-size: 13.5px;
   line-height: 1.4;
   transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
@@ -559,7 +559,7 @@ i.dot.diff-3 {
 
 .prereq-label {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .prereq-mini {
@@ -568,7 +568,7 @@ i.dot.diff-3 {
   border-radius: 6px;
   background: transparent;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -609,7 +609,7 @@ i.dot.diff-3 {
   padding: 48px 20px;
   text-align: center;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* ---------- 详情抽屉 ---------- */
@@ -691,7 +691,7 @@ i.dot.diff-3 {
   border-radius: 999px;
   background: var(--bg);
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .meta-chip.diff-1 {
@@ -714,7 +714,7 @@ i.dot.diff-3 {
 
 .drawer h2 {
   margin: 0;
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
@@ -730,12 +730,12 @@ i.dot.diff-3 {
   border-radius: 999px;
   background: rgba(13, 132, 144, 0.08);
   color: var(--teal);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .drawer-summary {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.75;
 }
 
@@ -749,7 +749,7 @@ i.dot.diff-3 {
   align-items: center;
   gap: 6px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
 }
@@ -762,7 +762,7 @@ i.dot.diff-3 {
 .block-empty {
   margin: 8px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .rel-chips {
@@ -782,7 +782,7 @@ i.dot.diff-3 {
   border-radius: 8px;
   background: var(--surface);
   color: var(--ink);
-  font-size: 12px;
+  font-size: 13px;
   text-align: left;
   transition: border-color 0.15s, color 0.15s;
 }
@@ -803,7 +803,7 @@ i.dot.diff-3 {
 
 .rel-done {
   color: var(--green);
-  font: 700 11px/1 var(--mono);
+  font: 700 12px/1 var(--mono);
 }
 
 .drawer-actions {
@@ -825,7 +825,7 @@ i.dot.diff-3 {
   border-radius: 9px;
   background: var(--surface);
   color: var(--ink);
-  font-size: 12.5px;
+  font-size: 13.5px;
   text-align: center;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
@@ -875,7 +875,7 @@ i.dot.diff-3 {
   }
 
   .chip {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .hero {
