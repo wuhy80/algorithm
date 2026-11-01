@@ -49,6 +49,13 @@ jobs:
           node --check scripts/problem-batch-e-numbers.mjs
           node --check scripts/problem-batch-e-compression.mjs
           node --check scripts/problem-batch-e-geometry.mjs
+          node --check scripts/problem-batch-f.mjs
+          node --check scripts/problem-batch-f-graph.mjs
+          node --check scripts/problem-batch-f-backtrack.mjs
+          node --check scripts/problem-batch-f-dp.mjs
+          node --check scripts/problem-batch-f-structures.mjs
+          node --check scripts/problem-batch-f-spatial.mjs
+          node --check scripts/problem-batch-f-ml.mjs
           node --check scripts/generate-problems.mjs
           node --check scripts/generate-readme.mjs
           node --check scripts/sync-leetcode-index.mjs
