@@ -809,7 +809,7 @@ svg {
   .site-header {
     padding: 0 16px;
   }
-  .site-header nav a:first-child {
+  .site-header nav a:nth-child(n + 6):not(:last-child) {
     display: none;
   }
   .hero-inner {

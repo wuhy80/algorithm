@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16201e">
+  <meta name="description" content="算法学习路线图：254 个算法主题按四个阶段排布，先修关系连线指引学习顺序，支持进度打卡、搜索定位与详情抽屉。">
+  <link rel="icon" href="data:,">
+  <title>学习路线图 · 算法可视化图谱</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../" aria-label="返回算法可视化图谱首页">
+      <span class="brand-mark">RM</span>
+      <span class="brand-text"><b>学习路线图</b><small>LEARNING ROADMAP</small></span>
+    </a>
+    <nav aria-label="站点导航">
+      <a href="../"><i data-lucide="network" aria-hidden="true"></i><span class="nav-label">图谱首页</span></a>
+      <a href="../visualization/"><i data-lucide="layout-grid" aria-hidden="true"></i><span class="nav-label">可视化速查</span></a>
+      <a href="../learn/"><i data-lucide="book-open" aria-hidden="true"></i><span class="nav-label">算法讲解</span></a>
+      <a href="../problems/"><i data-lucide="code-2" aria-hidden="true"></i><span class="nav-label">在线题库</span></a>
+      <a href="../guides/"><i data-lucide="file-text" aria-hidden="true"></i><span class="nav-label">图文指南</span></a>
+      <a href="https://github.com/wuhy80/algorithm" target="_blank" rel="noreferrer" aria-label="打开 GitHub 仓库"><i data-lucide="github" aria-hidden="true"></i></a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">ROADMAP</p>
+        <h1>算法学习路线图</h1>
+        <p class="hero-sub">把 254 个算法主题按四个阶段从左到右排开，连线表示主题之间的先修关系：沿着箭头由浅入深逐层解锁，点击任意主题查看详情、打开动画或前往题库，完成学习后手动打卡，与题库做题记录自动合并统计。</p>
+      </div>
+      <div class="hero-panel">
+        <div class="progress-line">
+          <span class="progress-label"><b id="total-done">0</b><span class="progress-total"> / <span id="total-count">0</span> 已掌握</span></span>
+          <button id="reset-progress" type="button" class="ghost-btn"><i data-lucide="rotate-ccw" aria-hidden="true"></i>重置进度</button>
+        </div>
+        <div id="progress-track" class="progress-track" role="progressbar" aria-label="总体学习进度" aria-valuemin="0" aria-valuemax="254" aria-valuenow="0">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <div class="legend" aria-label="难度图例">
+          <span><i class="dot diff-1" aria-hidden="true"></i>基础</span>
+          <span><i class="dot diff-2" aria-hidden="true"></i>进阶</span>
+          <span><i class="dot diff-3" aria-hidden="true"></i>高级</span>
+          <span class="legend-done"><span class="chip-check demo" aria-hidden="true">✓</span>已掌握</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="搜索与提示">
+      <label class="search-box" for="roadmap-search">
+        <i data-lucide="search" aria-hidden="true"></i>
+        <span class="sr-only">搜索算法主题</span>
+        <input id="roadmap-search" type="search" autocomplete="off" placeholder="搜索主题、标签或类别，Enter 打开首个匹配">
+      </label>
+      <span id="search-hint" class="search-hint" aria-live="polite"></span>
+    </section>
+
+    <section id="board" class="board" aria-label="四阶段学习路线图">
+      <svg id="edges" class="edges" aria-hidden="true" focusable="false"></svg>
+    </section>
+  </main>
+
+  <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
+    <button id="drawer-close" class="drawer-close" type="button" aria-label="关闭详情抽屉"><i data-lucide="x" aria-hidden="true"></i></button>
+    <div id="drawer-body" class="drawer-body"></div>
+  </aside>
+
+  <script src="../catalog-data.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

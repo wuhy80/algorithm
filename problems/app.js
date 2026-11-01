@@ -175,6 +175,7 @@
     $('detail-id').textContent = `#${String(problem.id).padStart(3,'0')}`;
     $('detail-title').textContent = problem.title;
     $('detail-meta').innerHTML = `<span class="difficulty ${difficultyClass(problem.difficulty)}">${problem.difficulty}</span><span>${escapeHtml(problem.variantLabel)}</span><span>${escapeHtml(problem.category)}</span><span>STAGE ${problem.stage}</span><span>${problem.judgeReady?'PYTHON READY':'EXPLANATION READY'}</span>`;
+    $('detail-learn').href = `../learn/?slug=${encodeURIComponent(problem.baseSlug)}`;
     $('detail-guide').href = `../guides/?slug=${encodeURIComponent(problem.baseSlug)}`;
     $('detail-demo').href = problem.demo; $('detail-source').href = problem.source;
     renderStatement(problem); renderExplanation(problem);

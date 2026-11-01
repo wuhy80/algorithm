@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15211f">
+  <meta name="description" content="254 个算法主题的结构化讲解：问题引入、暴力思路、核心不变量、分步推导、复杂度、常见错误与内嵌可视化。">
+  <link rel="icon" href="data:,">
+  <title>算法讲解 · 算法可视化图谱</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="learn-header">
+    <a class="brand" href="../" aria-label="返回算法可视化图谱首页">
+      <span class="brand-mark">AV</span>
+      <span><b>结构化讲解</b><small>STRUCTURED EXPLAIN</small></span>
+    </a>
+    <nav aria-label="站点导航">
+      <a href="../"><i data-lucide="network" aria-hidden="true"></i>图谱首页</a>
+      <a href="../roadmap/"><i data-lucide="map" aria-hidden="true"></i>学习路线图</a>
+      <a href="../visualization/"><i data-lucide="layout-dashboard" aria-hidden="true"></i>可视化速查</a>
+      <a href="../problems/"><i data-lucide="code-2" aria-hidden="true"></i>在线题库</a>
+      <a href="../guides/"><i data-lucide="book-open" aria-hidden="true"></i>图文指南</a>
+      <a href="https://github.com/wuhy80/algorithm" target="_blank" rel="noreferrer" aria-label="打开 GitHub 仓库"><i data-lucide="github" aria-hidden="true"></i></a>
+    </nav>
+  </header>
+
+  <div class="learn-layout">
+    <aside id="learn-sidebar" class="learn-sidebar" aria-label="讲解目录">
+      <div class="sidebar-toolbar">
+        <label class="search-box" for="learn-search">
+          <i data-lucide="search" aria-hidden="true"></i>
+          <span class="sr-only">搜索讲解主题</span>
+          <input id="learn-search" type="search" autocomplete="off" placeholder="搜索主题、摘要或标签">
+        </label>
+        <label class="category-filter" for="learn-category">
+          <span class="sr-only">按类目筛选</span>
+          <select id="learn-category"><option value="">全部类目</option></select>
+        </label>
+      </div>
+      <div class="sidebar-count">
+        <span id="learn-count">0 个主题</span>
+        <button id="close-sidebar" type="button" aria-label="关闭目录"><i data-lucide="x" aria-hidden="true"></i></button>
+      </div>
+      <nav id="learn-list" class="topic-list"></nav>
+    </aside>
+
+    <main class="learn-main">
+      <div class="mobile-toolbar">
+        <button id="open-sidebar" type="button" aria-label="打开讲解目录" aria-controls="learn-sidebar"><i data-lucide="menu" aria-hidden="true"></i>讲解目录</button>
+        <span id="mobile-topic">正在加载…</span>
+      </div>
+      <article id="topic-article" class="topic-article" aria-live="polite">
+        <p class="loading">正在加载结构化讲解…</p>
+      </article>
+    </main>
+  </div>
+
+  <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+  <script src="../catalog-data.js"></script>
+  <script src="../problems/problem-data.js"></script>
+  <script src="./explain-data.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

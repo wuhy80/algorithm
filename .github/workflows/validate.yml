@@ -43,6 +43,7 @@ jobs:
           node --check scripts/problem-batch-a.mjs
           node --check scripts/problem-batch-b.mjs
           node --check scripts/problem-batch-c.mjs
+          node --check scripts/problem-batch-d.mjs
           node --check scripts/generate-problems.mjs
           node --check scripts/generate-readme.mjs
           node --check scripts/sync-leetcode-index.mjs
@@ -51,6 +52,10 @@ jobs:
           node --check problems/python-worker.js
           node --check guides/app.js
           node --check neural-network-tools/app.js
+          node --check roadmap/app.js
+          node --check learn/app.js
+          node --check learn/explain-data.js
+          node --check visualization/app.js
 
   browser:
     runs-on: ubuntu-latest

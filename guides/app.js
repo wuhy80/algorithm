@@ -132,6 +132,7 @@
     $('topic-demo').href = entry.demo;
     $('topic-source').href = entry.source;
     $('topic-problems').href = `../problems/?id=${encodeURIComponent(entry.slug)}`;
+    $('topic-learn').href = `../learn/?slug=${encodeURIComponent(entry.slug)}`;
     $('guide-content').innerHTML = '<p class="loading">正在加载学习指南...</p>';
     document.title = `${entry.name} · 学习指南`;
     if (replace) history.replaceState({slug}, '', `?slug=${encodeURIComponent(slug)}`);

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15211f">
+  <meta name="description" content="算法可视化速查：254 个算法主题各配一个独立的可交互动画，支持单步执行、连续播放、速度调节与编辑输入数据，全部在浏览器本地运行。按分类浏览，抽屉内即时预览。">
+  <link rel="icon" href="data:,">
+  <title>可视化速查 · 算法可视化图谱</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../" aria-label="返回算法可视化图谱首页">
+      <span class="brand-mark">VIZ</span>
+      <span class="brand-text"><b>可视化速查</b><small>VISUALIZATION INDEX</small></span>
+    </a>
+    <nav aria-label="站点导航">
+      <a href="../"><i data-lucide="network" aria-hidden="true"></i><span class="nav-label">图谱首页</span></a>
+      <a href="../roadmap/"><i data-lucide="map" aria-hidden="true"></i><span class="nav-label">学习路线图</span></a>
+      <a href="../learn/"><i data-lucide="book-open" aria-hidden="true"></i><span class="nav-label">算法讲解</span></a>
+      <a href="../problems/"><i data-lucide="code-2" aria-hidden="true"></i><span class="nav-label">在线题库</span></a>
+      <a href="../guides/"><i data-lucide="file-text" aria-hidden="true"></i><span class="nav-label">图文指南</span></a>
+      <a href="https://github.com/wuhy80/algorithm" target="_blank" rel="noreferrer" aria-label="打开 GitHub 仓库"><i data-lucide="github" aria-hidden="true"></i></a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="hero" aria-label="页面简介">
+      <p class="kicker">VISUAL LAB</p>
+      <h1>可视化速查</h1>
+      <p class="hero-sub">这里的每个算法主题都对应一个独立的可交互动画：可以单步执行、连续播放、调节速度，随时暂停在任意中间状态；输入数据也能直接修改，看算法行为如何跟着变。所有动画都在浏览器里本地运行，按下面的分类索引找到主题，点「预览」就地试玩，或「新窗口打开」进入完整页面。</p>
+      <div class="hero-stats" role="list" aria-label="收录统计">
+        <div class="stat" role="listitem">
+          <b id="stat-topics">0</b>
+          <small>主题总数</small>
+        </div>
+        <div class="stat" role="listitem">
+          <b id="stat-categories">0</b>
+          <small>算法分类</small>
+        </div>
+        <div class="stat stat-legend" role="listitem" aria-label="难度分布">
+          <span class="legend-row"><i class="dot diff-1" aria-hidden="true"></i>基础 <b class="legend-num" id="stat-basic">0</b></span>
+          <span class="legend-row"><i class="dot diff-2" aria-hidden="true"></i>进阶 <b class="legend-num" id="stat-medium">0</b></span>
+          <span class="legend-row"><i class="dot diff-3" aria-hidden="true"></i>高级 <b class="legend-num" id="stat-hard">0</b></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" aria-label="动画功能说明">
+      <article class="feature-card">
+        <div class="feature-head">
+          <span class="feature-num" aria-hidden="true">01</span>
+          <i data-lucide="step-forward" aria-hidden="true"></i>
+        </div>
+        <h2>单步与播放</h2>
+        <p>每个动画都提供 step / play 控制和速度滑杆：一帧一帧推进，看清每一次比较、交换与递归展开，也可以随时暂停，把中间状态定格下来慢慢观察。</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-head">
+          <span class="feature-num" aria-hidden="true">02</span>
+          <i data-lucide="sliders-horizontal" aria-hidden="true"></i>
+        </div>
+        <h2>参数可改</h2>
+        <p>输入数据不是摆设：直接改数组元素、增删节点、调整权重再重放一遍，观察算法在最优、最坏与随机输入下的行为差异，比看文字描述直观得多。</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-head">
+          <span class="feature-num" aria-hidden="true">03</span>
+          <i data-lucide="laptop" aria-hidden="true"></i>
+        </div>
+        <h2>本地运行</h2>
+        <p>无需登录，也没有后端：页面打开即在浏览器内完成全部计算，动画不依赖任何服务器接口，离线或弱网环境下同样可以使用。</p>
+      </article>
+    </section>
+
+    <section class="toolbar" aria-label="筛选工具">
+      <label class="search-box" for="catalog-search">
+        <i data-lucide="search" aria-hidden="true"></i>
+        <span class="sr-only">搜索算法主题</span>
+        <input id="catalog-search" type="search" autocomplete="off" placeholder="搜索主题名、简介或标签，如：二叉树 / 排序 / 动态规划">
+      </label>
+      <div class="diff-group" role="group" aria-label="按难度筛选">
+        <button type="button" class="diff-btn" data-diff="全部" aria-pressed="true">全部</button>
+        <button type="button" class="diff-btn" data-diff="基础" aria-pressed="false">基础</button>
+        <button type="button" class="diff-btn" data-diff="进阶" aria-pressed="false">进阶</button>
+        <button type="button" class="diff-btn" data-diff="高级" aria-pressed="false">高级</button>
+      </div>
+      <p class="result-count" aria-live="polite">显示 <b id="result-count">0</b> / <span id="result-total">0</span> 个主题</p>
+    </section>
+
+    <div id="empty-state" class="empty-state" hidden>
+      <i data-lucide="search-x" aria-hidden="true"></i>
+      <p>没有匹配的主题。换个关键词，或把难度切回「全部」再试试。</p>
+    </div>
+
+    <section id="catalog" class="catalog" aria-label="分类速查索引"></section>
+  </main>
+
+  <div id="preview-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="preview-drawer" class="preview-drawer" role="dialog" aria-modal="true" aria-labelledby="preview-title" aria-hidden="true">
+    <header class="preview-head">
+      <div class="preview-heading">
+        <p class="preview-kicker">LIVE PREVIEW</p>
+        <h2 id="preview-title">动画预览</h2>
+      </div>
+      <div class="preview-actions">
+        <a id="preview-open" class="ghost-btn" href="../" target="_blank" rel="noreferrer"><i data-lucide="external-link" aria-hidden="true"></i>新窗口打开</a>
+        <button id="preview-close" class="icon-btn" type="button" aria-label="关闭预览抽屉"><i data-lucide="x" aria-hidden="true"></i></button>
+      </div>
+    </header>
+    <div class="preview-body">
+      <div id="preview-loading" class="preview-loading">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>正在加载动画…</p>
+      </div>
+      <iframe id="preview-frame" title="算法动画预览" src="about:blank" hidden></iframe>
+    </div>
+  </aside>
+
+  <script src="../catalog-data.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

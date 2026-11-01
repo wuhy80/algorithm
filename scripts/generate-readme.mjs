@@ -59,6 +59,9 @@ let readme = `# Algorithm Visualization Lab
 一个面向算法与数据结构学习的交互式可视化集合。当前包含 **${catalog.length}** 个独立演示，每个算法单独存放在自己的目录中，可直接在 GitHub Pages 运行。
 
 - [打开可视化目录](https://wuhy80.github.io/algorithm/)
+- [打开学习路线图](https://wuhy80.github.io/algorithm/roadmap/)——四阶段节点图、先修关系连线与学习进度打卡
+- [打开算法讲解](https://wuhy80.github.io/algorithm/learn/)——问题引入、暴力解、核心不变量、分步推导、内嵌可视化与参考实现
+- [打开可视化速查](https://wuhy80.github.io/algorithm/visualization/)——按分类浏览全部演示并即时预览
 - [打开 Pages 学习指南](https://wuhy80.github.io/algorithm/guides/)
 - [打开在线题库](https://wuhy80.github.io/algorithm/problems/)
 - [打开工业大模型专题](https://wuhy80.github.io/algorithm/industrial-ai/)

@@ -24,6 +24,9 @@ LEARNING_GUIDE_HEADINGS = (
 NON_ALGORITHM_PAGES = {
     "problems",
     "guides",
+    "learn",
+    "roadmap",
+    "visualization",
     "neural-network-tools",
     "industrial-ai",
 }

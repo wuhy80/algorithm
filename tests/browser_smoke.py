@@ -205,11 +205,20 @@ class BrowserSmokeTests(unittest.TestCase):
 
     def open_page(self, path, viewport, browser=None):
         page = (browser or self.browser).new_page(viewport=viewport, device_scale_factor=1)
+        # 沙箱/CI 可能无法访问公共 CDN；图标非断言目标，回送 no-op 桩保证确定性
+        page.route(
+            "**lucide*",
+            lambda route: route.fulfill(
+                status=200,
+                content_type="application/javascript",
+                body="window.lucide={createIcons:function(){}};",
+            ),
+        )
         errors = []
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.on("console", lambda message: errors.append(message.text) if message.type == "error" else None)
-        page.goto(f"{self.base_url}/{path}", wait_until="load")
-        page.wait_for_timeout(80)
+        page.goto(f"{self.base_url}/{path}", wait_until="domcontentloaded")
+        page.wait_for_timeout(150)
         return page, errors
 
     def layout_metrics(self, page):
@@ -330,7 +339,7 @@ class BrowserSmokeTests(unittest.TestCase):
 
                 page.locator("#detail-favorite").click()
                 self.assertTrue(page.locator("#detail-favorite").evaluate("element => element.classList.contains('active')"))
-                page.reload(wait_until="load")
+                page.reload(wait_until="domcontentloaded")
                 self.assertTrue(page.locator("#detail-favorite").evaluate("element => element.classList.contains('active')"))
                 if viewport["width"] < 760:
                     page.locator('[data-pane="code"]').click()
@@ -378,7 +387,7 @@ class BrowserSmokeTests(unittest.TestCase):
                     page.close()
                     continue
                 self.assertGreater(page.locator(".case-result.pass").count(), 0)
-                page.reload(wait_until="load")
+                page.reload(wait_until="domcontentloaded")
                 page.locator("#back-to-list").click()
                 page.locator("#status-filter").select_option("solved")
                 self.assertEqual(1, page.locator('[data-open="binary-search"]').count())
@@ -414,6 +423,120 @@ class BrowserSmokeTests(unittest.TestCase):
                 self.assertFalse(errors, errors)
                 page.close()
 
+    def test_roadmap_page_nodes_edges_drawer_and_layout(self):
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(viewport=viewport):
+                page, errors = self.open_page("roadmap/", viewport)
+                self.assertEqual(len(CATALOG), page.locator("#board .node").count())
+                self.assertEqual(str(len(CATALOG)), page.locator("#total-count").inner_text())
+                self.assertEqual("0", page.locator("#total-done").inner_text())
+                if viewport["width"] >= 980:
+                    self.assertGreater(page.locator("#edges path.edge").count(), 0)
+                else:
+                    self.assertGreater(page.locator("#board .prereq-mini").count(), 0)
+                metrics = self.layout_metrics(page)
+                self.assertLessEqual(metrics["overflow"], 1, metrics)
+                self.assertFalse(metrics["clipped"], metrics)
+
+                page.locator("#roadmap-search").fill("线段树")
+                page.keyboard.press("Enter")
+                page.wait_for_timeout(60)
+                self.assertTrue(page.locator("#drawer").evaluate("element => element.classList.contains('open')"))
+                self.assertIn("线段树", page.locator("#drawer-body").inner_text())
+                learn_links = page.locator('.drawer-actions a[href^="../learn/?slug="]')
+                self.assertGreaterEqual(learn_links.count(), 1, page.locator(".drawer-actions").inner_text())
+                page.keyboard.press("Escape")
+                page.wait_for_timeout(60)
+                self.assertFalse(page.locator("#drawer").evaluate("element => element.classList.contains('open')"))
+                self.assertFalse(errors, errors)
+                page.close()
+
+        page, errors = self.open_page("roadmap/?focus=treap", {"width": 1280, "height": 800})
+        page.wait_for_timeout(120)
+        self.assertTrue(page.locator("#drawer").evaluate("element => element.classList.contains('open')"))
+        self.assertIn("Treap", page.locator("#drawer-body").inner_text())
+        self.assertFalse(errors, errors)
+        page.close()
+
+    def test_learn_page_sections_solution_and_layout(self):
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(viewport=viewport):
+                page, errors = self.open_page("learn/?slug=dijkstra", viewport)
+                self.assertEqual(len(CATALOG), page.locator("#learn-list [data-slug]").count())
+                self.assertGreaterEqual(page.locator("#topic-article .topic-section").count(), 8)
+                article_text = page.locator("#topic-article").inner_text()
+                for heading in ("问题引入", "暴力", "分步推导", "常见错误", "可视化", "参考实现"):
+                    self.assertIn(heading, article_text)
+                self.assertGreaterEqual(page.locator("#topic-article .invariant-box").count(), 1)
+                self.assertGreaterEqual(page.locator("#topic-article .step-list li").count(), 3)
+                iframe_src = page.locator("#topic-article iframe").first.get_attribute("src")
+                self.assertTrue(iframe_src.endswith("/dijkstra/"), iframe_src)
+                page.wait_for_function(
+                    "() => [...document.querySelectorAll('#topic-article .code-block')].some((el) => el.textContent.includes('def solve'))",
+                    timeout=8000,
+                )
+                self.assertTrue(
+                    page.locator('#topic-article a[href="../problems/?id=dijkstra"]').count() >= 1
+                )
+                self.assertTrue(
+                    page.locator('#topic-article a[href="../guides/?slug=dijkstra"]').count() >= 1
+                )
+                metrics = self.layout_metrics(page)
+                self.assertLessEqual(metrics["overflow"], 1, metrics)
+                self.assertFalse(metrics["clipped"], metrics)
+
+                if viewport["width"] < 820:
+                    page.locator("#open-sidebar").click()
+                    page.wait_for_timeout(250)
+                page.locator("#learn-search").fill("线段树")
+                self.assertGreater(page.locator("#learn-count").inner_text().strip(), "0")
+                if viewport["width"] < 820:
+                    page.locator('[data-slug="segment-tree"]').first.click()
+                    page.wait_for_timeout(120)
+                    self.assertIn("slug=segment-tree", page.url)
+                self.assertFalse(errors, errors)
+                page.close()
+
+        page, errors = self.open_page("learn/?slug=bitset-bitmap", {"width": 1280, "height": 800})
+        article_text = page.locator("#topic-article").inner_text()
+        self.assertIn("将随题库批次", article_text)
+        self.assertFalse(errors, errors)
+        page.close()
+
+    def test_visualization_hub_cards_preview_and_layout(self):
+        for viewport in ({"width": 1280, "height": 800}, {"width": 390, "height": 844}):
+            with self.subTest(viewport=viewport):
+                page, errors = self.open_page("visualization/", viewport)
+                self.assertEqual(len(CATALOG), page.locator(".topic-card").count())
+                self.assertEqual(str(len(CATALOG)), page.locator("#stat-topics").inner_text())
+                self.assertEqual(
+                    str(len({entry["category"] for entry in CATALOG})),
+                    page.locator("#stat-categories").inner_text(),
+                )
+                metrics = self.layout_metrics(page)
+                self.assertLessEqual(metrics["overflow"], 1, metrics)
+                self.assertFalse(metrics["clipped"], metrics)
+
+                page.locator("#catalog-search").fill("插入排序")
+                page.wait_for_timeout(60)
+                filtered = page.locator(".topic-card:not([hidden])").count()
+                self.assertGreaterEqual(filtered, 1)
+                self.assertLess(filtered, len(CATALOG))
+                page.locator("#catalog-search").fill("")
+                page.wait_for_timeout(60)
+                self.assertEqual(len(CATALOG), page.locator(".topic-card:not([hidden])").count())
+
+                page.locator('[data-preview]').first.click()
+                page.wait_for_timeout(200)
+                self.assertTrue(page.locator("#preview-drawer").evaluate("element => element.classList.contains('open')"))
+                src = page.locator("#preview-frame").get_attribute("src")
+                self.assertTrue(src and src.startswith("../") and src.endswith("/"), src)
+                page.keyboard.press("Escape")
+                page.wait_for_timeout(80)
+                self.assertFalse(page.locator("#preview-drawer").evaluate("element => element.classList.contains('open')"))
+                self.assertFalse(errors, errors)
+                page.close()
+
     def test_all_demo_pages_load(self):
         context = self.browser.new_context(viewport={"width": 1280, "height": 800})
         failures = []
@@ -423,8 +546,8 @@ class BrowserSmokeTests(unittest.TestCase):
             page.on("pageerror", lambda error, output=errors: output.append(str(error)))
             page.on("console", lambda message, output=errors: output.append(message.text) if message.type == "error" else None)
             try:
-                page.goto(f"{self.base_url}/{entry['slug']}/", wait_until="load")
-                page.wait_for_timeout(30)
+                page.goto(f"{self.base_url}/{entry['slug']}/", wait_until="domcontentloaded")
+                page.wait_for_timeout(60)
                 self.assertTrue(page.title())
                 canvas = page.locator("canvas").first
                 self.assertGreater(canvas.bounding_box()["width"], 100)
