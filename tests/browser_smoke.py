@@ -499,7 +499,13 @@ class BrowserSmokeTests(unittest.TestCase):
 
         page, errors = self.open_page("learn/?slug=bitset-bitmap", {"width": 1280, "height": 800})
         article_text = page.locator("#topic-article").inner_text()
-        self.assertIn("将随题库批次", article_text)
+        self.assertIn("位集与位图", article_text)
+        self.assertIn("问题引入", article_text)
+        self.assertIn("参考实现", article_text)
+        page.wait_for_function(
+            "() => [...document.querySelectorAll('#topic-article .code-block')].some((el) => el.textContent.includes('def solve'))",
+            timeout=8000,
+        )
         self.assertFalse(errors, errors)
         page.close()
 
