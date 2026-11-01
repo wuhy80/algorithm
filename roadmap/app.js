@@ -1,6 +1,8 @@
 /* 学习路线图 · 算法可视化图谱
- * 数据来源：window.ALGORITHM_CATALOG（由 ../catalog-data.js 注入）。
+ * 数据来源：window.ALGORITHM_CATALOG（由 ../catalog-data.js 注入）；
+ * 学习主线：window.ROADMAP_PATH（由 path-data.js 注入，scripts/generate-roadmap-path.mjs 生成）。
  * 进度存储：algorithm-roadmap-progress-v1（{[slug]: true}）；
+ * 视图偏好：algorithm-roadmap-view-v1（'path' | 'board'）；
  * 打卡状态与题库 algorithm-problem-progress-v1 的 solved 字段合并统计。
  */
 (function () {
@@ -8,6 +10,7 @@
 
   var ROADMAP_KEY = 'algorithm-roadmap-progress-v1';
   var PROBLEM_KEY = 'algorithm-problem-progress-v1';
+  var VIEW_KEY = 'algorithm-roadmap-view-v1';
   var SVG_NS = 'http://www.w3.org/2000/svg';
   var MOBILE_BP = 980;
 
@@ -46,9 +49,34 @@
     searchTexts.set(entry.slug, text);
   });
 
+  /* ---------- 学习主线数据 ---------- */
+
+  var pathData = (function () {
+    var raw = window.ROADMAP_PATH;
+    if (!raw || !Array.isArray(raw.stages)) return null;
+    var stages = [];
+    var coreBySlug = new Map();
+    raw.stages.forEach(function (stageInfo) {
+      var core = (stageInfo.core || []).filter(function (item) { return bySlug.has(item.slug); });
+      core.forEach(function (item) {
+        coreBySlug.set(item.slug, { slug: item.slug, order: item.order, stage: stageInfo.stage });
+      });
+      stages.push({
+        stage: stageInfo.stage,
+        name: stageInfo.name,
+        core: core,
+        extensions: (stageInfo.extensions || []).filter(function (slug) { return bySlug.has(slug); })
+      });
+    });
+    return stages.length
+      ? { coreTotal: coreBySlug.size, stages: stages, coreBySlug: coreBySlug }
+      : null;
+  })();
+
   /* ---------- DOM 引用 ---------- */
 
   var board = document.getElementById('board');
+  var pathView = document.getElementById('path-view');
   var edgesSvg = document.getElementById('edges');
   var searchInput = document.getElementById('roadmap-search');
   var searchHint = document.getElementById('search-hint');
@@ -57,6 +85,9 @@
   var progressFill = document.getElementById('progress-fill');
   var progressTrack = document.getElementById('progress-track');
   var resetBtn = document.getElementById('reset-progress');
+  var nextUpBtn = document.getElementById('next-up');
+  var viewPathBtn = document.getElementById('view-path');
+  var viewBoardBtn = document.getElementById('view-board');
   var drawer = document.getElementById('drawer');
   var drawerBody = document.getElementById('drawer-body');
   var drawerClose = document.getElementById('drawer-close');
@@ -67,6 +98,9 @@
   var roadmapProgress = readStore(ROADMAP_KEY);
   var chipEls = new Map();
   var stageDoneEls = new Map();
+  var pathChipEls = new Map();
+  var pathStageDoneEls = new Map();
+  var activeView = 'path';
   var edgeEls = [];
   var linkedChips = [];
   var hoverSlug = null;
@@ -201,6 +235,136 @@
     if (progressTrack) progressTrack.setAttribute('aria-valuemax', String(catalog.length));
   }
 
+  /* ---------- 学习主线视图 ---------- */
+
+  function pathNodeHTML(item) {
+    var entry = bySlug.get(item.slug);
+    return '<button type="button" class="path-node diff-' + diffClassOf(entry.difficulty) + '"'
+      + ' data-slug="' + escapeHtml(item.slug) + '" title="' + escapeHtml(entry.summary || '') + '">'
+      + '<span class="node-order" aria-hidden="true">' + item.order + '</span>'
+      + '<i class="dot" aria-hidden="true"></i>'
+      + '<span class="chip-name">' + escapeHtml(entry.name) + '</span>'
+      + '<span class="chip-check" aria-hidden="true">✓</span>'
+      + '</button>';
+  }
+
+  function extChipHTML(entry) {
+    return '<button type="button" class="path-ext-chip diff-' + diffClassOf(entry.difficulty) + '" data-slug="' + escapeHtml(entry.slug) + '">'
+      + '<i class="dot" aria-hidden="true"></i>'
+      + '<span class="chip-name">' + escapeHtml(entry.name) + '</span>'
+      + '<span class="chip-check" aria-hidden="true">✓</span>'
+      + '</button>';
+  }
+
+  function buildPathView() {
+    if (!catalog.length) return;
+    if (!pathData || !pathView) {
+      if (pathView) {
+        pathView.insertAdjacentHTML('beforeend',
+          '<p class="board-empty">主线数据未能加载：请确认 path-data.js 可访问后刷新页面，或切换到全景图谱。</p>');
+      }
+      return;
+    }
+
+    var html = pathData.stages.map(function (stageInfo) {
+      var meta = STAGE_META[stageInfo.stage - 1] || {};
+      var items = stageInfo.core.slice().sort(function (a, b) { return a.order - b.order; });
+      var flow = '<section class="group">'
+        + '<header class="group-head"><span class="group-name">按编号顺序学习</span>'
+        + '<span class="group-count">' + items.length + ' 项</span></header>'
+        + '<div class="path-flow">' + items.map(pathNodeHTML).join('') + '</div>'
+        + '</section>';
+
+      var ext = stageInfo.extensions;
+      var extBlock = ext.length
+        ? '<details class="path-ext">'
+          + '<summary>扩展主题<span class="ext-count">' + ext.length + '</span><small>不在主线上，需要时再学</small></summary>'
+          + '<div class="path-ext-body">' + ext.map(function (slug) {
+              return extChipHTML(bySlug.get(slug));
+            }).join('') + '</div>'
+          + '</details>'
+        : '';
+
+      return '<section class="path-stage" data-stage="' + stageInfo.stage + '">'
+        + '<header class="stage-head">'
+        + '<span class="stage-icon"><i data-lucide="' + (meta.icon || 'map') + '" aria-hidden="true"></i></span>'
+        + '<div class="stage-title"><span class="stage-en">PATH 0' + stageInfo.stage + '</span>'
+        + '<h2>阶段 ' + stageInfo.stage + ' · ' + escapeHtml(stageInfo.name || meta.name || '') + '</h2></div>'
+        + '<span class="stage-count"><b data-path-stage-done="' + stageInfo.stage + '">0</b>'
+        + '<span>/' + stageInfo.core.length + ' 已学</span></span>'
+        + '</header>'
+        + (meta.blurb ? '<p class="stage-blurb">' + escapeHtml(meta.blurb) + '</p>' : '')
+        + flow
+        + extBlock
+        + '</section>';
+    }).join('');
+
+    pathView.insertAdjacentHTML('beforeend', html);
+
+    pathView.querySelectorAll('.path-node, .path-ext-chip').forEach(function (node) {
+      pathChipEls.set(node.getAttribute('data-slug'), node);
+    });
+    pathView.querySelectorAll('[data-path-stage-done]').forEach(function (el) {
+      pathStageDoneEls.set(Number(el.getAttribute('data-path-stage-done')), el);
+    });
+  }
+
+  /* ---------- 视图切换 ---------- */
+
+  function requestedView() {
+    try {
+      var param = new URLSearchParams(location.search).get('view');
+      if (param === 'board' || param === 'path') return param;
+    } catch (err) { /* 忽略 */ }
+    try {
+      var stored = localStorage.getItem(VIEW_KEY);
+      if (stored === 'board' || stored === 'path') return stored;
+    } catch (err) { /* 忽略 */ }
+    return 'path';
+  }
+
+  function setView(view) {
+    if (view !== 'path' && view !== 'board') view = 'path';
+    if (!pathData && view === 'path') view = 'board';
+    activeView = view;
+    var isPath = view === 'path';
+    if (pathView) pathView.hidden = !isPath;
+    if (board) board.hidden = isPath;
+    if (viewPathBtn) viewPathBtn.setAttribute('aria-pressed', String(isPath));
+    if (viewBoardBtn) viewBoardBtn.setAttribute('aria-pressed', String(!isPath));
+    try {
+      localStorage.setItem(VIEW_KEY, view);
+    } catch (err) { /* 存储不可用时静默降级 */ }
+    if (isPath) {
+      clearEdges();
+    } else {
+      scheduleRedraw();
+      setTimeout(drawEdges, 400);
+    }
+  }
+
+  /* ---------- 继续学习 ---------- */
+
+  function continueLearning() {
+    if (!pathData) return;
+    var items = [];
+    pathData.stages.forEach(function (stageInfo) {
+      items.push.apply(items, stageInfo.core);
+    });
+    items.sort(function (a, b) { return a.order - b.order; });
+    for (var i = 0; i < items.length; i++) {
+      if (!isDone(items[i].slug)) {
+        if (activeView !== 'path') setView('path');
+        openDrawer(items[i].slug, { push: true, focus: true });
+        scrollChipIntoView(items[i].slug);
+        return;
+      }
+    }
+    if (searchHint) {
+      searchHint.textContent = '主线 ' + pathData.coreTotal + ' 个主题都已掌握，可在全景图谱里继续挑战扩展主题。';
+    }
+  }
+
   /* ---------- 先修连线 ---------- */
 
   function rectRelativeTo(el, boardRect) {
@@ -295,15 +459,17 @@
 
     if (!query) {
       chipEls.forEach(function (chip) { chip.classList.remove('search-dim'); });
+      pathChipEls.forEach(function (chip) { chip.classList.remove('search-dim'); });
       searchHint.textContent = '';
       return;
     }
 
     catalog.forEach(function (entry) {
-      var chip = chipEls.get(entry.slug);
-      if (!chip) return;
       var hit = searchTexts.get(entry.slug).indexOf(query) !== -1;
-      chip.classList.toggle('search-dim', !hit);
+      var chip = chipEls.get(entry.slug);
+      if (chip) chip.classList.toggle('search-dim', !hit);
+      var pathChip = pathChipEls.get(entry.slug);
+      if (pathChip) pathChip.classList.toggle('search-dim', !hit);
       if (hit) {
         matches++;
         if (!firstMatchSlug) firstMatchSlug = entry.slug;
@@ -345,6 +511,18 @@
     stageDoneEls.forEach(function (el, stage) {
       el.textContent = String(doneByStage[stage] || 0);
     });
+
+    pathChipEls.forEach(function (chip, slug) {
+      chip.classList.toggle('done', isDone(slug));
+    });
+    if (pathData) {
+      pathData.stages.forEach(function (stageInfo) {
+        var el = pathStageDoneEls.get(stageInfo.stage);
+        if (!el) return;
+        var done = stageInfo.core.filter(function (item) { return isDone(item.slug); }).length;
+        el.textContent = String(done);
+      });
+    }
 
     if (drawerSlug) renderDrawer(bySlug.get(drawerSlug));
   }
@@ -434,11 +612,12 @@
 
   function syncURL(slug) {
     try {
-      if (slugFromLocation() === (slug || '')) return;
-      var url = slug
-        ? location.pathname + '?focus=' + encodeURIComponent(slug)
-        : location.pathname;
-      history.pushState({ roadmapFocus: slug || null }, '', url);
+      var params = new URLSearchParams();
+      if (slug) params.set('focus', slug);
+      if (activeView === 'board') params.set('view', 'board');
+      var query = params.toString();
+      if (location.search.replace(/^\?/, '') === query) return;
+      history.pushState({ roadmapFocus: slug || null }, '', location.pathname + (query ? '?' + query : ''));
     } catch (err) { /* 受限环境忽略历史操作 */ }
   }
 
@@ -475,7 +654,8 @@
   }
 
   function scrollChipIntoView(slug) {
-    var chip = chipEls.get(slug);
+    var map = activeView === 'path' ? pathChipEls : chipEls;
+    var chip = map.get(slug) || chipEls.get(slug) || pathChipEls.get(slug);
     if (!chip) return;
     requestAnimationFrame(function () {
       chip.scrollIntoView({ block: 'center', behavior: 'instant' });
@@ -549,6 +729,16 @@
     });
 
     resetBtn.addEventListener('click', resetProgress);
+    if (nextUpBtn) nextUpBtn.addEventListener('click', continueLearning);
+    if (viewPathBtn) viewPathBtn.addEventListener('click', function () { setView('path'); });
+    if (viewBoardBtn) viewBoardBtn.addEventListener('click', function () { setView('board'); });
+
+    if (pathView) {
+      pathView.addEventListener('click', function (event) {
+        var node = event.target.closest('.path-node, .path-ext-chip');
+        if (node) openDrawer(node.getAttribute('data-slug'), { push: true, trigger: node, focus: true });
+      });
+    }
 
     drawerBody.addEventListener('click', function (event) {
       var mark = event.target.closest('#drawer-mark');
@@ -593,9 +783,11 @@
 
   function init() {
     buildBoard();
+    buildPathView();
     wireEvents();
     refreshIcons();
     updateAll();
+    setView(requestedView());
     drawEdges();
 
     if (document.fonts && typeof document.fonts.ready === 'object' && document.fonts.ready.then) {

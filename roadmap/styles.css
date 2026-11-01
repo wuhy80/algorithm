@@ -863,6 +863,287 @@ i.dot.diff-3 {
   border-color: rgba(201, 86, 73, 0.5);
 }
 
+/* ---------- 学习主线视图 ---------- */
+
+.view-switch {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: auto;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.view-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.view-btn[aria-pressed="true"] {
+  background: var(--dark);
+  color: #fff;
+}
+
+.view-btn[aria-pressed="false"]:hover {
+  color: var(--teal);
+}
+
+.progress-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.path-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.path-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.path-stage[data-stage="1"] {
+  --stage-accent: var(--teal);
+  --stage-accent-soft: rgba(13, 132, 144, 0.1);
+}
+
+.path-stage[data-stage="2"] {
+  --stage-accent: var(--amber);
+  --stage-accent-soft: rgba(199, 129, 29, 0.1);
+}
+
+.path-stage[data-stage="3"] {
+  --stage-accent: var(--violet);
+  --stage-accent-soft: rgba(114, 92, 168, 0.1);
+}
+
+.path-stage[data-stage="4"] {
+  --stage-accent: var(--coral);
+  --stage-accent-soft: rgba(201, 86, 73, 0.1);
+}
+
+.path-stage .stage-head {
+  position: sticky;
+  top: 64px;
+  z-index: 4;
+}
+
+.path-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.path-node {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  padding: 7px 10px 7px 6px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+
+.path-node:hover {
+  border-color: var(--stage-accent, var(--teal));
+  box-shadow: 0 4px 14px rgba(20, 35, 31, 0.1);
+  transform: translateY(-1px);
+}
+
+.node-order {
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 7px;
+  color: var(--stage-accent, var(--teal));
+  background: var(--stage-accent-soft, rgba(13, 132, 144, 0.1));
+  font: 700 12px/1 var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.path-node .chip-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.path-node .chip-check {
+  display: none;
+}
+
+.path-node.done {
+  border-color: rgba(59, 140, 99, 0.55);
+  background: rgba(59, 140, 99, 0.08);
+}
+
+.path-node.done .node-order {
+  color: var(--green);
+  background: rgba(59, 140, 99, 0.14);
+}
+
+.path-node.done .chip-name {
+  color: var(--muted);
+}
+
+.path-node.done .chip-check {
+  display: inline;
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* 扩展主题折叠区 */
+
+.path-ext {
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.path-ext summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.path-ext summary::-webkit-details-marker {
+  display: none;
+}
+
+.path-ext summary::before {
+  content: '▸';
+  color: var(--muted);
+  transition: transform 0.15s;
+}
+
+.path-ext[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.path-ext summary .ext-count {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(23, 32, 30, 0.07);
+  font: 600 11px/1.4 var(--mono);
+}
+
+.path-ext summary small {
+  margin-left: auto;
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 11.5px;
+}
+
+.path-ext-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 14px 14px;
+}
+
+.path-ext-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.path-ext-chip:hover {
+  color: var(--ink);
+  border-color: var(--teal);
+}
+
+.path-ext-chip .chip-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.path-ext-chip .dot {
+  flex: none;
+}
+
+.path-ext-chip .chip-check {
+  display: none;
+}
+
+.path-ext-chip.done {
+  border-color: rgba(59, 140, 99, 0.5);
+  color: var(--ink);
+}
+
+.path-ext-chip.done .chip-check {
+  display: inline;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.path-ext-chip.done .chip-name {
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .view-switch {
+    margin-left: 0;
+  }
+
+  .path-node {
+    flex: 1 1 auto;
+  }
+
+  .path-ext summary small {
+    display: none;
+  }
+}
+
+@media (max-width: 440px) {
+  /* 纵向工具条里 flex-basis 会变成高度，恢复由内容撑开 */
+  .search-box {
+    flex: 0 0 auto;
+  }
+}
+
 /* ---------- 响应式 ---------- */
 
 @media (max-width: 1288px) {
