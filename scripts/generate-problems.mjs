@@ -3,13 +3,14 @@ import path from 'node:path';
 import { problemBatchA } from './problem-batch-a.mjs';
 import { problemBatchB } from './problem-batch-b.mjs';
 import { problemBatchC } from './problem-batch-c.mjs';
+import { problemBatchD } from './problem-batch-d.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const catalog = JSON.parse(fs.readFileSync(path.join(root, 'catalog.json'), 'utf8'));
 const outputDirectory = path.join(root, 'problems');
 const idPath = path.join(import.meta.dirname, 'problem-ids.json');
 const checkOnly = process.argv.includes('--check');
-const problemOverrides = { ...problemBatchA, ...problemBatchB, ...problemBatchC };
+const problemOverrides = { ...problemBatchA, ...problemBatchB, ...problemBatchC, ...problemBatchD };
 
 const profiles = {
   '查找、排序与算法技巧': {
